@@ -1,0 +1,85 @@
+@startuml
+
+J2SESharkEngine <|-- AndroidSharkEngine
+SharkEngine <|-- J2SESharkEngine
+AndroidSharkEngine *-- WifiDirectAdvertisingManager
+Runnable <|-- WifiDirectAdvertisingManager
+WifiP2PManager.DnsSdTxtRecordListener <|-- WifiDirectAdvertisingManager
+WifiDirectAdvertisingManager *-- WifiP2pManager
+WifiDirectAdvertisingManager *-- WifiP2pDnsSdServiceInfo
+WifiDirectAdvertisingManager +-- WifiActionListener
+WifiActionListener <|-- WifiP2pManager.ActionListener
+
+abstract class SharkEngine {
++void start()
++void startWifiDirect()
++void stopWifiDirect()
++...()
+-Stub[] protocolStubs
+}
+
+class J2SESharkEngine {
+...
+...(...)
+}
+
+class WifiP2pManager {
+
+}
+
+class WifiDirectUtil {
++{static} String TOPIC_RECORD
++{static} String TYPE_RECORD
++{static} String SENDER_RECORD
++{static} String APPROVERS_RECORD
++{static} String RECEIVER_RECORD
++{static} String LOCATION_RECORD
++{static} String TIME_RECORD
++{static} String DIRECTION_RECORD
++{static} HashMap<String, String> interest2RecordMap(ASIPInterest in)
++{static} static ASIPInterest recordMap2Interest(Map<String, String> map)
+-{static} void set2Map(HashMap<String, String> map, String key, STSet set)
+}
+
+class WifiActionListener {
+
+}
+
+interface Runnable
+
+interface WifiP2PManager.DnsSdTxtRecordListener
+
+interface WifiP2pManager.ActionListener
+
+class AndroidSharkEngine {
+-Context mContext
+-WifiDirectAdvertisingManager advManager
+-...
++void startDiscovery()
++void stopDiscovery()
++...()
+}
+
+class WifiP2pDnsSdServiceInfo
+
+class WifiDirectAdvertisingManager {
++{static}SemanticTag TYPE_TAG
+-AndroidSharkEngine mEngine
+-String mBluetoothAddress
+-WifiP2pManager mManager
+-WifiP2pManager.Channel mChannel
+-boolean mIsDiscovering
+-WifiP2pDnsSdServiceInfo mServiceInfo
+-int mDiscoveryInterval
+-Handler mHandler
++WifiDirectAdvertisingManager(Context context, AndroidSharkEngine engine)
+
++void setDiscoveryInterval(int interval)
++boolean isDiscovering()
++void startAdvertising()
++void stopAdvertising()
++void run()
++void onDnsSdTxtRecordAvailable(String fullDomainName, Map<String, String> txtRecordMap, WifiP2pDevice srcDevice)
+}
+
+@enduml

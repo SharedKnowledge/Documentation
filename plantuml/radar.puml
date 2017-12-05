@@ -1,0 +1,57 @@
+@startuml
+
+KnowledgePort <|-- RadarDiscoveryPort
+AndroidSharkEngine *-- NearbyPeerManager
+NearbyPeerManager --- RadarDiscoveryPort
+NearbyPeerManager +-- NearbyPeerListener
+AndroidSharkEngine *-- RadarDiscoveryPort
+NearbyPeerListener <|-- RadarActivity
+
+abstract class KnowledgePort {
+#ASIPInterest asipInterest
+#ASIPInterest receiverASIPInterest
+#SharkKB kb;
+-String id
+-PrivateKey privateKey
+-AccessListManager accessList
++void sendKnowledge(ASIPKnowledge k, PeerSemanticTag recipient)
++void sendInterest(ASIPInterest interest, PeerSemanticTag recipient)
++void publish(PeerSemanticTag recipient)
+#void handleInsert(ASIPInMessage m, ASIPConnection ac, ASIPKnowledge ak)
+#void handleExpose(ASIPInMessage m, ASIPConnection ac, ASIPInterest in)
+...()
+}
+
+class RadarDiscoveryPort {
+- NearbyPeerManager mNearbyPeerManager
+#void handleInsert(ASIPInMessage m, ASIPConnection ac, ASIPKnowledge ak)
+#void handleExpose(ASIPInMessage m, ASIPConnection ac, ASIPInterest in)
+}
+
+class NearbyPeerManager {
+-SharkEngine mEngine
+-ArrayList<NearbyPeer> mPeers
+-ArrayList<NearbyPeerListener> mListeners
++void addPeer(ASIPInterest interest)
++void addNearbyPeerListener(NearbyPeerListener listener)
++void removeNearbyPeerListener(NearbyPeerListener listener)
+}
+
+class AndroidSharkEngine {
+
+}
+
+interface NearbyPeerListener {
+void onNearbyPeersFound(ArrayList<NearbyPeer> peers);
+void onNearbyPeerFound(NearbyPeer peer);
+}
+
+class RadarActivity {
+...
++void onNearbyPeersFound(final ArrayList<NearbyPeer> peers)
+...()
+}
+
+
+
+@enduml

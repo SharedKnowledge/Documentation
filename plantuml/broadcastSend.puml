@@ -1,0 +1,16 @@
+@startuml
+(*)  --> "Anzeige der Broadcast Nachrichten"
+--> "Benutzer versendet eine Nachricht"
+If "Ist die Eingabe valide?" then
+--> [Ja] "Suche per Radar Peers"
+if "Wurden mehr als 0 Peers gefunden?" then
+--> [Ja] "Versende Nachricht an Peers"
+-->(*)
+else
+--> [Nein] "Anzeige der Broadcast Nachrichten"
+Endif
+else
+-->[Nein] "Anzeige der Broadcast Nachrichten"
+Endif
+
+@enduml

@@ -1,0 +1,82 @@
+@startuml
+AndroidSharkEngine *-- BluetoothStreamStub
+BluetoothStreamStub *-- BluetoothAdapter
+BluetoothStreamStub *-- BluetoothConnection
+BluetoothStreamStub *-- BluetoothServer
+StreamStub <|-- BluetoothStreamStub
+SharkServer <|-- BluetoothServer
+ConnectionListenerManager <|-- BluetoothConnection
+J2SESharkEngine <|-- AndroidSharkEngine
+SharkEngine <|-- J2SESharkEngine
+StreamConnection <|-- BluetoothConnection
+
+abstract class SharkEngine {
+#Stub createBluetoothStreamStub(ASIPStub sharkStub)
+-Stub[] protocolStubs
+}
+
+class J2SESharkEngine {
+...
+...(...)
+}
+
+class AndroidSharkEngine {
+-Context mContext
+-...
++void startBluetooth()
++void stopBluetooth()
+#Stub createBluetoothStreamStub(ASIPStub stub)
+}
+
+interface StreamStub
+interface StreamConnection
+interface SharkServer
+
+class ConnectionListenerManager {
+-HashSet<ConnectionStatusListener> lSet
+-HashSet<ConnectionStatusListener> getListener()
++void addConnectionListener(...)
++void removeConnectionListener(...)
+#void notifyConnectionClosed()
+}
+
+class BluetoothStreamStub {
+-BluetoothAdapter mBluetoothAdapter
+-AndroidSharkEngine mEngine
+-String mLocalAddress
+-RequestHandler mRequestHandler
+-BluetoothServer mBluetoothServer
+-BluetoothConnection mBluetoothConnection
+-List<Thread> mWaitThreads
+-long mLastCall
++StreamConnection createStreamConnection(String address)
++void start()
++boolean started()
++void stop()
++void streamClosed(BluetoothConnection connection)
+-void killConnection()
+}
+
+class BluetoothConnection {
+-InputStream mInputStream;
+-OutputStream mOutputStream;
+-String mLocalAddress;
+-String mRemoteAddress;
+-BluetoothSocket mSocket;
+-BluetoothStreamStub mStreamStub;
++BluetoothConnection(BluetoothStreamStub stub, BluetoothDevice dev,...)
+}
+
+class BluetoothServer {
+-BluetoothAdapter mBluetoothAdapter;
+-String mLocalAddress;
+-boolean mActive;
+-BluetoothServerSocket mSocket = null;
+-RequestHandler mRequestHandler;
++BluetoothServer(BluetoothAdapter bA, RequestHandler rh...)
++void hold()
++int getPortNumber()
++void setHandler(RequestHandler handler)
++void run()
+}
+@enduml

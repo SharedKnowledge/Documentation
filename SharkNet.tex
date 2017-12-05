@@ -1,38 +1,38 @@
 \documentclass[german]{book}
-\usepackage{url}
+%\usepackage{url}
+\PassOptionsToPackage{hyphens}{url}\usepackage[breaklinks=true]{hyperref}
 \usepackage{dsfont}
+\usepackage{listings}
 \usepackage{german}
 \usepackage[utf8]{inputenc}
 \usepackage[final]{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\geometry{a4paper, top=30mm, left=30mm, right=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
 
 \begin{document}
+	
+	
 
 \title{SharkNet\\
 Systembeschreibung \\
-Version 0.0.0
+Version 0.0.1
 }
 
-\author{Dustin Feurich \\
-(Herausgeber)
+\author{
+Dustin Feurich
 }
 
 \maketitle
 
 \tableofcontents
 
-\chapter{Beispiel}
-[TODO]
+\chapter{Überblick}
+\input{intro.tex}
 
-\chapter{Beispielkomponente}
-\input{beispiel/beispiel.tex}
+\chapter{Bluetooth}
+\input{bluetooth/komponentenbeschreibung.tex}
 
-\chapter{Komponente 1}
-%\input{komponente1/komponente1.tex}
 
-\chapter{Komponente 2}
-%\input{komponente2/komponente2.tex}
-
-\chapter{Komponente 3}
-%\input{komponente3/komponente3.tex}
 
 \end{document}
