@@ -1,0 +1,11 @@
+@startuml
+Alice -> Bob: Aufbau BluetoothConnection per BluetoothStreamStub createStreamConnection()
+Bob --> Alice: Empfang der Verbindung durch BluetoothServer run() und Aufbau BluetoothConnection
+Alice -> Alice: Aufbau einer Hashmap mit einem ASIPInterest, welches die Addresse enthält
+Alice -> Bob: Aufbau StreamConnection mit der empfangenen Bluetooth Addresse
+Alice -> Bob: Aufbau des ServiceRequest vom WifiManager per startAdvertising() Methode, Hashmap wird gesendet
+Bob -> Bob: Empfang der Nachricht durch onDnsSdTxtRecordAvailable() im WifiManager
+Bob -> Bob: Extraktion der HashMap in ein ASIPInterest
+Bob -> Bob: Aufruf der insert() Methode im KnowledgePort
+
+@enduml
