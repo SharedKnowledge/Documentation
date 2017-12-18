@@ -1,0 +1,48 @@
+\section{Aufgabe der Komponente}
+Über die WiFi-Direct Komponente vermitteln die Peers ihre Kontaktdaten an alle verfügbaren Peers in der Nähe. Dies geschieht über den Expose Befehl des ASIP Protokolls, bei dem ein ASIP-Interesse an die Wissensbasis von anderen Peers gesandt wird. Dies beinhaltet unter anderem die Bluetooth MAC-Adresse, mit der dem Peer dann anschließend Nachrichten per Bluetooth geschickt werden können. Das Verschicken der Bluetooth Mac-Adresse via WiFi-Direct ermöglicht es daher, dass für die darauf folgende Bluetooth-Verbindung kein Pairing benötigt wird. 
+\\Die Komponente ist der elementare Bestandteil des Peer-Radars, der alle sich in der Nähe befindlichen Peers anzeigt und die Kommunikation mit diesen erlaubt. Das Radar ist wiederum dafür erforderlich, neue Chats mit Peers anzulegen oder einen semantischen Broadcast ohne Bluetooth-Pairing zu ermöglichen.
+
+
+\section{Architektur}
+
+\subsection{Überlick}\label{ch:wifioverview}
+
+Im folgenden UML-Klassendiagramm sind alle Bestandteile der WiFi-Direct Komponente von SharkNet abgebildet.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=1.1\linewidth]{wifi/images/wifiDirectGesamt.png}}%
+	\caption{Die WiFi-Direct Klassen im Überblick}
+	\label{fig:wifiAll}
+\end{figure}
+Im Zentrum dieser Hierarchie steht die Klasse \textit{WiFiDirectAdvertisingManager}. Eine Instanz dieser Klasse befindet sich als Attribut in der Klasse \textit{AndroidSharkEngine}, von der aus alle Protokolle wie NFC, Wifi-Direct oder Bluetooth gesteuert werden. Über die Engine kann daher auch das Radar per \textit{startDiscovery()} Methode gestartet oder über die \textit{stopDiscovery()} Methode beendet werden. Das Starten oder Stoppen der kompletten WiFi-Komponente erfolgt dagegen in der Klasse \textit{SharkEngine}, die den Ausgangspunkt der Vererbungshierarchie darstellt.
+\\Die Klasse \textit{WifiDirectUtil} bietet statische Methoden an, mit denen ASIP-Interessen in Hashmaps umgewandelt werden können und umgekehrt. Dies ist notwendig, da die von Android gestellte Basisklasse \textit{WifiP2PManager} bei der Anmeldungen von Services keine ASIP-Interessen, sondern Hashmaps als Parameter akzeptiert.
+
+
+\subsection{Schnittstellendefinitionen}\label{ch:wifiinterfaces}
+Wie im vorherigen Unterkapitel erläutert liefern die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} die Funktionalität, um Peers zu finden und andere Peers über das eigene Interesse in Kenntnis zu setzen. 
+\\Bei Aufruf der \textit{startDiscovery()} Methode wird innerhalb der Engine ein neuer \textit{WifiDirectAdvertisingManager} angelegt und anschließend dessen \textit{startAdvertising()} Methode aufgerufen. Innerhalb der \textit{startAdvertising()} Methode wird sich nun auf der dritten Schicht des OSI-Modells begeben, wie der folgende Codeausschnitt zeigt:
+\lstset{language=Java, caption=Peer Semantic Tag, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
+\begin{lstlisting}
+HashMap<String, String> map = WifiDirectUtil.interest2RecordMap(interest);
+mServiceInfo = WifiP2pDnsSdServiceInfo.newInstance("_sbc", "_presence._tcp", map);
+mManager.addLocalService(mChannel, mServiceInfo, new WifiActionListener("Add LocalService"));
+mManager.clearServiceRequests(mChannel, new WifiActionListener("Clear ServiceRequests"));
+WifiP2pDnsSdServiceRequest wifiP2pDnsSdServiceRequest = WifiP2pDnsSdServiceRequest.newInstance();
+mManager.addServiceRequest(mChannel, wifiP2pDnsSdServiceRequest, new WifiActionListener("Add ServiceRequest"));
+\end{lstlisting}
+Nachdem in der erste Zeile eine Hashmap auf dem Interesse erzeugt worden ist, wird diese Hashmap in Zeile zwei als Parameter für die Erzeugung einer Service Information benutzt. Anschließend wird dem \textit{WifiP2PManager} ein neuer lokaler Service hinzugefügt, wobei dieser Service die zuvor erzeugte Service Information enthält. Nachdem etwaige vorherige Service Requests beseitigt worden sind, wird der neue WifiP2P Service Request hinzugefügt. Dadurch werden nun an alle Geräte in der Nähe, die auf WifiP2P Service Requests warten, dieser zur Verfügung gestellt.
+
+\section{Nutzung}
+\subsection{Code}
+Der Code dieser Komponente kann hier \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/wifidirect} betrachtet werden. Wie auch die anderen Implementierungen von Übertragungsprotokollen, befindet sich auch die WiFi-Direct-Implementierung im Projekt \textit{SharkNet-Api-Android} im Package \textit{protocols}.
+
+\subsection{Deployment / Runtime}
+
+
+
+\section{Test}
+
+
+
+\section{Ausblick}

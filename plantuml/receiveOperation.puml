@@ -1,0 +1,19 @@
+@startuml
+box #lightblue
+actor "Bob"
+    participant ASIPSession
+	participant SharkServer
+
+end box
+	actor "Alice"
+
+Alice -> SharkServer: Aufbau StreamConnection
+SharkServer -> ASIPSession: Aufbau einer Session
+activate ASIPSession
+ASIPSession -> ASIPSession: Erzeugung ASIPInMessage
+ASIPSession -> ASIPSession: Nachricht wird vom Stream gelesen
+ASIPSession --> Alice: StreamConnnection wird geschlossen
+deactivate ASIPSession
+ASIPSession -> Bob: Aufruf handleMessage()
+
+@enduml

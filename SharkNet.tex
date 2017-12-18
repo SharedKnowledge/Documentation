@@ -1,4 +1,4 @@
-\documentclass[german]{book}
+\documentclass[german, 12pt]{book}
 %\usepackage{url}
 \PassOptionsToPackage{hyphens}{url}\usepackage[breaklinks=true]{hyperref}
 \usepackage{dsfont}
@@ -8,15 +8,18 @@
 \usepackage[final]{graphicx}
 \usepackage{float}
 \usepackage{geometry}
+\usepackage{setspace}
+
 \geometry{a4paper, top=30mm, left=30mm, right=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
+
 
 \begin{document}
 	
-	
+\onehalfspacing
 
 \title{SharkNet\\
 Systembeschreibung \\
-Version 0.0.2
+Version 0.0.3
 }
 
 \author{
@@ -32,6 +35,75 @@ Dustin Feurich
 
 \chapter{Bluetooth}
 \input{bluetooth/komponentenbeschreibung.tex}
+
+\chapter{WiFi}
+\input{wifi/komponentenbeschreibung.tex}
+
+\chapter{Sonstiges}
+In der folgenden Grafik sind alle Bestandteile der WifiDirect Komponente von SharkNet abgebildet.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=1.1\linewidth]{wifi/images/wifiDirectGesamt.png}}%
+	\caption{Die WifiDirect Klassen im Überblick}
+	\label{fig:wifiAll}
+\end{figure}
+
+\newpage
+
+In der folgenden Grafik sind alle Bestandteile der Radar Komponente abgebildet.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=1.1\linewidth]{bluetooth/images/radar.png}}%
+	\caption{Die Radar Klassen im Überblick}
+	\label{fig:radarAll}
+\end{figure}
+
+\newpage
+
+Im folgenden Aktivitätsdiagramm wird das Versenden von Nachrichten per Broadcast abgebildet
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.5\linewidth]{broadcast/images/broadcastSend.png}}%
+	\caption{Versenden von Nachrichten per Broadcast in SharkNet}
+	\label{fig:broadcastSend}
+\end{figure}
+
+\newpage
+
+Im folgenden Aktivitätsdiagramm wird das Empfangen von Nachrichten per Broadcast abgebildet
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.9\linewidth]{broadcast/images/broadcastReceive.png}}%
+	\caption{Empfangen von Nachrichten per Broadcast in SharkNet}
+	\label{fig:broadcastReceive}
+\end{figure}
+
+\newpage
+
+Im folgenden Aktivitätsdiagramm wird Filterung von Nachrichten per Eingangsfilter abgebildet
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{broadcast/images/entryFilter.png}}%
+	\caption{Filterung von Nachrichten per Eingangsfilter in SharkNet}
+	\label{fig:entryFilter}
+\end{figure}
+
+\newpage
+
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{broadcast/images/communication.png}}%
+	\caption{Kommunikation per Chat}
+	\label{fig:communication}
+\end{figure}
+
+\newpage
 
 
 
