@@ -1,0 +1,39 @@
+\section{Aufgabe der Komponente}
+Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten an andere Benutzer zu schicken. Dabei können auch andere Komponenten, wie etwa der semantische Eingans- und Ausgangsfilter zum Einsatz kommen, was jedoch nicht zwingend erforderlich ist. Falls auf einen Eingangsfilter oder Ausgangsfilter verzichtet werden sollte, werden wie bei einem klassischen Broadcast die Nachrichten an alle sich in der Nähe befindlichen Geräte versendet. Inwiefern der klassische Broadcast vom Benutzer semantisch eingeschränkt werden kann, lässt sich in der Komponentenbeschreibung der Komponente Semantischer Filter in Erfahrung bringen.
+
+\section{Architektur}
+
+\subsection{Überlick}\label{ch:broadcastcomps}
+Die folgenden Komponenten werden von der Komponente Broadcast zwingend benötigt:
+\begin{itemize}
+\item WifI 
+\item Bluetooth 
+\item Persistenz 
+\end{itemize}
+Optional sind hingegen die Komponenten:
+\begin{itemize}
+	\item Semantischer Filter
+\end{itemize}
+
+\subsection{Überlick}\label{ch:broadcastoverview}
+lore
+
+\subsection{Schnittstellendefinitionen}\label{ch:broadcastinterfaces}
+
+
+\section{Nutzung}
+Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebunden. Der Endanwender kann über die diese Activity und die dazugehörige XML-Datei die Nachrichten versenden, betrachten und mit semantischen Annotationen versehen, wobei Letzteres auch die Komponente Semantische Filter betrifft.
+\\Die Komponente kann aber auch in eigenen Activities benutzt werden ohne die vorgegebene \textit{BroadcastActivity} benutzen zu müssen. Der Entwickler muss bei seiner eigenen Activity dafür lediglich von der Klasse \textit{BaseActivity} erben. Die Klasse \textit{BaseActivity} stellt das Attribut \textit{mApi} vom Typ \textit{SharkNetApi} bereit, mit dem durch die Methoden \textit{getBroadcast()} und \textit{updateBoradcast(...)} der Broadcast geliefert und verändert werden kann.
+
+\subsection{Code}
+Der Code dieser Komponente kann hier \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden. 
+
+\subsection{Deployment / Runtime}
+
+
+
+\section{Test}
+
+
+
+\section{Ausblick}
