@@ -1,0 +1,48 @@
+@startuml
+
+interface SemanticFilter {
++filter()
+}
+class CompositeFilter {
+-List<SemanticFilter> filters
++filter()
+}
+class TopicFilter {
++filter()
+-checkSemanticNet()
+}
+class PeerFilter {
++filter()
+-checkPeerSemanticNet()
+}
+class SpatialFilter {
++filter()
+...()
+}
+class TimeFilter {
++filter()
+-checkTimes()
+}
+class SharkEngine {
+-CompositeFilter compFilter
+...
+...()
+}
+
+SharkEngine *-- CompositeFilter
+
+SemanticFilter <|- CompositeFilter
+SemanticFilter <|- TopicFilter
+SemanticFilter <|- PeerFilter
+SemanticFilter <|- SpatialFilter
+SemanticFilter <|- TimeFilter
+
+CompositeFilter o-- TopicFilter
+CompositeFilter o-- PeerFilter
+CompositeFilter o-- SpatialFilter
+CompositeFilter o-- TimeFilter
+
+
+
+
+@enduml
