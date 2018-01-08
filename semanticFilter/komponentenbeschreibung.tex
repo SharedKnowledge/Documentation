@@ -23,7 +23,7 @@ Der semantische Filter gliedert sich in verschiedene Teilfilter, diese Trennung 
 	\item Die spatiale Auswertung findet im \textit{SpatialFilter} statt, sie wird im Rahmen einer Bachelorarbeit von Maximilian Öhme entwickelt.
 \end{itemize}
 
-\subsection{Code}
+\section{Code}
 Wie bereits im Überblick angerissen, führt der \textit{CompositeFilter} keine eigene semantische Filterung durch, sondern lässt dies fachgerecht von den Teilfiltern ausführen. Im folgenden Codeausschnitt ist erkennbar, dass der sequentielle Aufruf der Teilfilter sofort abgebrochen wird, wenn ein Teilfilter ein \textit{false} liefert.
 \lstset{language=Java, caption=Filtermethode im Kompositum, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
@@ -59,7 +59,16 @@ SemanticNet resultNet = SharkCSAlgebra.contextualize(inputNet, profileSet, fp);
 		return true;
 	}
 \end{lstlisting}
-Für die Auswertung wird die vom SharkFramework bereitgestellte Funktionalität der Kontextualisierung von Semantischen Netzen benutzt. Die in Zeile dafür aufgerufene Methode benötigt dabei drei Parameter. Diese umfassen das Semantische Netz des Benutzerprofils und das Semantische Netz der Nachricht innerhalb dessen zugeordneten Dimensionen, sowie die Fragmentierungsparameter der Kontextualisierung. 
+Für die Auswertung wird die vom SharkFramework bereitgestellte Funktionalität der Kontextualisierung von Semantischen Netzen benutzt. Bei der Kontextualisierung soll das gemeinsame Interesse beider Peers bestimmt werden. Das Ergebnis der Kontextualisierung ist ein drittes Semantisches Netz, was als Fragment bezeichnet wird. Sollte dieses Fragment als Ergebnis der Prozedur nicht leer sein, haben beide Benutzer innerhalb dieser Dimension ein gemeinsames Interesse und die Nachricht wird bezüglich dieser Dimension als interessant eingestuft.
+\\Die in Zeile eins dafür aufgerufene Methode benötigt dabei drei Parameter. Diese umfassen das Semantische Netz des Benutzerprofils und das Semantische Netz der Nachricht innerhalb dessen zugeordneten Dimensionen, sowie die Fragmentierungsparameter der Kontextualisierung. Die Fragmentierungsparameter werden ebenfalls vom Benutzer eingetragen und bestehen aus den folgenden drei Teilen:
+\begin{itemize}
+	\item Eine Liste aus erlaubten Beziehungen, welche bei der Kontextualisierung berücksichtigt werden können.
+	\item Eine Liste aus nicht erlaubten Beziehungen, welche bei der Kontextualisierung nicht berücksichtigt werden.
+	\item Die Tiefe, die darüber Auskunft gibt, wie viele Beziehungen zwischen einzelnen SemanticTags berücksichtigt werden.
+\end{itemize}
+
+ 
+
 
 
 \subsection{Schnittstellendefinitionen}\label{ch:filterinterfaces}
