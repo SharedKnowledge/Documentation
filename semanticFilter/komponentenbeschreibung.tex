@@ -64,21 +64,47 @@ Für die Auswertung wird die vom SharkFramework bereitgestellte Funktionalität 
 \begin{itemize}
 	\item Eine Liste aus erlaubten Beziehungen, welche bei der Kontextualisierung berücksichtigt werden können.
 	\item Eine Liste aus nicht erlaubten Beziehungen, welche bei der Kontextualisierung nicht berücksichtigt werden.
-	\item Die Tiefe, die darüber Auskunft gibt, wie viele Beziehungen zwischen einzelnen SemanticTags berücksichtigt werden.
+	\item Die Tiefe, die darüber Auskunft gibt, wie viele Beziehungen zwischen den einzelnen SemanticTags berücksichtigt werden.
 \end{itemize}
-
- 
-
-
+Nachdem das Fragment bestimmt uns ausgewertet worden ist, liefert die Methode dann dementsprechend ein \textit{true} oder \textit{false} zurück. Damit ist die Auswertung der Nachricht für diese Dimension abgeschlossen.
+\\Die Auswertung für die Peer Dimensionen \textit{Sender}, \textit{Receivers} und \textit{Approvers} läuft fast analog zu dem Auswertungsverfahren der Topic-Dimensionen ab. Hierbei können falls vom Programmierer gewünscht auch die Adressen mit ausgewertet werden. 
+\\Die Auswertung der Dimension \textit{Time} ist nicht abhängig von einer Kontextualisierung, sondern von der potentiellen Überschneidung von Zeiträumen.
+\lstset{language=Java, caption=Auswertung der Time-Dimension (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
+\begin{lstlisting}
+while (messageTimesTags.hasMoreElements()) {
+	currentMessageTag = messageTimesTags.nextElement();
+		for (TimeSemanticTag currentProfileTag: profileTimesTagsList) {
+			if (currentMessageTag.getFrom() > currentProfileTag.getFrom() &&
+			currentMessageTag.getFrom() + currentMessageTag.getDuration() <
+			currentProfileTag.getFrom() + currentProfileTag.getDuration()) {
+			return true;
+		}
+	}
+}
+return false;
+\end{lstlisting}
+Innerhalb der Schleife werden alle \textit{TimeSemanticTags} des Profils mit denen der eingehenden Nachricht verglichen. Von der vierten bis zur sechsten Zeile werden die Zeiträume von je zwei \textit{Tags} auf Überschneidungen hin überprüft. Falls dies der Fall sein sollte, gilt die nachricht hinsichtlich der Dimension \textit{Time} als interessant, andernfalls werden die restlichen \textit{Tags} ausgewertet. Sollte es nicht mindestens zu einer Überschneidung kommen, gilt die Nachricht gemäß der zeitlichen Dimension als uninteressant.
+\\Die Auswertung der räumlichen Dimension \textit{Spatial} erfolgt durch die Aufstellung und Auswertung von Bewegungsprofilen. Diese Bewegungsprofile werden vom Smartphone (nach der Abfrage des Einverständnisses des Benutzers) aufgezeichnet und sind Teil des semantischen Profils. Nach Eingang einer Nachricht werden nun das Bewegungsprofil vom Benutzer und das Bewegungsprofil der Nachricht miteinander verglichen. Wie bereits zuvor erwähnt, ist die spatiale Auswertung der Nachrichten das Thema der Bachelorarbeit von Maximilian Oehme. Weitergehende Details und Codebeispiele können in dieser Bachelorarbeit in Erfahrung gebracht werden.
 
 \subsection{Schnittstellendefinitionen}\label{ch:filterinterfaces}
 
 
 \section{Nutzung}
+Die Nutzung dieser Komponente erfolgt über die zu diesem Zweck von der \textit{SharkEngine} bereitgestellten Methoden. Sie enthält wie in Abbildung 7.1 dargestellt das Kompositum, welches als Behälter dynamisch Teilfilter aufnehmen, löschen und die Reihenfolge der Ausführung ändern kann. Falls der Entwickler von der App-Ebene heraus Filter hinzufügen wollen, kann er dies über die \textit{SharkNetApi} tun, welche die gewünschten Änderungen an die \textit{SharkEngine} weiterleitet. Das folgende Codebeispiel zeigt diese verhältnismäßig leichte Handhabung:
+ \lstset{language=Java, caption=Beispiel für die Anwendung der Filter, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
+ \begin{lstlisting}
+TopicFilter newTopicFilter = new TopicFilter(Dimension.TOPIC);
+PeerFilter newApproverFilter = new PeerFilter(Dimension.APPROVERS);
+mApi.addSemanticFilter(newTopicFilter);
+mApi.addSemanticFilter(newApproverFilter);
+boolean isInteresting = mApi.executeSemanticFilters(message, knowledge, profile);
+ \end{lstlisting}
+Nachdem die Filter erzeugt und ihre Dimension festgelegt worden sind, werden sie über die \textit{SharkNetApi} der \textit{SharkEngine} hinzugefügt und können über die Methode \textit{executeSemanticFilters()} für die Auswertung benutzt werden. Für die Auswertung muss zusätzlich die Eingansnachricht (\textit{message}), die semantischen Annotationen der Nachricht (\textit{knowledge}) und das aktuelle semantische Profil des Benutzers (\textit{profile}) mit übergeben werden.
+
 
 
 \section{Test}
-
+[...]
 
 
 \section{Ausblick}
