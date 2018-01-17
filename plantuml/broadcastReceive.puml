@@ -1,7 +1,8 @@
 @startuml
-(*)  --> "SemanticRoutingKP empfängt per insert eine Nachricht"
+(*)  --> "Benutzer empfängt per insert eine Nachricht"
 If "Wurde die Nachricht bereits empfangen oder selbst abgeschickt?"
-    -->[Ja](*)
+    -->[Ja] "Nachricht wird nicht der Wissensbasis hinzugefügt"
+    -->(*)
     else
     -->[Nein] "Nachricht wird an den Eingangsfilter übergeben"
     if "Ist die Nachricht für den Benutzer interessant?"
@@ -15,7 +16,8 @@ If "Wurde die Nachricht bereits empfangen oder selbst abgeschickt?"
             Endif
 
         else
-        -->[Nein](*)
+        -->[Nein] "Nachricht wird nicht der Wissensbasis hinzugefügt"
+
         Endif
 Endif
 

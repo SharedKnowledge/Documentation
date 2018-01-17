@@ -71,3 +71,23 @@ Gamma lehnt die Nachricht aufgrund seines Filters ab, dabei ist es unerheblich v
 \end{figure}
 In diesem Szenario lehnen sowohl Gamma als auch Delta die Nachricht ab, nur Beta akzeptiert die Nachricht und versucht diese weiterzuleiten. Da Epsilon sich nicht innerhalb der Sendereichweite von Alpha oder Beta befindet, kann die Nachricht das Gerät nicht erreichen. Die Anzahl der Routen wurde durch die Filterung also deutlich verringert. 
 \\Dies mag zunächst problematisch erscheinen, ist aber die Intention des Protokolls. Das hier vorgeschlagene inhaltsbasierte Routing hat nicht das vorrangige Ziel, effiziente Routen zu allen Geräten zu finden, sondern soll allein von den Interessen der Geräte abhängig sein. 
+
+\section{Ablauf der Filterung}
+Um einen adäquaten Aufbau und Ablauf der Filterung bestimmten zu können, müssen zunächst die Anforderungen an den Filter formuliert werden.
+\begin{itemize}
+	\item Es müssen alle Dimensionen (siehe Abbildung 3.1) ausgewertet werden können, die im Shark-Framework/ASIP definiert sind.
+	\item Weiterhin muss dynamisch einstellbar sein, wann welche Dimension durch den Filter ausgewertet wird. Es muss auch nicht zwingend jede Dimension ausgewertet werden, dies ist ebenfalls abhängig vom Benutzer.
+	\item Die Auswertung sollte nur mit Datenstrukturen ausgeführt werden, die aus dem Shark-Framework/ASIP bekannt sind.
+	\item Die Filterung findet nach dem Erhalt der Nachricht und vor der Anzeige auf dem Gerät statt. Der Prozess der Filterung ist daher sehr zeitkritisch und muss möglichst schnell durchgeführt werden können. Sollte ein vom Eingangsfilter abweichender Ausgangsfilter gesetzt sein, muss die Nachricht sogar zweimal gefiltert werden.
+	\item Es muss unbedingt mit Interfaces gearbeitet werden, um die Erweiterbarkeit und Austauschbarkeit des Filterprozesses zu gewährleisten.
+\end{itemize}
+Eine Implementierung des Filters muss diese Punkte beachten, in der Komponentenbeschreibung des semantischen Filters finden sich Details zu der im Rahmen dieser Arbeit erstellten Implementierung. [...]
+\\Das folgende Aktivitätsdiagramm skizziert den Ablauf des Nachrichtenempfangs.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=1.0\linewidth]{entwurf/images/empfangNachricht.png}}%
+	\caption{Filterung nach dem Empfang einer Nachricht}
+	\label{fig:empfangNachricht}
+\end{figure}
+Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfangene oder versandte Nachrichten nicht verwertet werden dürfen, um die Bildung von Schleifen zu vermeiden. Die verschiedenen technischen Umsetzungen zur Schleifenvermeidung wurden im Kapitel Grundlagen erläutert. 
