@@ -25,7 +25,7 @@ Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokolle
 			Receiver Peer & Zielgerät der Nachricht\\
 			Receiver Location & Ort des Absenders beim Versenden der Nachricht\\
 			Receiver Time & Zeitpunkt des Absendens der Nachricht\\
-			Topic & Optionales Headerthema, wird nicht vom semantischen Filter ausgewertet\\
+			Topic & Sequenznummer, wird nicht vom semantischen Filter ausgewertet\\
 			Type & Kennzeichnung der Nachrichtenart\\							
 		\end{tabular}
 	\end{center}
@@ -90,4 +90,25 @@ Eine Implementierung des Filters muss diese Punkte beachten, in der Komponentenb
 	\caption{Filterung nach dem Empfang einer Nachricht}
 	\label{fig:empfangNachricht}
 \end{figure}
-Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfangene oder versandte Nachrichten nicht verwertet werden dürfen, um die Bildung von Schleifen zu vermeiden. Die verschiedenen technischen Umsetzungen zur Schleifenvermeidung wurden im Kapitel Grundlagen erläutert. 
+Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfangene oder versandte Nachrichten nicht verwertet werden dürfen, um die Bildung von Schleifen zu vermeiden. Die verschiedenen technischen Umsetzungen zur Schleifenvermeidung wurden im Unterkapitel Broadcast-Routing erläutert. 
+\\Für die Implementierung wurde zur Schleifenvermeidung eine Abwandlung des sequenznummerkontrollierten Floodings (SNKF) gewählt (siehe dazu auch die Komponentenbeschreibung des Broadcasts). Es hat den Vorzug vor dem \textit{Reverse Path Forwarding} (RPF) und dem \textit{Spanning Tree} aus den folgenden Gründen erhalten:
+\begin{itemize}
+	\item Der Spanning Tree muss nach jeder topologischen Änderung neu aufgebaut werden. Dies ist bei aus Smartphones bestehenden Ad-Hoc-Netzwerken häufig der Fall, da davon auszugehen ist, dass sie von sich stetig bewegenden Menschen getragen werden. Der Aufwand für den wiederholten Aufbau des Spanning Trees ist dementsprechend hoch.
+	\item Vor dem gleichen Problem steht das RPF. Die Bestimmung des kürzesten Pfades gestaltet sich schwierig, wenn die beteiligten geräte nicht stationär sind. Bei Geräten in Bewegung besteht die Gefahr, dass Nachrichten ungewollt abgelehnt werden.
+	\item Im Gegensatz dazu muss beim SNKF nur eine Tabelle pro Gerät pflegen werden, in der die Sequenznummern der Nachrichten gespeichert werden und diese unabhängig von der Topologie ist. Bereits empfangene oder versandte Nachrichten können durch die Sequenznummer erkannt und die Bearbeitung folglich abgelehnt werden.
+\end{itemize}
+Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle 4.1 dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen. 
+\section{Architektur}
+Die Android-Anwendung SharkNet bindet das SharkFramework als .jar Datei ein. In beiden Teilbereichen wurden für die praktische Umsetzung des semantischen Broadcasts Klassen hinzugefügt. Der Aufbau der Anwendung folgt dabei dem Model-View-Control Entwicklungsmuster, was mit Hilfe von einander getrennten Activitites, Services, Datenzugriffsobjekten (DAO) und Entitäten umgesetzt worden ist. Das grundlegende Zusammenwirken der zu entwickelnden Klassen zwischen Anwendung und Framework lässt sich beispielhaft an zwei einfachen Szenarios erklären. Beim ersten Beispiel schreibt der Benutzer eine Broadcast-Nachricht.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{entwurf/images/strukturNachrichtEmpfangen.png}}%
+	\caption{Anwendung und Framework beim Absenden einer Nachricht}
+	\label{fig:empfangNachrichtStruktur}
+\end{figure}
+\begin{enumerate}
+	\item Der Benutzer gibt über die Benutzeroberfläche eine Broadcast-Nachricht ein und sendet diese ab. (View-Ebene)
+	\item Der zuständige Service nimmmt die Zeichenkette entgegen, führt eine \textit{sanitization} durch und reicht diese an ein DAO weiter
+	\item Das DAO 
+\end{enumerate}
