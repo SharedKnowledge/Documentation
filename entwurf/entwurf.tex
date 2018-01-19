@@ -103,12 +103,32 @@ Die Android-Anwendung SharkNet bindet das SharkFramework als .jar Datei ein. In 
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{entwurf/images/strukturNachrichtEmpfangen.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{entwurf/images/strukturNachrichtSenden.png}}%
 	\caption{Anwendung und Framework beim Absenden einer Nachricht}
-	\label{fig:empfangNachrichtStruktur}
+	\label{fig:sendenNachrichtStruktur}
 \end{figure}
 \begin{enumerate}
-	\item Der Benutzer gibt über die Benutzeroberfläche eine Broadcast-Nachricht ein und sendet diese ab. (View-Ebene)
+	\item Der Benutzer gibt über die Benutzeroberfläche eine Broadcast-Nachricht ein und sendet diese ab. 
 	\item Der zuständige Service nimmmt die Zeichenkette entgegen, führt eine \textit{sanitization} durch und reicht diese an ein DAO weiter
-	\item Das DAO 
+	\item Das DAO erhält vom Service eine Message-Entität. Es ist zuständig für das Speichern, Löschen und Editieren von Entitäten. Das DAO nutzt nun die \textit{SQLSharkKB}, um das Objekt der Wissensbasis des Benutzers hinzuzufügen. 
+	\item Die SQLSharkKB speichert nun die Entität innerhalb einer SQLite-Datenbank. Sie wird im Unterkapitel Persistenz näher erläutert.
+	\item Nachdem die Nachricht gespeichert worden ist, soll sie an alle Geräte in der Umgebung versandt werden. Dies geschieht durch den \textit{Broadcast Manager}, welcher die Nachricht vom DAO entgegen nimmt und sie per WiFi-Direct und Bluetooth versendet.
 \end{enumerate}
+Der Routing Port und der Semantische Filter sind nur beim Empfangen von Nachrichten relevant. Beim Empfang kehrt sich der Ablauf gewissermaßen um, die Nachricht wandert vom Framework zur Anwendung. 
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{entwurf/images/strukturNachrichtEmpfangen.png}}%
+	\caption{Anwendung und Framework beim Absenden einer Nachricht}
+	\label{fig:empfangenNachrichtStruktur}
+\end{figure}
+\begin{enumerate}
+	\item Das Gerät empfängt vom Smartphone Beta eine Broadcast-Nachricht. Dies wird zunächst vom \textit{Routing Port} verwertet, welcher die beiden aus dem Kapitel Grundlagen bekannten Methoden \textit{insert()} und \textit{expose()} implementiert. Beim Nachrichteneingang wird nun die Methode \textit{insert()} ausgeführt.
+	\item Der \textit{Routing Port} lässt vom \textit{Broadcast Manager} prüfen, ob die Nachricht bereits empfangen oder abgeschickt worden ist per Sequenznummernvergleich.
+	\item Sollte die nachricht noch nicht empfangen worden sein, überprüft nun der Semantische Filter, ob die Nachricht für den Empfänger interessant ist. Die Komponentenbeschreibung Semantischer Filter beschreibt die Umsetzung des Filters innerhalb der Anwendung. 
+	\item Der \textit{Routing Port} fügt nun die Nachricht der Wissensbasis hinzu und lässt dies von der \textit{SQlSharkKB} persistieren, falls die Nachricht für den Benutzer interessant sein sollte.
+	\item Per Listener wird die Nachricht anschließend von der Framework-Ebene auf die Anwendungsebene übermittelt, indem der Service eine Benachrichtigung über neue Nachrichten innerhalb der Wissensbasis erhält. 
+	\item Der Service lässt vom DAO aus der Wissensbasis die Broadcast-Nachrichten lesen, diese Liste enthält die alten sowie die neuen Nachrichten.
+	\item Die Broadcast-Nachrichten werden auf der Oberfläche angezeigt.
+\end{enumerate}
+\section{Persistenz}
