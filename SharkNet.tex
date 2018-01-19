@@ -14,12 +14,12 @@
 
 
 \begin{document}
-	
+
 \onehalfspacing
 
 \title{SharkNet\\
 Systembeschreibung \\
-Version 0.1.3
+Version 0.1.5
 }
 
 \author{
@@ -30,6 +30,7 @@ Dustin Feurich
 
 \tableofcontents
 
+\addtocontents{toc}{\protect\thispagestyle{empty}}
 \chapter{Überblick}
 \input{intro.tex}
 
@@ -59,28 +60,6 @@ Dustin Feurich
 
 \chapter{Sonstiges}
 
-
-Im folgenden Aktivitätsdiagramm wird das Versenden von Nachrichten per Broadcast abgebildet
-\begin{figure}[H]
-	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.5\linewidth]{broadcast/images/broadcastSend.png}}%
-	\caption{Versenden von Nachrichten per Broadcast in SharkNet}
-	\label{fig:broadcastSend}
-\end{figure}
-
-\newpage
-
-\begin{figure}[H]
-	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{broadcast/images/entryFilter.png}}%
-	\caption{Filterung von Nachrichten per Eingangsfilter in SharkNet}
-	\label{fig:entryFilter}
-\end{figure}
-
-\newpage
-
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
@@ -88,8 +67,6 @@ Im folgenden Aktivitätsdiagramm wird das Versenden von Nachrichten per Broadcas
 	\caption{Kommunikation per Chat}
 	\label{fig:communication}
 \end{figure}
-
-\newpage
 
 
 

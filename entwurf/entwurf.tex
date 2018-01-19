@@ -131,4 +131,19 @@ Der Routing Port und der Semantische Filter sind nur beim Empfangen von Nachrich
 	\item Der Service lässt vom DAO aus der Wissensbasis die Broadcast-Nachrichten lesen, diese Liste enthält die alten sowie die neuen Nachrichten.
 	\item Die Broadcast-Nachrichten werden auf der Oberfläche angezeigt.
 \end{enumerate}
+
 \section{Persistenz}
+Alle Daten der Anwendung werden innerhalb einer Wissensbasis gespeichert. Das Interface der Wissensbasis ist die \textit{SharkKB}, deren Implementierungen die Daten persistieren. Die offiziell von Android unterstützte Datenbanktechnolgie ist SQLite. Es muss daher eine Implementierung der Shark-Wissensbasis mit SQLite entwickelt werden, um die bereits vorgestellten Strukturen dauerhaft auf Android-Smartphones speichern zu können. 
+\\Dafür muss zunächst ein Datenbankschema festgelegt werden. 
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{entwurf/images/sharkSQL.jpg}}%
+	\caption{Auszug aus dem Datenbankschema der SQLite Implementierung der SharkKB}
+	\label{fig:sharkSQL}
+\end{figure}
+Alle Tabellen verfügen über eine sich für jeden neuen Eintrag automatisch inkrementierende ID, die als Primärschlüssel dient. \\Die Tabelle \textit{semantic tag} kann jede Art eines \textit{Semantic Tag} darstellen, diese wird durch das Attribut \textit{tag kind} gekennzeichnet (normal, peer, time, spatial). Entsprechend der Art können zusätzliche Attribute gesetzt sein, \textit{wkt} für \textit{Spatial Tags} und duration sowie start für \textit{Time Tags}. Da ein \textit{Semantic Tag} mehrere \textit{Subject Identifier} haben kann, sind diese in einer extra Tabelle ausgelagert. Das gleiche gilt für die Adressen, falls es sich um ein \textit{Peer Semantic Tag} halten sollte. 
+\\Die bereits erläuterten Strukturen \textit{Tag Set} und \textit{Semantic Net} werden durch die Tabelle \textit{tag set} repräsentiert. Ähnlich wie beim \textit{Semantic Tag} wird durch das Attribut \textit{set kind} festgelegt, welche der beiden Strukturen ein Eintrag der Tabelle angehört. 
+\\Wenn es sich um ein \textit{Semantic Net} handelt, können jeweils zwei Tags durch benannte Beziehungen miteinander verknüpft werden. Diese Beziehung ist über die Fremdschlüssel dann den beiden Tags und dem Semantischen Netz zugeordnet. 
+\\Einem \textit{tag set} kann einer Information zugeordnet werden. Die Tabelle \textit{information} enthält unter anderem die Rohdaten der Nachricht (Attribut \textit{conent stream}) und wird durch die zugeordneten \textit{Tag Sets} semantisch eingeordnet. 
+\newline [...]
