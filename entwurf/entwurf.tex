@@ -1,5 +1,5 @@
-\section{Aufbau der Datenpakete}
-\subsection{Überblick}
+\subsection{Aufbau der Datenpakete}
+\subsubsection{Überblick}
 Es handelt sich bei dem zu entwickelnden Protokoll um ein Nachrichtenprotokoll. Daher wird der aus anderen Protokollen bekannte Begriff Datenpaket hier als eine Nachricht (Message) definiert. Diese Nachricht wird in zwei Hauptteile gegliedert. Den ersten Teil bildet der Nachrichtenheader, während der zweite Teil durch eine Instanz der Klasse \textit{Knowledge} gebildet wird.
 \begin{figure}[H]
 	\centering
@@ -8,7 +8,7 @@ Es handelt sich bei dem zu entwickelnden Protokoll um ein Nachrichtenprotokoll. 
 	\caption{Die zwei Hauptbestandteile einer Nachricht}
 	\label{fig:message1}
 \end{figure}
-\subsection{Header}
+\subsubsection{Header}
 Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokollen nicht zum Routing eingesetzt, dies ist allein von den semantischen Annotationen innerhalb des \textit{Knowledge} abhängig. Der Header ist dennoch unabdingbar, da er eine Nachricht als SharkNet Broadcast-Nachricht kennzeichnet und die Verarbeitungsart der Nachricht kennzeichnet. Der Header enthält folgende Bestandteile:
 \begin{table}[H]
 	\begin{center}
@@ -31,7 +31,7 @@ Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokolle
 	\end{center}
 \end{table}
 Die obligatorischen Headerbestandteile sind: Version, Format, Command, Receiver Peer und Type. Der Command ist für das Versenden der Nachrichten auf \textit{Insert} gestellt, damit die Empfangsgeräte die neue Nachricht nach erfolgreicher Filterung in ihre Wissensbasis einfügen. Der zweite Command \textit{Expose} wird fast ausschließlich von der WiFi-Komponente zum Austausch von Kontaktinformationen benutzt. Auch wenn es sich um einen Broadcast handelt, muss das Zielgerät stets im Header eingetragen sein, die Nachricht kann sonst nicht zugestellt werden. Wenn sich also beispielsweise fünf Geräte in der Nähe befinden, werden fünf Nachrichten mit angepasstem Header verschickt. Der Type markiert die Nachricht als eine Broadcast-Nachricht, damit diese nicht fälschlicherweise als Chat-Nachricht verarbeitet wird.
-\subsection{Knowledge}
+\subsubsection{Knowledge}
 Der Hauptteil der Nachricht spaltet sich in drei Bereiche auf.
 \begin{itemize}
 	\item Das Vocabulary, welches alle Semantic Tags beinhaltet, die die Nachricht beschreiben
@@ -39,8 +39,8 @@ Der Hauptteil der Nachricht spaltet sich in drei Bereiche auf.
 	\item Der eigentliche Nachrichteninhalt (Info Content)	
 \end{itemize}
 Der in Abbildung 3.1 dargestellte Bereich \textit{Info Meta Data} befindet daher sich wie oben beschrieben im Header und nicht im Knowledge.
-\section{Nachrichtenaustausch}
-\subsection{Ohne semantische Filterung}
+\subsection{Nachrichtenaustausch}
+\subsubsection{Ohne semantische Filterung}
 Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungerichtet an alle Kommunikationsteilnehmer, die sich in Reichweite befinden. Jeder Teilnehmer entscheidet selbst, ob er eine Nachricht seiner Wissensbasis hinzufügt und sie ebenfalls an alle in der Nähe befindlichen Geräte sendet. Wie im Kapitel Grundlagen beschrieben, müssen dabei Loops unterbunden werden, da die Kommunikation sonst durch eine Endlosschleife fehschlagen würde. Das folgende Szenario stellt beispielhaft diese Situation ohne Beachtung einer semantischen  Filterung dar.
 \begin{figure}[H]
 	\centering
@@ -50,7 +50,7 @@ Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungericht
 	\label{fig:beispielszenario}
 \end{figure}
 Das Szenario von Abbildung 4.2 beinhaltet die fünf Smartphones Alpha, Beta, Gamma, Delta und Epsilon, welche zusammen ein kabelungebundenes Ad-hoc-Netz bilden. Der Urpsrung der Nachricht ist Alpha, welches eine Nachricht per Broadcast an alle Geräte schickt. Es befinden sich jedoch nur die Geräte Gamma, Delta und Beta in der direkten Reichweite von Alpha. Alpha sendet zunächst an alle Geräte in Reichweite die Nachricht, was jeweils durch die durchgezogene Kante symbolisiert wird. Die Geräte Gamma, Delta und Beta senden nun ihrerseits die empfangene Nachricht an alle Geräte in Reichweite. Dies würde jedoch zu Schleifen innerhalb der Kommunikation führen, falls bereits empfangene oder abgeschickte Nachrichten nicht abgelehnt werden sollten. Dies wird mit gepunkteten Kanten symbolisiert. Eine Ausnahme ist die Nachricht, die von Gamma an Epsilon geschickt wird. Da Epsilon keine Nachricht von Alpha empfangen konnte, wird die Nachricht von Gamma akzeptiert. 
-\subsection{Mit semantischer Filterung}
+\subsubsection{Mit semantischer Filterung}
 Der Standardfall für die zu entwickelnde Anwendung wird der wiederholte Broadcast mit vorhergehender und nachfolgender semantischer Filterung sein. Jedes Gerät kann durch einen Eingangsfilter und einen Ausgangsfilter festlegen, welche Nachrichten akzeptiert und eventuell zusätzlich an andere Geräte in der Nähe weitergeleitet werden. 
 \\Sollte beispielsweise Alpha eine Nachricht versenden, die nicht den Eingangsfilter von Gamma passieren kann, würde sich der eben vorgestellte Kommunikationsablauf nun wie folgt darstellen.
 \begin{figure}[H]
@@ -72,7 +72,7 @@ Gamma lehnt die Nachricht aufgrund seines Filters ab, dabei ist es unerheblich v
 In diesem Szenario lehnen sowohl Gamma als auch Delta die Nachricht ab, nur Beta akzeptiert die Nachricht und versucht diese weiterzuleiten. Da Epsilon sich nicht innerhalb der Sendereichweite von Alpha oder Beta befindet, kann die Nachricht das Gerät nicht erreichen. Die Anzahl der Routen wurde durch die Filterung also deutlich verringert. 
 \\Dies mag zunächst problematisch erscheinen, ist aber die Intention des Protokolls. Das hier vorgeschlagene inhaltsbasierte Routing hat nicht das vorrangige Ziel, effiziente Routen zu allen Geräten zu finden, sondern soll allein von den Interessen der Geräte abhängig sein. 
 
-\section{Ablauf der Filterung}
+\subsection{Ablauf der Filterung}
 Um einen adäquaten Aufbau und Ablauf der Filterung bestimmten zu können, müssen zunächst die Anforderungen an den Filter formuliert werden.
 \begin{itemize}
 	\item Es müssen alle Dimensionen (siehe Abbildung 3.1) ausgewertet werden können, die im Shark-Framework/ASIP definiert sind.
@@ -98,7 +98,7 @@ Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfa
 	\item Im Gegensatz dazu muss beim SNKF nur eine Tabelle pro Gerät gepflegt werden, in der die Sequenznummern der Nachrichten gespeichert werden und diese unabhängig von der Topologie ist. Bereits empfangene oder versandte Nachrichten können durch die Sequenznummer erkannt und die Bearbeitung folglich abgelehnt werden.
 \end{itemize}
 Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle 4.1 dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen. 
-\section{Architektur}
+\subsection{Architektur}
 Die Android-Anwendung SharkNet bindet das SharkFramework als .jar Datei ein. In beiden Teilbereichen wurden für die praktische Umsetzung des semantischen Broadcasts Klassen hinzugefügt. Der Aufbau der Anwendung folgt dabei dem Model-View-Control Entwicklungsmuster, was mit Hilfe von einander getrennten Activitites, Services, Datenzugriffsobjekten (DAO) und Entitäten umgesetzt worden ist. Das grundlegende Zusammenwirken der zu entwickelnden Klassen zwischen Anwendung und Framework lässt sich beispielhaft an zwei einfachen Szenarios erklären. Beim ersten Beispiel schreibt der Benutzer eine Broadcast-Nachricht.
 \begin{figure}[H]
 	\centering
@@ -132,7 +132,7 @@ Der Routing Port und der Semantische Filter sind nur beim Empfangen von Nachrich
 	\item Die Broadcast-Nachrichten werden auf der Oberfläche angezeigt.
 \end{enumerate}
 
-\section{Persistenz}
+\subsection{Persistenz}
 Alle Daten der Anwendung werden innerhalb einer Wissensbasis gespeichert. Das Interface der Wissensbasis ist die \textit{SharkKB}, deren Implementierungen die Daten persistieren. Die offiziell von Android unterstützte Datenbanktechnolgie ist SQLite. Es muss daher eine Implementierung der Shark-Wissensbasis mit SQLite entwickelt werden, um die bereits vorgestellten Strukturen dauerhaft auf Android-Smartphones speichern zu können. 
 \\Dafür muss zunächst ein Datenbankschema festgelegt werden. 
 \begin{figure}[H]
@@ -148,6 +148,7 @@ Alle Tabellen verfügen über eine sich für jeden neuen Eintrag automatisch ink
 \\Einem \textit{tag set} kann einer Information zugeordnet werden. Die Tabelle \textit{information} enthält unter anderem die Rohdaten der Nachricht (Attribut \textit{conent stream}) und wird durch die zugeordneten \textit{Tag Sets} semantisch eingeordnet. 
 \newline [...]
 
-\section{Benutzeroberfläche}
+\subsection{Benutzeroberfläche}
 Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintragung von semantischen Annotationen so simpel wie möglich machen, mit der Anwendung adäquat zu interagieren. Das Design sollte möglichst modern und schlicht sein, wobei es jedoch keinen Schwerpunkt dieser Arbeit darstellen soll. 
 \\Die dafür teils von der Chatfunktionalität weitergenutzte und teils neu entwickelte Oberfläche wird nun wieder anhand eines kleinen Beispiels beschrieben. 
+\newpage

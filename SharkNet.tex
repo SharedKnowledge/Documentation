@@ -1,64 +1,200 @@
-\documentclass[german, 12pt]{book}
+\documentclass[12pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
+\usepackage[ngerman,english]{babel}
 %\usepackage{url}
-\PassOptionsToPackage{hyphens}{url}\usepackage[breaklinks=true]{hyperref}
-\usepackage{dsfont}
-\usepackage{listings}
-\usepackage{german}
-\usepackage[utf8]{inputenc}
-\usepackage[final]{graphicx}
+%\PassOptionsToPackage{hyphens}{url}\usepackage[breaklinks=true]{hyperref}
+%\usepackage{dsfont}
+%\usepackage{listings}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[final]{graphicx}
 \usepackage{float}
+%\usepackage{geometry}
+%\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
 \usepackage{geometry}
 \usepackage{setspace}
+\usepackage[right]{eurosym}
+\usepackage[printonlyused]{acronym}
+\usepackage{subfig}
+\usepackage{floatflt}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{colortbl}
+\usepackage{paralist}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage[right]{eurosym}
+%\usepackage{picins}
+\usepackage[subfigure,titles]{tocloft}
+%\usepackage[pdfpagelabels=true]{hyperref}   
+\PassOptionsToPackage{hyphens}{url}\usepackage[pdfpagelabels=true]{hyperref}
+\usepackage{natbib}
+\usepackage{epstopdf}
+\usepackage{mfirstuc}
+\usepackage[nomain,acronym,xindy,section,nonumberlist]{glossaries} % nomain, if you define glossaries in a file, and you use \include{INP-00-glossary} 
+\usepackage{xparse}
+\RequirePackage[ngerman=ngerman-x-latest]{hyphsubst}
+\DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m } {
+	\newglossaryentry{gls-#3}{name={#5},text={#5\glsadd{#3}},
+		description={#6},#1
+	}
+	\newacronym[see={[Glossary:]{gls-#3}},#2]{#3}{#4}{#5\glsadd{gls-#3}}
+}
+\renewcommand{\glossarysection}[2][]{}
+\makeglossaries
+\usepackage[xindy]{imakeidx}
+\makeindex
+
+\include{general/glossaryentries}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize, captionpos=b, breaklines=true, showstringspaces=false, tabsize=2, frame=lines, numbers=left, numberstyle=\tiny, xleftmargin=2em, framexleftmargin=2em}
+\makeatletter
+\def\l@lstlisting#1#2{\@dottedtocline{1}{0em}{2em}{\hspace{1,5em} Lst. #1}{#2}}
+\makeatother
+
 
 \geometry{a4paper, top=30mm, left=30mm, right=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
 
 
+\hypersetup{unicode=false, pdftoolbar=true, pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH},
+	pdftitle={Masterthesis zum Thema "Implementierung eines generischen Routing-Protokolls basierend auf ASIP für Android"},
+	pdfauthor={Dustin Feurich},
+	pdfsubject={Masterthesis zum Thema "Implementierung eines generischen Routing-Protokolls basierend auf ASIP für Android"},
+	pdfcreator={\LaTeX\ with package \flqq hyperref\frqq},
+	pdfproducer={pdfTeX \the\pdftexversion.\pdftexrevision},
+	pdfkeywords={Masterthesis zum Thema "Implementierung eines generischen Routing-Protokolls basierend auf ASIP für Android"},
+	pdfnewwindow=true,
+	colorlinks=true,linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=black}
+\pdfinfo{/CreationDate (D:20180204133700)}
+
+
+
 \begin{document}
+	
+	\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+	
+	% Kopf- und Fusszeile
+	\renewcommand{\sectionmark}[1]{\markright{#1}}
+	\renewcommand{\leftmark}{\rightmark}
+	\pagestyle{fancy}
+	\lhead{}
+	\chead{}
+	\rhead{\thesection\space\contentsname}
+	%\lfoot{Beispiel für eine Abschlussarbeit\newline auch mit langem Titel}
+	\lfoot{\footnotesize{Implementierung eines generischen Routing-Protokolls basierend auf ASIP für Android}}
+	\cfoot{}
+	\rfoot{\ \footnotesize{Seite \thepage}}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0.4pt}
+	
+	% Vorspann
+	\renewcommand{\thesection}{\Roman{section}}
+	\renewcommand{\theHsection}{\Roman{section}}
+	\pagenumbering{Roman}
+	
+	\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+	\setcounter{secnumdepth}{4}
+	\setcounter{tocdepth}{4}
+
+\input{general/titlepage}
+\pagebreak
+
+\input{general/abstract}
+\pagebreak
+
+
+%\title{SharkNet\\
+%Systembeschreibung \\
+%Version 0.1.6
+%}
+%
+%\author{
+%Dustin Feurich
+%}
+%
+%\maketitle
+
+% ----------------------------------------------------------------------------------------------------------
+% Verzeichnisse
+% ----------------------------------------------------------------------------------------------------------
+%  Typ vor Nummer
+\renewcommand{\cfttabpresnum}{Tab. }
+\renewcommand{\cftfigpresnum}{Abb. }
+\settowidth{\cfttabnumwidth}{Abb. 10\quad}
+\settowidth{\cftfignumwidth}{Abb. 10\quad}
+
+\titlespacing{\section}{0pt}{22pt plus 4pt minus 2pt}{22pt plus 2pt minus 2pt}
+\singlespacing
+\rhead{Inhaltsverzeichnis}
+\renewcommand{\contentsname}{II Inhaltsverzeichnis}
+\phantomsection
+\addcontentsline{toc}{section}{\texorpdfstring{II \hspace{0.25em}Inhaltsverzeichnis}{Inhaltsverzeichnis}}
+\addtocounter{section}{1}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\tableofcontents
+\pagebreak
+
+% ----------------------------------------------------------------------------------------------------------
+% Inhalt
+% ----------------------------------------------------------------------------------------------------------
+% Abstände Überschrift
+%\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+\titlespacing{\section}{0pt}{22pt plus 4pt minus 2pt}{22pt plus 2pt minus 2pt}
+\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{14pt plus 2pt minus 2pt}
+\titlespacing{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{14pt plus 2pt minus 2pt}
+
+% Kopfzeile
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\renewcommand{\subsectionmark}[1]{}
+\renewcommand{\subsubsectionmark}[1]{}
+\lhead{Kapitel \thesection}
+\rhead{\rightmark}
 
 \onehalfspacing
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\theHsection}{\arabic{section}}
+\setcounter{section}{0}
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
-\title{SharkNet\\
-Systembeschreibung \\
-Version 0.1.6
-}
 
-\author{
-Dustin Feurich
-}
-
-\maketitle
-
-\tableofcontents
-
-\addtocontents{toc}{\protect\thispagestyle{empty}}
-\chapter{Überblick}
+%\addtocontents{toc}{\protect\thispagestyle{empty}}
+\newpage
+\section{Überblick}
 \input{intro.tex}
 
-\chapter{Verwandte Veröffentlichungen}
+\section{Verwandte Veröffentlichungen}
 \input{relatedwork.tex}
 
-\chapter{Grundlagen}
+\section{Grundlagen}
 \input{grundlagen.tex}
 
-\chapter{Entwurf}
+\section{Entwurf}
 \input{entwurf/entwurf.tex}
 
-\chapter{Bluetooth}
+\section{Bluetooth}
 \input{bluetooth/komponentenbeschreibung.tex}
 
-\chapter{WiFi}
+\section{WiFi}
 \input{wifi/komponentenbeschreibung.tex}
 
-\chapter{Radar}
+\section{Radar}
 \input{radar/komponentenbeschreibung.tex}
 
-\chapter{Broadcast}
+\section{Broadcast}
 \input{broadcast/komponentenbeschreibung.tex}
 
-\chapter{Semantischer Filter}
+\section{Semantischer Filter}
 \input{semanticFilter/komponentenbeschreibung.tex}
 
-\chapter{Sonstiges}
+\section{Fazit}
 
 \begin{figure}[H]
 	\centering
@@ -67,7 +203,19 @@ Dustin Feurich
 	\caption{Kommunikation per Chat}
 	\label{fig:communication}
 \end{figure}
+\newpage
 
+\citet{*}
+\input{general/sources}
+\input{general/tables}
+\pagebreak
+\rhead{\rightmark}
+\input{general/glossary}
+\pagebreak
+
+
+
+\input{general/declaration}
 
 
 \end{document}

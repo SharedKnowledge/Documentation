@@ -1,14 +1,14 @@
 
 
-\section{Aufgabe der Komponente}
+\subsection{Aufgabe der Komponente}
 Die über SharkNet abgeschickten Nachrichten werden über Bluetooth übertragen. Die Komponente ist dabei ausschließlich für die kabellose Übertragung von Daten bzw. Nachrichten verantwortlich, die Ortung von potentiellen Kommunikationspartern erfolgt über die Wifi-Direct Komponente. Auch die Filterung von bereits bekannten oder semantisch uninteressanten Nachrichten wird nicht innerhalb dieser Komponente, sondern innerhalb der Semantischen Routing Komponente vorgenommen.
 \\Da es in SharkNet neben normalen Chats auch Gruppenchats und einen semantischen Broadcast gibt, erfordert der Datenaustausch mit Bluetooth kein Pairing der miteinander kommunizierenden Geräte. Dies trägt maßgeblich zur Benutzerfreundlichkeit bei, da insbesondere beim semantischen Broadcast sonst ständig Anfragen zum Pairing auf dem Gerät erscheinen würden und vom Benutzer zusätzliche Interaktionen erforderlich wären.
 
 
 
-\section{Architektur}
+\subsection{Architektur}
 
-\subsection{Überlick}\label{ch:bluetoothoverview}
+\subsubsection{Überlick}\label{ch:bluetoothoverview}
 
 Im folgenden UML-Klassendiagramm sind alle Bestandteile der Bluetooth Komponente von SharkNet abgebildet.
 \begin{figure}[H]
@@ -24,7 +24,7 @@ Im Zentrum dieser Hierarchie steht die Klasse \textit{BluetoothStreamStub}. Eine
 
 
 
-\subsection{Schnittstellendefinitionen}\label{ch:bluetoothinterfaces}
+\subsubsection{Schnittstellendefinitionen}\label{ch:bluetoothinterfaces}
 Anhand der Klassenhierarchie der Bluetooth-Komponente lässt sich erkennen, dass die folgenden drei Schnittstellen implementiert werden:
 \begin{itemize}
 	\item \textit{StreamStub}: Mit Hilfe von Implementierungen dieses Interfaces können streambasierte Ende-zu-Ende Verbindungen zwischen zwei Geräten hergestellt werden. Die Klasse BluetoothStreamStub öffnet und schließt daher die Verbindungen zu anderen Geräten per Bluetooth.
@@ -33,10 +33,10 @@ Anhand der Klassenhierarchie der Bluetooth-Komponente lässt sich erkennen, dass
 
 \end{itemize}
 
-\section{Nutzung}
+\subsection{Nutzung}
 Der Start der Komponente erfolgt automatisch mit dem Start der Anwendung durch eine Instanzierung der Klasse \textit{AndroidSharkEngine}. Sie kann jedoch in ebenjener Klasse durch die Methoden \textit{startBluetooth()} und \textit{stopBluetooth()} auch manuell gestartet sowie gestoppt werden.
 
-\subsection{Code}
+\subsubsection{Code}
 Der Code dieser Komponente kann hier \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/bluetooth} betrachtet werden. Wie auch die anderen Implementierungen von Übertragungsprotokollen, befindet sich auch die Bluetooth-Implementierung im Projekt \textit{SharkNet-Api-Android} im Package \textit{protocols}. 
 \\Es werden nun die wichtigsten Codezeilen der drei im Unterkapitel Schnittstellendefinitionen erwähnten Klassen beschrieben.
 \\Der \textit{BluetoothServer} horcht auf eingehende Verbindungen mit Hilfe der von Android bereitgestellten Klasse \textit{BluetoothSocket}, die folgendermaßen initialisiert wird:
@@ -72,12 +72,12 @@ mLocalAddress = android.provider.Settings.Secure.getString(engine.getContext().g
 Dies geschieht zwangsweise über eine Reflektion, da die bis Android-Marshmallow dafür vorhergesehene Methode nur eine Konstante liefert, die nicht der eigentlichen Bluetooth MAC-Adresse des Geräts entspricht. Die Bluetooth MAC-Adresse wird jedoch zwingend für \textit{Insecure} Verbindungen benötigt, welche kein Bluetooth-Pairing erfordern, was für die Broadcast-Komponente essentiell ist. 
 \\Die restlichen Methoden der Bluetooth-Komponente wie beispielsweise \textit{killConnection()} sind mnemonischer Natur.
 
-\subsection{Deployment / Runtime}
+\subsubsection{Deployment / Runtime}
 [...]
 
 
-\section{Test}
-\subsection{Gerätetest}
+\subsection{Test}
+\subsubsection{Gerätetest}
 Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:
 \begin{table}[H]
 	\begin{center}
@@ -102,9 +102,10 @@ Seit neusten Android-Version 8.1 ist es nicht mehr mit der in Listing 4.4 beschr
 \\Beim Lenovo A5500-F Tablet handelt es sich um eine zu alte Android-Version, wodurch in mehreren Komponenten zu Exceptions kommt, weil benötigte Methoden noch nicht enthalten sind.
 
 
-\section{Ausblick}
+
+\subsection{Ausblick}
 Es ist empfehlenswert, die von Android gestellten Bluetooth Klassen durch die dazu äquivalenten Bluetooth Low Energy (BLE) Klassen entweder zu ersetzen oder zumindest eine Alternative zu dem klassischen Bluetooth Package zu bieten. BLE verbraucht weit weniger Akkuleistung als das klassische Bluetooth, kann dafür aber nur eine geringere Menge an Daten pro Verbindung unterstützen. Da die mit SharkNet verschickten Nachrichten auch trotz der semantischen Annotationen nur wenige Kilobyte benötigen, stellt dies für SharkNet kein Hindernis dar.
 \\Notwendig ist zukünftig außerdem das Ersetzen der in Listing 4.4 dargestellten Reflektion zum Auslesen der Bluetooth MAC-Adresse. Dies funktioniert nur mit Geräten bis einschließlich Android 8.0, ab Android 8.1 ist die ausgelesene MAC-Adresse inkorrekt. Über die WiFi-Komponente an andere Geräte versendete inkorrekte Bluetooth-Adressen führen dann dazu, dass das Gerät keine Nachrichten über Bluetooth empfangen kann. 
 \\Lasttests mit mehreren miteinander kommunizierenden Geräten und gleichzeitigem Spammen von Nachrichten haben der Komponente ebenfalls Grenzen der Belastbarkeit aufgezeigt. So können bei zu hoher Last Nachrichten verloren gehen, da das Empfangsgerät die in Listing 4.2 gezeigte \textit{accept()} Methode nicht aufgerufen wird. 
- 
+\newpage
 
