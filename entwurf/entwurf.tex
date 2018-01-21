@@ -52,12 +52,12 @@ Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungericht
 Das Szenario von Abbildung 4.2 beinhaltet die fünf Smartphones Alpha, Beta, Gamma, Delta und Epsilon, welche zusammen ein kabelungebundenes Ad-hoc-Netz bilden. Der Urpsrung der Nachricht ist Alpha, welches eine Nachricht per Broadcast an alle Geräte schickt. Es befinden sich jedoch nur die Geräte Gamma, Delta und Beta in der direkten Reichweite von Alpha. Alpha sendet zunächst an alle Geräte in Reichweite die Nachricht, was jeweils durch die durchgezogene Kante symbolisiert wird. Die Geräte Gamma, Delta und Beta senden nun ihrerseits die empfangene Nachricht an alle Geräte in Reichweite. Dies würde jedoch zu Schleifen innerhalb der Kommunikation führen, falls bereits empfangene oder abgeschickte Nachrichten nicht abgelehnt werden sollten. Dies wird mit gepunkteten Kanten symbolisiert. Eine Ausnahme ist die Nachricht, die von Gamma an Epsilon geschickt wird. Da Epsilon keine Nachricht von Alpha empfangen konnte, wird die Nachricht von Gamma akzeptiert. 
 \subsection{Mit semantischer Filterung}
 Der Standardfall für die zu entwickelnde Anwendung wird der wiederholte Broadcast mit vorhergehender und nachfolgender semantischer Filterung sein. Jedes Gerät kann durch einen Eingangsfilter und einen Ausgangsfilter festlegen, welche Nachrichten akzeptiert und eventuell zusätzlich an andere Geräte in der Nähe weitergeleitet werden. 
-\\Sollte beispielsweise Alpha eine Nachricht versenden, die nicht den Eingangsfilter von Gamma passieren kann, würde sich der eben vorgestellte Kommunikationsablauft nun wie folgt darstellen.
+\\Sollte beispielsweise Alpha eine Nachricht versenden, die nicht den Eingangsfilter von Gamma passieren kann, würde sich der eben vorgestellte Kommunikationsablauf nun wie folgt darstellen.
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
 	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{entwurf/images/beispielszenario2.png}}%
-	\caption{Kommunikation mit semantischer Filterung}
+	\caption{Kommunikation mit semantischer Filterung I}
 	\label{fig:beispielszenario2}
 \end{figure}
 Gamma lehnt die Nachricht aufgrund seines Filters ab, dabei ist es unerheblich von welchem Gerät die Nachricht kommt. Folglich kann Epsilon die Nachricht nicht mehr von Gamma erhalten, stattdessen wird diese nun von Delta empfangen. 
@@ -66,7 +66,7 @@ Gamma lehnt die Nachricht aufgrund seines Filters ab, dabei ist es unerheblich v
 	\centering
 	\hspace*{1cm}
 	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{entwurf/images/beispielszenario3.png}}%
-	\caption{Kommunikation mit semantischer Filterung}
+	\caption{Kommunikation mit semantischer Filterung II}
 	\label{fig:beispielszenario3}
 \end{figure}
 In diesem Szenario lehnen sowohl Gamma als auch Delta die Nachricht ab, nur Beta akzeptiert die Nachricht und versucht diese weiterzuleiten. Da Epsilon sich nicht innerhalb der Sendereichweite von Alpha oder Beta befindet, kann die Nachricht das Gerät nicht erreichen. Die Anzahl der Routen wurde durch die Filterung also deutlich verringert. 
@@ -94,8 +94,8 @@ Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfa
 \\Für die Implementierung wurde zur Schleifenvermeidung eine Abwandlung des sequenznummerkontrollierten Floodings (SNKF) gewählt (siehe dazu auch die Komponentenbeschreibung des Broadcasts). Es hat den Vorzug vor dem \textit{Reverse Path Forwarding} (RPF) und dem \textit{Spanning Tree} aus den folgenden Gründen erhalten:
 \begin{itemize}
 	\item Der Spanning Tree muss nach jeder topologischen Änderung neu aufgebaut werden. Dies ist bei aus Smartphones bestehenden Ad-Hoc-Netzwerken häufig der Fall, da davon auszugehen ist, dass sie von sich stetig bewegenden Menschen getragen werden. Der Aufwand für den wiederholten Aufbau des Spanning Trees ist dementsprechend hoch.
-	\item Vor dem gleichen Problem steht das RPF. Die Bestimmung des kürzesten Pfades gestaltet sich schwierig, wenn die beteiligten geräte nicht stationär sind. Bei Geräten in Bewegung besteht die Gefahr, dass Nachrichten ungewollt abgelehnt werden.
-	\item Im Gegensatz dazu muss beim SNKF nur eine Tabelle pro Gerät pflegen werden, in der die Sequenznummern der Nachrichten gespeichert werden und diese unabhängig von der Topologie ist. Bereits empfangene oder versandte Nachrichten können durch die Sequenznummer erkannt und die Bearbeitung folglich abgelehnt werden.
+	\item Vor dem gleichen Problem steht das RPF. Die Bestimmung des kürzesten Pfades gestaltet sich schwierig, wenn die beteiligten Geräte nicht stationär sind. Bei Geräten in Bewegung besteht die Gefahr, dass Nachrichten ungewollt abgelehnt werden.
+	\item Im Gegensatz dazu muss beim SNKF nur eine Tabelle pro Gerät gepflegt werden, in der die Sequenznummern der Nachrichten gespeichert werden und diese unabhängig von der Topologie ist. Bereits empfangene oder versandte Nachrichten können durch die Sequenznummer erkannt und die Bearbeitung folglich abgelehnt werden.
 \end{itemize}
 Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle 4.1 dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen. 
 \section{Architektur}
@@ -149,5 +149,5 @@ Alle Tabellen verfügen über eine sich für jeden neuen Eintrag automatisch ink
 \newline [...]
 
 \section{Benutzeroberfläche}
-Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintragung von semantischen Annotationen so simpel wie möglich machen, mit der Anwendung adäquat zu interagieren. Das Design sollte möglichst modern und schlicht sein, wobei dies jedoch keinen Schwerpunkt dieser Arbeit darstellen soll. 
+Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintragung von semantischen Annotationen so simpel wie möglich machen, mit der Anwendung adäquat zu interagieren. Das Design sollte möglichst modern und schlicht sein, wobei es jedoch keinen Schwerpunkt dieser Arbeit darstellen soll. 
 \\Die dafür teils von der Chatfunktionalität weitergenutzte und teils neu entwickelte Oberfläche wird nun wieder anhand eines kleinen Beispiels beschrieben. 
