@@ -1,10 +1,10 @@
-\subsection{Aufgabe der Komponente}
+\subsubsection{Aufgabe der Komponente}
 Über den Broadcast erhält der Benutzer eine Vielzahl an Nachrichten von anderen Benutzern, von denen einen Großteil für ihn irrelevant sind. Der Semantische Filter ist dafür verantwortlich, dem Benutzer nur die für ihn interessante Nachrichten zu akzeptieren und in seine Wissensbasis einfließen zu lassen. Er ist damit neben dem Broadcast die wichtigste Komponente dieser Arbeit. Neben dem bereits beschriebenen Eingangsfilter gibt es noch einen Ausgangsfilter, der für die etwaige Weiterleitung von Nachrichten an andere Peers verantwortlich ist. 
 \\Die Benutzer können ihre Filter über ein Menü innerhalb des Profilbereichs einstellen, wobei dies keine Pflicht ist. Wenn keine Filter gesetzt sind, werden alle Nachrichten akzeptiert und weitergeleitet, sofern diese nicht bereits zuvor empfangen worden sind. 
 
-\subsection{Architektur}
+\subsubsection{Architektur}
 
-\subsubsection{Überlick}\label{ch:filtercomps}
+\subsubsubsection{Überlick}\label{ch:filtercomps}
 Der semantische Filter gliedert sich in verschiedene Teilfilter, diese Trennung richtet sich nach den bereits bekannten Dimensionen des Shark Frameworks. Um den Gesamtfilter mit den kleineren Teilfiltern dynamisch zusammensetzen zu können, wurde das Entwurfsmuster Kompositum gewählt. Mit Hilfe dieses Musters müssen nur jeweils die Teilfilter gesetzt werden, die für den Benutzer auch eine Relevanz haben. Die folgende Klassenhierarchie verdeutlicht dieses Verhältnis:
 \begin{figure}[H]
 	\centering
@@ -23,7 +23,7 @@ Der semantische Filter gliedert sich in verschiedene Teilfilter, diese Trennung 
 	\item Die spatiale Auswertung findet im \textit{SpatialFilter} statt, sie wird im Rahmen einer Bachelorarbeit von Maximilian Öhme entwickelt.
 \end{itemize}
 
-\subsection{Code}
+\subsubsection{Code}
 Wie bereits im Überblick angerissen, führt der \textit{CompositeFilter} keine eigene semantische Filterung durch, sondern lässt dies fachgerecht von den Teilfiltern ausführen. Im folgenden Codeausschnitt ist erkennbar, dass der sequentielle Aufruf der Teilfilter sofort abgebrochen wird, wenn ein Teilfilter ein \textit{false} liefert.
 \lstset{language=Java, caption=Filtermethode im Kompositum, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
@@ -86,10 +86,10 @@ return false;
 Innerhalb der Schleife werden alle \textit{TimeSemanticTags} des Profils mit denen der eingehenden Nachricht verglichen. Von der vierten bis zur sechsten Zeile werden die Zeiträume von je zwei \textit{Tags} auf Überschneidungen hin überprüft. Falls dies der Fall sein sollte, gilt die Nachricht hinsichtlich der Dimension \textit{Time} als interessant, andernfalls werden die restlichen \textit{Tags} ausgewertet. Sollte es nicht mindestens zu einer Überschneidung kommen, gilt die Nachricht gemäß der zeitlichen Dimension als uninteressant.
 \\Die Auswertung der räumlichen Dimension \textit{Spatial} erfolgt durch die Aufstellung und Auswertung von Bewegungsprofilen. Diese Bewegungsprofile werden vom Smartphone (nach der Abfrage des Einverständnisses des Benutzers) aufgezeichnet und sind Teil des semantischen Profils. Nach Eingang einer Nachricht werden nun das Bewegungsprofil vom Benutzer und das Bewegungsprofil der Nachricht miteinander verglichen. Wie bereits zuvor erwähnt, ist die spatiale Auswertung der Nachrichten das Thema der Bachelorarbeit von Maximilian Oehme. Weitergehende Details und Codebeispiele können in dieser Bachelorarbeit in Erfahrung gebracht werden.
 
-\subsubsection{Schnittstellendefinitionen}\label{ch:filterinterfaces}
+\subsubsubsection{Schnittstellendefinitionen}\label{ch:filterinterfaces}
 
 
-\subsection{Nutzung}
+\subsubsection{Nutzung}
 Die Nutzung dieser Komponente erfolgt über die zu diesem Zweck von der \textit{SharkEngine} bereitgestellten Methoden. Sie enthält wie in Abbildung 7.1 dargestellt das Kompositum, welches als Behälter dynamisch Teilfilter aufnehmen, löschen und die Reihenfolge der Ausführung ändern kann. Falls der Entwickler von der App-Ebene heraus Filter hinzufügen wollen, kann er dies über die \textit{SharkNetApi} tun, welche die gewünschten Änderungen an die \textit{SharkEngine} weiterleitet. Das folgende Codebeispiel zeigt diese verhältnismäßig leichte Handhabung:
  \lstset{language=Java, caption=Beispiel für die Anwendung der Filter, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
  \begin{lstlisting}
@@ -103,9 +103,9 @@ Nachdem die Filter erzeugt und ihre Dimension festgelegt worden sind, werden sie
 
 
 
-\subsection{Test}
-[...]
+\subsubsection{Test}
+lore
 
 
-\subsection{Ausblick}
+\subsubsection{Ausblick}
 \newpage

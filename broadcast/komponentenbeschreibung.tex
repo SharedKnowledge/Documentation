@@ -1,7 +1,7 @@
-\subsection{Aufgabe der Komponente}
+\subsubsection{Aufgabe der Komponente}
 Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten an andere Benutzer zu schicken. Dabei können auch andere Komponenten, wie etwa der semantische Eingans- und Ausgangsfilter zum Einsatz kommen, was jedoch nicht zwingend erforderlich ist. Falls auf einen Eingangsfilter oder Ausgangsfilter verzichtet werden sollte, werden wie bei einem klassischen Broadcast die Nachrichten an alle sich in der Nähe befindlichen Geräte versendet. Inwiefern der klassische Broadcast vom Benutzer semantisch eingeschränkt werden kann, lässt sich in der Komponentenbeschreibung der Komponente Semantischer Filter in Erfahrung bringen.
 
-\subsection{Architektur}
+\subsubsection{Architektur}
 
 Die folgenden Komponenten werden von der Komponente Broadcast zwingend benötigt:
 \begin{itemize}
@@ -14,7 +14,7 @@ Optional sind hingegen die Komponenten:
 	\item Semantischer Filter
 \end{itemize}
 
-\subsubsection{Überlick}\label{ch:broadcastoverview}
+\subsubsubsection{Überlick}\label{ch:broadcastoverview}
 Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerhalb des SharkFrameworks und vier sich innerhalb der App befinden. Diese sieben Klassen werden nun ausgehend von der folgenden Abbildung kurz beschrieben.
 \begin{figure}[H]
 	\centering
@@ -32,25 +32,25 @@ Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerha
 	\item Die BroadcastActivity ist die Schnittstelle zwischen Benutzer und App. Sie nimmt neue Nachrichten vom Benutzer entgegen, wobei das Hinzufügen von semantischen Annotationen optional ist. Sie benutzt die Entitätsklasse Broadcast um die Nachrichten in einer Klasse zu bündeln, welche bei Aktualisierungen an das BroadcastDao weitergereicht wird. 
 \end{itemize}
 
-\subsubsection{Schnittstellendefinitionen}\label{ch:broadcastinterfaces}
+\subsubsubsection{Schnittstellendefinitionen}\label{ch:broadcastinterfaces}
 
 
-\subsection{Nutzung}
+\subsubsection{Nutzung}
 Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebunden. Der Endanwender kann über die diese Activity und die dazugehörige XML-Datei die Nachrichten versenden, betrachten und mit semantischen Annotationen versehen, wobei Letzteres auch die Komponente Semantische Filter betrifft.
 \\Die Komponente kann aber auch in eigenen Activities benutzt werden ohne die vorgegebene \textit{BroadcastActivity} benutzen zu müssen. Der Entwickler muss bei seiner eigenen Activity dafür lediglich von der Klasse \textit{BaseActivity} erben. Die Klasse \textit{BaseActivity} stellt das Attribut \textit{mApi} vom Typ \textit{SharkNetApi} bereit, mit dem durch die Methoden \textit{getBroadcast()} und \textit{updateBoradcast(...)} der Broadcast geliefert und verändert werden kann.
 \\
 
-\subsubsection{Code}
+\subsubsubsection{Code}
 Der Code dieser Komponente kann hier \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden. 
 
-\subsubsection{Deployment / Runtime}
+\subsubsubsection{Deployment / Runtime}
 ...
 
 
-\subsection{Test}
+\subsubsection{Test}
 
 
 
-\subsection{Ausblick}
+\subsubsection{Ausblick}
 Der Austausch von Nachrichten mit mehreren Geräten in der Nähe funktioniert grundlegend sicher, aber noch nicht komplett fehlerlos. So kann es bei hoher Last seitens der Benutzer passieren, dass einige Nachrichten nicht empfangen werden können, obwohl sie gemäß dem eingestellten semantischen Filter akzeptiert werden müssten. 
 \newpage

@@ -1,11 +1,11 @@
-\subsection{Aufgabe der Komponente}
+\subsubsection{Aufgabe der Komponente}
 Über die WiFi-Direct Komponente vermitteln die Peers ihre Kontaktdaten an alle verfügbaren Peers in der Nähe. Dies geschieht über den Expose Befehl des ASIP Protokolls, bei dem ein ASIP-Interesse an die Wissensbasis von anderen Peers gesandt wird. Dies beinhaltet unter anderem die Bluetooth MAC-Adresse, mit der dem Peer dann anschließend Nachrichten per Bluetooth geschickt werden können. Das Verschicken der Bluetooth Mac-Adresse via WiFi-Direct ermöglicht es daher, dass für die darauf folgende Bluetooth-Verbindung kein Pairing benötigt wird. 
 \\Die Komponente ist der elementare Bestandteil des Peer-Radars, der alle sich in der Nähe befindlichen Peers anzeigt und die Kommunikation mit diesen erlaubt. Das Radar ist wiederum dafür erforderlich, neue Chats mit Peers anzulegen oder einen semantischen Broadcast ohne Bluetooth-Pairing zu ermöglichen.
 
 
-\subsection{Architektur}
+\subsubsection{Architektur}
 
-\subsubsection{Überlick}\label{ch:wifioverview}
+\subsubsubsection{Überlick}\label{ch:wifioverview}
 
 Im folgenden UML-Klassendiagramm sind alle Bestandteile der WiFi-Direct Komponente von SharkNet abgebildet.
 \begin{figure}[H]
@@ -19,14 +19,14 @@ Im Zentrum dieser Hierarchie steht die Klasse \textit{WiFiDirectAdvertisingManag
 \\Die Klasse \textit{WifiDirectUtil} bietet statische Methoden an, mit denen ASIP-Interessen in Hashmaps umgewandelt werden können und umgekehrt. Dies ist notwendig, da die von Android gestellte Basisklasse \textit{WifiP2PManager} bei der Anmeldungen von Services keine ASIP-Interessen, sondern Hashmaps als Parameter akzeptiert.
 
 
-\subsubsection{Schnittstellendefinitionen}\label{ch:wifiinterfaces}
+\subsubsubsection{Schnittstellendefinitionen}\label{ch:wifiinterfaces}
 lore
 
-\subsection{Nutzung}
+\subsubsection{Nutzung}
 Die WiFi-Komponente wird automatisch beim Start der Anwendung gestartet. Manuell kann die Komponente über die Klasse \textit{AndroidSharkEngine} gesteuert werden, welche wie schon im Überblick erwähnt die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} enthält.
 
 
-\subsubsection{Code}
+\subsubsubsection{Code}
 Der Code dieser Komponente kann hier \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/wifidirect} betrachtet werden. Wie auch die anderen Implementierungen von Übertragungsprotokollen, befindet sich auch die WiFi-Direct-Implementierung im Projekt \textit{SharkNet-Api-Android} im Package \textit{protocols}.
 \\Wie im vorherigen Unterkapitel erläutert liefern die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} die Funktionalität, um Peers zu finden und andere Peers über das eigene Interesse in Kenntnis zu setzen. 
 \\Bei Aufruf der \textit{startDiscovery()} Methode wird innerhalb der Engine ein neuer \textit{WifiDirectAdvertisingManager} angelegt und anschließend dessen \textit{startAdvertising()} Methode aufgerufen. Innerhalb der \textit{startAdvertising()} Methode wird sich nun auf der dritten Schicht des OSI-Modells begeben, wie der folgende Codeausschnitt zeigt:
@@ -53,12 +53,12 @@ ASIPInterest interest = WifiDirectUtil.recordMap2Interest(txtRecordMap);
 mEngine.handleASIPInterest(interest);
 \end{lstlisting}  
 
-\subsubsection{Deployment / Runtime}
+\subsubsubsection{Deployment / Runtime}
 [...]
 
 
-\subsection{Test}
-\subsubsection{Gerätetest}
+\subsubsection{Test}
+\subsubsubsection{Gerätetest}
 Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:
 \begin{table}[H]
 	\begin{center}
@@ -83,6 +83,6 @@ Die beiden Einplatinencomputer Raspberry Pi 3 und Wandboard Quad unterstützen z
 \\Das Lenovo A5500-F Tablet hat mit Android 4.4 eine zu alte Version, die nicht alle von der Komponente benötigten WiFi-Direct Klassen bereitstellt. 
 \\Nach dem Update des LG Nexus 5x von Android 8.0 auf die Version 8.1 ist zu beachten, dass das Gerät seine Bluetooth MAC-Adresse nicht mehr programmatisch auslesen kann. Dies betrifft vor allem die Bluetooth-Komponente und wird in der dazugehörigen Komponentenbeschreibung vertieft.  
 
-\subsection{Ausblick}
+\subsubsection{Ausblick}
 Die WiFi Komponente wurde SharkNet hinzugefügt, da der wiederholte Austausch von Kontakdaten zwischen den Geräten mit Bluetooth zu viel Zeit in Anspruch genommen hat. Da jedes Gerät standardmäßig alle zehn Sekunden seine Anmeldedaten an Geräte in der Nähe schickt, musste diese eher ungewöhnliche Aufteilung erfolgen. Wenn zukünftig die Bluetooth-Komponente auf Bluetooth Low Energy umgestellt werden sollte, ist es eventuell möglich, auf die WiFi Komponente zu verzichten und den gesamten Datenaustausch über Bluetooth vorzunehmen. 
 \newpage
