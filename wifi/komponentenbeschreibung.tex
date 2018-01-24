@@ -18,10 +18,6 @@ Im folgenden UML-Klassendiagramm sind alle Bestandteile der WiFi-Direct Komponen
 Im Zentrum dieser Hierarchie steht die Klasse \textit{WiFiDirectAdvertisingManager}. Eine Instanz dieser Klasse befindet sich als Attribut in der Klasse \textit{AndroidSharkEngine}, von der aus alle Protokolle wie NFC, Wifi-Direct oder Bluetooth gesteuert werden. Über die Engine kann daher auch das Radar per \textit{startDiscovery()} Methode gestartet oder über die \textit{stopDiscovery()} Methode beendet werden. Das Starten oder Stoppen der kompletten WiFi-Komponente erfolgt dagegen in der Klasse \textit{AndroidSharkEngine}, die den Ausgangspunkt der Vererbungshierarchie darstellt.
 \\Die Klasse \textit{WifiDirectUtil} bietet statische Methoden an, mit denen ASIP-Interessen in Hashmaps umgewandelt werden können und umgekehrt. Dies ist notwendig, da die von Android gestellte Basisklasse \textit{WifiP2PManager} bei der Anmeldungen von Services keine ASIP-Interessen, sondern Hashmaps als Parameter akzeptiert.
 
-
-\subsubsubsection{Schnittstellendefinitionen}\label{ch:wifiinterfaces}
-lore
-
 \subsubsection{Nutzung}
 Die WiFi-Komponente wird automatisch beim Start der Anwendung gestartet. Manuell kann die Komponente über die Klasse \textit{AndroidSharkEngine} gesteuert werden, welche wie schon im Überblick erwähnt die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} enthält.
 
@@ -54,7 +50,7 @@ mEngine.handleASIPInterest(interest);
 \end{lstlisting}  
 
 \subsubsubsection{Deployment / Runtime}
-[...]
+lore
 
 
 \subsubsection{Test}
