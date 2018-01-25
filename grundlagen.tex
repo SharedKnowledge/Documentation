@@ -10,8 +10,8 @@ Routingalgorithmen werden benötigt, um Pfade für den Datenverkehr innerhalb ei
 Da das Ziel dieser Arbeit ein semantischer Broadcast ist, bei dem sich die Kommunikationspartner vorher nicht kennen müssen, wird es sich bei dem Algorithmus um einen dezentralen Routing-Algorithmus handeln.
 \\Eine weitere wichtige Unterscheidung bei Routing-Algorithmen ist die Frage, ob diese statisch oder dynamisch gestaltet sind:
 \begin{itemize}
-	\item Statische Routing-Algorithmen werden benutzt, wenn sich die Kanten zwischen den Knoten nur selten ändert. Die Netzwerktopologie bleibt also konstant.
-	\item Bei Dynamischen Routing-Algorithmen werden bei sich häufig ändernden Netzwerktopologien eingesetzt. Sie müssen anders als die statischen Algorithmen den stetigen Wechsel von Knoten, Kanten und Kosten beachten.
+	\item Statische Routing-Algorithmen werden benutzt, wenn sich die Kanten zwischen den Knoten nur selten ändern. Die Netzwerktopologie bleibt also konstant.
+	\item Dynamische Routing-Algorithmen werden bei sich häufig ändernden Netzwerktopologien eingesetzt. Sie müssen anders als die statischen Algorithmen den stetigen Wechsel von Knoten, Kanten und Kosten beachten.
 \end{itemize}
 Das Ergebnis dieser Arbeit wird in einer mobilen Applikation eingebunden werden und soll von natürlichen Personen per Smartphone bedient werden können. Der Routing-Algorithmus muss also zwingend dynamisch sein, da Menschen mit ihren Smartphones anders als andere Netzwerkgeräte konstant in Bewegung sind. Da bei einem Broadcast unabhängig von den Kosten die Nachricht zunächst an alle Personen geschickt werden wird, handelt es sich zusammengefasst um einen dezentralen, dynamischen und lastinsensitiven Routing-Algorithmus. 
 \subsubsection{Inhaltsbasiertes Routing}
@@ -32,14 +32,14 @@ In dieser Arbeit wird eine angepasste Variante des sequenznummerierten \textit{f
 
 \subsection{Shark}
 \subsubsection{Shark Framework}
-Das Protokoll soll auf der Basis des Shark Frameworks entwickelt werden. Das Framework wurde von Prof. Dr.-Ing. Thomas Schwotzer entworfen, um die Entwicklung von semantischen Peer-To-Peer Anwendungen zu erleichtern. Es ist mit seinen semantischen Strukturen und Auswertungsmethoden für dezentrale Anwendungen geeignet. Das Wort Shark steht für Shared Knowledge - Verteiltes Wissen.
-\\Das Framework definiert, dass jeder Benutzer (Peer) über eigene Wissensbasis verfügt, welche mit semantischen Annotationen versehenes Wissen des Benutzers speichert. Jede in der Wissensbasis gespeicherte Information muss daher auch semantisch beschrieben werden, bevor es in der Wissensbasis abgelegt werden kann. Informationen werden semantisch mit Wörtern beschrieben, wofür im Framework die Klasse \textit{Semantic Tag} und von dieser Klasse ableitende Klassen benutzt werden. Es werden \textit{Semantic Tags} statt normale Zeichenketten benutzt, da fast jede Sprache semantisch nicht eindeutige Wörter wie beispielsweise Homonyme aufweist. Die Tags können innerhalb von Behältern gespeichert werden, wobei es drei Arten von Behälter gibt:
+Das Protokoll wird auf der Basis des Shark Frameworks entwickelt werden. Das Framework wurde von Prof. Dr.-Ing. Thomas Schwotzer entworfen, um die Entwicklung von semantischen Peer-To-Peer Anwendungen zu erleichtern. Es ist mit seinen semantischen Strukturen und Auswertungsmethoden für dezentrale Anwendungen geeignet. Das Wort Shark steht für Shared Knowledge - Verteiltes Wissen.
+\\Das Framework definiert, dass jeder Benutzer (Peer) über eigene Wissensbasis verfügt, welche mit semantischen Annotationen versehenes Wissen des Benutzers speichert. Jede in der Wissensbasis gespeicherte Information muss daher auch semantisch beschrieben werden, bevor sie in der Wissensbasis abgelegt werden kann. Informationen werden semantisch mit Wörtern beschrieben, wofür im Framework die Klasse \textit{Semantic Tag} und von dieser Klasse ableitende Klassen benutzt werden. Es werden \textit{Semantic Tags} statt normale Zeichenketten benutzt, da fast jede Sprache semantisch nicht eindeutige Wörter wie beispielsweise Homonyme aufweist. Die Tags können innerhalb von Behältern gespeichert werden, wobei es drei Arten von Behälter gibt:
 \begin{itemize}
 	\item \textit{Sets} enthalten \textit{Semantic Tags} ohne Beziehungen zu speichern.
 	\item \textit{Taxonomies} speichern zusätzlich zu den Tags noch gerichtete Beziehungen. Diese gerichteten Beziehungen zwischen den Tags können entweder den Wert \textit{sup} oder \textit{sub} annehmen und ermöglichen somit eine hierarchische Anordnung der Wörter.
 	\item Das \textit{Semantic Net} verhält sich wie eine \textit{Taxonomy}, die Beziehungen können hierbei aber beliebige Werte (in Form von Zeichenketten) annehmen. Dadurch können beispielsweise Verwandschaftsbeziehungen dargestellt werden.
 \end{itemize}
-Die Behälterklassen werden dann dazu benutzt, die Informationen zu beschreiben. Informationen werden mit Hilfe von sieben Dimensionen beschrieben, wobei dafür bis zu sieben Behälter und ein Literal verwendet werden.
+Die Behälterklassen werden dann dazu benutzt, um die Informationen zu beschreiben. Informationen werden mit Hilfe von sieben Dimensionen beschrieben, wobei dafür bis zu sieben Behälter und ein Literal verwendet werden.
 \begin{table}[H]
 	\begin{center}
 		\caption{Dimensionen einer Information}
@@ -58,13 +58,13 @@ Die Behälterklassen werden dann dazu benutzt, die Informationen zu beschreiben.
 		\end{tabular}
 	\end{center}
 \end{table}
-Dieses Unterkapitel ist nur eine rudimentäre Zusammenfassung über das Shark Framework, einen ausführlichen Überblick über das Framework bietet der Shark Developer Guide.
+Dieses Unterkapitel ist nur eine rudimentäre Zusammenfassung über das Shark Framework, einen ausführlichen Überblick über das Framework bietet der Shark Developer \mbox{Guide} (siehe \citet[S. 7ff]{Schwotzer2014}).
 \subsubsection{ASIP}
-Innerhalb der letzten drei Jahre wurde ein grundlegendes Protokoll für Shark entwickelt, welches die zwei zentralen Befehle bezüglich der Kommunikation zwischen Peers vorgibt und den Namen \textit{Ad hoc Semantic Internet Protocol} trägt. Die ebenfalls vom Protokoll für Shark neu eingeführten Strukturen können im entsprechenden Repository auf Github eingesehen werden.[x] In der folgenden Abbildung sind alle Bestandteile der semantischen Strukturen in ASIP abgebildet.
+Innerhalb der letzten drei Jahre wurde ein grundlegendes Protokoll für Shark entwickelt, welches die zwei zentralen Befehle bezüglich der Kommunikation zwischen Peers vorgibt und den Namen \textit{Ad hoc Semantic Internet Protocol} trägt. Die ebenfalls vom Protokoll für Shark neu eingeführten Strukturen können im entsprechenden Repository auf Github eingesehen werden. In der folgenden Abbildung sind alle Bestandteile der semantischen Strukturen in ASIP abgebildet.
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.9\linewidth]{general/Knowledge.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{general/Knowledge.png}}%
 	\caption{Die ASIP/Shark Bestandtteile im Überblick}
 	\label{fig:knowledge}
 \end{figure}
@@ -75,9 +75,9 @@ Die beiden wichtigsten Kommandos des Protokolls sind:
 		\item Das Vokabular des Peers welches alle ihm bekannten Wörter enthält. Die Wörter sind wiederum in die fünf Dimensionen Topic, Type, Peer, Location und Time unterteilt.
 		\item Der eigentliche Informationsinhalt in Form eines byte Streams mit Rohdaten.
 		\item Technische Metadaten über den Informationsinhalt wie beispielsweise die Anzahl der Bytes
-		\item Semantische Metadaten über den Informationsinhalt in Form der in Tabelle x.x beschriebenen sieben Dimensionen, technisch umgesetzt mit Behältern von \textit{Semantic Tags}.		
+		\item Semantische Metadaten über den Informationsinhalt in Form der in Tabelle 1 beschriebenen sieben Dimensionen, technisch umgesetzt mit Behältern von \textit{Semantic Tags}.		
 	\end{itemize} 
-	\item Expose: Neben dem Hinzufügen von neuen Wissen haben Peers auch die Möglichkeit, ihr Interesse an neuem Wissen gegenüber anderen Peers zu bekunden. Dies geschieht über den Befehl \textit{Expose}, wobei auch hier das Interesse in Form der in Tabelle x.x dargestellten sieben Dimensionen formuliert wird.
+	\item Expose: Neben dem Hinzufügen von neuen Wissen haben Peers auch die Möglichkeit, ihr Interesse an neuem Wissen gegenüber anderen Peers zu bekunden. Dies geschieht über den Befehl \textit{Expose}, wobei auch hier das Interesse in Form der in Tabelle 1 dargestellten sieben Dimensionen formuliert wird.
 \end{itemize}
 [...]
 
