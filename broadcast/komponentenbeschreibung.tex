@@ -24,12 +24,12 @@ Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerha
 	\label{fig:broadcastStructure}
 \end{figure}
 \begin{itemize}
-	\item Die SQLSharkKb ist eine Implementierung der Shark Knowledgebase mit SQLite. Mit ihr werden sämtliche Daten wie bsp. die Nachrichten, semnatische Annotationen oder auch Benutzerprofile gespeichert. Sie nimmt ausschließlich Anfragen von Klassen aus dem SharkFramework entgegen.
+	\item Die SQLSharkKb ist eine Implementierung der Shark Knowledgebase mit SQLite. Mit ihr werden sämtliche Daten wie bsp. die Nachrichten, semantische Annotationen oder auch Benutzerprofile gespeichert. Sie nimmt ausschließlich Anfragen von Klassen aus dem SharkFramework entgegen.
 	\item Der BroadcastManager ist die direkte Schnittstelle zwischen dem Framework und der App. Er nimmt Broadcast-Objekte vom BroadcastDao entgegen und lässt diese gegebenfalls von der SQLSharkKb speichern. Sollte eine neue Nachricht den Peer erreichen, wird vom BroadcastManager die Nachricht auf ihre semantische Relevanz hin überprüft und im Erfolgsfall der Wissenbasis des Peers hinzugefügt.
 	\item Der SemanticRoutingListener liefert neue vom BroadcastManager akzeptierte Nachrichten an die BroadcastActivity
-	\item Der BroadcastDao nimmmt von der BroadcastActivity veränderte Nachrichten in Form eines Objekts vom Typ Broadcast entgegen, baut diese in für das SharkFramework vewertbare Objekte vom Typ ASIPSpace um und leitet diese an den BroadcastManager weiter.
+	\item Das BroadcastDao nimmmt von der BroadcastActivity veränderte Nachrichten in Form eines Objekts vom Typ Broadcast entgegen, baut diese in für das SharkFramework vewertbare Objekte vom Typ ASIPSpace um und leitet diese an den BroadcastManager weiter.
 	\item Wann immer die Anzahl der sich in Reichweite befindlichen Peers ändert, wird die BroadcastActivity vom NearbyPeerListener mit einer angepassten Liste von Peers versorgt.
-	\item Die BroadcastActivity ist die Schnittstelle zwischen Benutzer und App. Sie nimmt neue Nachrichten vom Benutzer entgegen, wobei das Hinzufügen von semantischen Annotationen optional ist. Sie benutzt die Entitätsklasse Broadcast um die Nachrichten in einer Klasse zu bündeln, welche bei Aktualisierungen an das BroadcastDao weitergereicht wird. 
+	\item Die BroadcastActivity ist die Schnittstelle zwischen Benutzer und App. Sie nimmt neue Nachrichten vom Benutzer entgegen, wobei das Hinzufügen von semantischen Annotationen optional ist. Sie benutzt die Entitätsklasse Broadcast um die Nachrichten in einer Klasse zu bündeln, welche bei Aktualisierungen an das BroadcastDao weitergereicht werden. 
 \end{itemize}
 
 \subsubsubsection{Schnittstellendefinitionen}\label{ch:broadcastinterfaces}

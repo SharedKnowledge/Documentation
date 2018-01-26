@@ -28,8 +28,8 @@ Im Zentrum dieser Hierarchie steht die Klasse \textit{BluetoothStreamStub}. Eine
 Anhand der Klassenhierarchie der Bluetooth-Komponente lässt sich erkennen, dass die folgenden drei Schnittstellen implementiert werden:
 \begin{itemize}
 	\item \textit{StreamStub}: Mit Hilfe von Implementierungen dieses Interfaces können streambasierte Ende-zu-Ende Verbindungen zwischen zwei Geräten hergestellt werden. Die Klasse BluetoothStreamStub öffnet und schließt daher die Verbindungen zu anderen Geräten per Bluetooth.
-	\item \textit{StreamConnection}: Das Shark Framework definiert mit dem Interface StreamConnection das Verhalten einer streambasierten Verbindung zweier Geräte. Dieses Interface ist nicht zu verwechseln mit gleichnamigen Interface von Java ME. Klassen wie \textit{BluetoothConnection}, welche dieses Interface implementieren, bauen in ihren jeweiligen Konstruktur die Verbindung mit ihrem jeweiligen Protokoll auf. In der Klasse \textit{BluetoothConnection} erfolgt dies über das Bluetooth-Protokoll RFCOMM.
-	\item \textit{SharkServer}: Eine dieses Interface implementierende Klassen wartet bei der bestehenden Verbindung auf Datenpakete, nimmt diese an und leitet sie an einen \textit{Request Handler} weiter. Die Klasse \textit{BluetoothServer} nimmt daher die Datenpakete an, die per bestehender Bluetoothverbindung eintreffen.
+	\item \textit{StreamConnection}: Das Shark Framework definiert mit dem Interface StreamConnection das Verhalten einer streambasierten Verbindung zweier Geräte. Dieses Interface ist nicht zu verwechseln mit gleichnamigen Interface von Java ME. Klassen wie \textit{BluetoothConnection}, welche dieses Interface implementieren, bauen in ihren jeweiligen Konstruktor die Verbindung mit ihrem jeweiligen Protokoll auf. In der Klasse \textit{BluetoothConnection} erfolgt dies über das Bluetooth-Protokoll RFCOMM.
+	\item \textit{SharkServer}: Eine dieses Interface implementierende Klasse wartet bei der bestehenden Verbindung auf Datenpakete, nimmt diese an und leitet sie an einen \textit{Request Handler} weiter. Die Klasse \textit{BluetoothServer} nimmt daher die Datenpakete an, die per bestehender Bluetoothverbindung eintreffen.
 
 \end{itemize}
 
@@ -63,7 +63,6 @@ mSocket = device.createInsecureRfcommSocketToServiceRecord(BluetoothStreamStub.B
 \end{lstlisting}
 Auch hier wird die \textit{Insecure} Variante der Methode genommen, um auf ein Pairing verzichten zu können.
 \\Instanzen der beiden bisher vorgestellten Klassen \textit{BluetoothServer} und \textit{BluetoothStreamStub} werden durch die Klasse \textit{BluetoothStreamStub} erzeugt und verwaltet. Neben der Erzeugung dieser Objekte liefert der \textit{BluetoothStreamStub} weiterhin die lokale Bluetooth MAC-Adresse des Geräts:
-\textit{BluetoothConnection}:
 \lstset{language=Java, caption=Auslesen der Bluetooth MAC-Adresse, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 mLocalAddress = android.provider.Settings.Secure.getString(engine.getContext().getContentResolver(), "bluetooth_address");
@@ -98,8 +97,8 @@ Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprü
 		\end{tabular}
 	\end{center}
 \end{table}
-Seit neusten Android-Version 8.1 ist es nicht mehr mit der in Listing 4.4 beschriebenen Refeklektion möglich, die Bluetooth MAC-Adresse programmatisch auszulesen. Dementsprechend kann das Testgerät Nexus 5x seit dem Update des Betriebssystems keine Nachrichten via Bluetooth mehr empfangen, da die anderen Geräte keine valide MAC-Adresse vom Nexus 5x erhalten haben und die Verbindung somit ohne Pairing nicht erfolgreich aufgebaut werden kann. 
-\\Beim Lenovo A5500-F Tablet handelt es sich um eine zu alte Android-Version, wodurch in mehreren Komponenten zu Exceptions kommt, weil benötigte Methoden noch nicht enthalten sind.
+Seit der neusten Android-Version 8.1 ist es nicht mehr mit der in Listing 4.4 beschriebenen Reflektion möglich, die Bluetooth MAC-Adresse programmatisch auszulesen. Dementsprechend kann das Testgerät Nexus 5x seit dem Update des Betriebssystems keine Nachrichten via Bluetooth mehr empfangen, da die anderen Geräte keine valide MAC-Adresse vom Nexus 5x erhalten haben und die Verbindung somit ohne Pairing nicht erfolgreich aufgebaut werden kann. 
+\\Beim Lenovo A5500-F Tablet handelt es sich um eine zu alte Android-Version, wodurch es in mehreren Komponenten zu Exceptions kommt, weil benötigte Methoden noch nicht enthalten sind.
 
 
 

@@ -38,7 +38,7 @@ Der Hauptteil der Nachricht spaltet sich in drei Bereiche auf.
 	\item Einen Informationsraum (InformationSpace), der die semantische Beschreibung des Nachrichteninhalts ist. Er besteht aus den in Kapitel zwei beschriebenen sieben Dimensionen mit den dazugehörigen Semantischen Netzen.
 	\item Der eigentliche Nachrichteninhalt (Info Content)	
 \end{itemize}
-Der in Abbildung 3.1 dargestellte Bereich \textit{Info Meta Data} befindet daher sich wie oben beschrieben im Header und nicht im Knowledge.
+Der in Abbildung 2 dargestellte Bereich \textit{Info Meta Data} befindet daher sich wie oben beschrieben im Header und nicht im Knowledge.
 \subsection{Nachrichtenaustausch}
 \subsubsection{Ohne semantische Filterung}
 Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungerichtet an alle Kommunikationsteilnehmer, die sich in Reichweite befinden. Jeder Teilnehmer entscheidet selbst, ob er eine Nachricht seiner Wissensbasis hinzufügt und sie ebenfalls an alle in der Nähe befindlichen Geräte sendet. Wie im Kapitel Grundlagen beschrieben, müssen dabei Loops unterbunden werden, da die Kommunikation sonst durch eine Endlosschleife fehschlagen würde. Das folgende Szenario stellt beispielhaft diese Situation ohne Beachtung einer semantischen  Filterung dar.
@@ -151,7 +151,7 @@ Alle Tabellen verfügen über eine sich für jeden neuen Eintrag automatisch ink
 
 \subsection{Benutzeroberfläche}
 Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintragung von semantischen Annotationen so simpel wie möglich machen, mit der Anwendung adäquat interagieren zu können. Das Design sollte möglichst modern und schlicht sein, wobei es jedoch keinen Schwerpunkt dieser Arbeit darstellen soll. 
-\\Die dafür teils von der Chatfunktionalität weitergenutzte und teils neu entwickelte Ober\-flä\-che wird nun wieder anhand eines kleinen Beispiels beschrieben. Das Gerät \textit{Nexus5x} möchte sich mit allen Geräten in er Umgebung über das Thema HTW-Motorsport unterhalten. Zunächst werden alle begrüßt, da bisher unbekannt ist, welches Gerät sich in Reichweite befindet.\newline\newline
+\\Die dafür teils von der Chatfunktionalität weitergenutzte und teils neu entwickelte Ober\-flä\-che wird nun wieder anhand eines kleinen Beispiels beschrieben. Das Gerät \textit{Nexus5x} möchte sich mit allen Geräten in der Umgebung über das Thema HTW-Motorsport unterhalten. Zunächst werden alle begrüßt, da bisher unbekannt ist, welches Gerät sich in Reichweite befindet.\newline\newline
 \hspace*{0cm}
 \begin{minipage}{0.47\linewidth}
  \begin{figure}[H]
@@ -190,7 +190,7 @@ Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfange
 		\centering
 		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/relation.png}}
-		\caption{Motorsport-Nachricht}
+		\caption{Relation hinzufügen}
 		\label{fig:motorsportNachricht}
 	\end{figure}
 \end{minipage}
