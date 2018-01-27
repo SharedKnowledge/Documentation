@@ -1,5 +1,5 @@
 \subsubsection{Aufgabe der Komponente}
-Über den Broadcast erhält der Benutzer eine Vielzahl an Nachrichten von anderen Benutzern, von denen einen Großteil für ihn irrelevant sind. Der Semantische Filter ist dafür verantwortlich, dem Benutzer nur die für ihn interessante Nachrichten passieren und in seine Wissensbasis einfließen zu lassen. Er ist damit neben dem Broadcast die wichtigste Komponente dieser Arbeit. Neben dem bereits beschriebenen Eingangsfilter gibt es noch einen Ausgangsfilter, der für die etwaige Weiterleitung von Nachrichten an andere Peers verantwortlich ist. 
+Über den Broadcast erhält der Benutzer eine Vielzahl an Nachrichten von anderen Benutzern, von denen einen Großteil für ihn irrelevant sind. Der Semantische Filter ist dafür verantwortlich, dem Benutzer nur die für ihn interessanten Nachrichten passieren und in seine Wissensbasis einfließen zu lassen. Er ist damit neben dem Broadcast die wichtigste Komponente dieser Arbeit. Neben dem bereits beschriebenen Eingangsfilter gibt es noch einen Ausgangsfilter, der für die etwaige Weiterleitung von Nachrichten an andere Peers verantwortlich ist. 
 \\Die Benutzer können ihre Filter über ein Menü innerhalb des Profilbereichs einstellen, wobei dies keine Pflicht ist. Wenn keine Filter gesetzt sind, werden alle Nachrichten akzeptiert und weitergeleitet, sofern diese nicht bereits zuvor empfangen worden sind. 
 
 \subsubsection{Architektur}
@@ -9,22 +9,22 @@ Der semantische Filter gliedert sich in verschiedene Teilfilter, diese Trennung 
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.9\linewidth]{semanticFilter/images/compositeFilter.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{semanticFilter/images/compositeFilter.png}}%
 	\caption{Klassenhierarchie des semantischen Filters (Auszug)}
-	\label{fig:broadcastStructure}
+	\label{fig:broadcastStructure2}
 \end{figure} 
 \begin{itemize}
-	\item Die \textit{SharkEngine} enthält das Kompositum und stellt Methoden zur Erzeugung und Anpassung dafür bereit. Weiterhin ist diese Klasse von der App aus erreichbar, wodurch über die App abhangig von den Eingaben des Benutzers die Filter gesetzt oder entfernt werden können.
+	\item Die \textit{SharkEngine} enthält das Kompositum und stellt Methoden zur Erzeugung und Anpassung dafür bereit. Weiterhin ist diese Klasse von der App aus erreichbar, wodurch über die App abhängig von den Eingaben des Benutzers die Filter gesetzt oder entfernt werden können.
 	\item Das Interface \textit{SemanticFilter} wird von allen Teilfilterklassen und der Kompositumsklasse implementiert. Die einzige zu implementierende Methode ist dabei die Filtermethode, die einen booleschen Wert zurückliefert.
-	\item Der \textit{CompositeFilter} besitzt eine Liste aus allen Teilfiltern, ermöglicht durch Polymorphismus. Bei Aufruf der Filtermethode werden sämtliche Teilfilter angewandt, die sich in der Liste befinden. Näheres dazu befindet sich im Unterkapitel 7.3.1 Code. 
-	\item Die Relevanz der Themen werden durch den \textit{TopicFilter} geprüft. Der Filter kann für die beiden Dimensionen Topics und Types verwendet werden.
-	\item Die Dimensionen Sender, Approvers und Receivers werden durch den PeerFilter abgedeckt. Da die Dimension Sender in Gegensatz zu Approvers und Receivers nur ein SemanticTag, jedoch kein SemanticNet enthält, findet eine Fallunterscheidung am Anfang der Methode statt.
+	\item Der \textit{CompositeFilter} besitzt, ermöglicht durch Polymorphismus, eine Liste aus allen Teilfiltern. Bei Aufruf der Filtermethode werden sämtliche Teilfilter angewandt, die sich in der Liste befinden. Näheres dazu befindet sich im Unterkapitel 7.3.1 Code. 
+	\item Die Relevanz der Themen wird durch den \textit{TopicFilter} geprüft. Der Filter kann für die beiden Dimensionen Topics und Types verwendet werden.
+	\item Die Dimensionen Sender, Approvers und Receivers werden durch den PeerFilter abgedeckt. Da die Dimension Sender im Gegensatz zu Approvers und Receivers nur ein SemanticTag, jedoch kein SemanticNet enthält, findet eine Fallunterscheidung am Anfang der Methode statt.
 	\item Der \textit{TimeFilter} kontrolliert, ob sich mindestens einer der Zeiträume, die sich im semantischen Profil und in der empfangenen Nachricht befinden, überschneiden. 
-	\item Die spatiale Auswertung findet im \textit{SpatialFilter} statt, sie wird im Rahmen einer Bachelorarbeit von Maximilian Öhme entwickelt.
+	\item Die spatiale Auswertung findet im \textit{SpatialFilter} statt, sie wird im Rahmen einer Bachelorarbeit von Maximilian Oehme entwickelt.
 \end{itemize}
 
 \subsubsection{Code}
-Wie bereits im Überblick angerissen, führt der \textit{CompositeFilter} keine eigene semantische Filterung durch, sondern lässt dies fachgerecht von den Teilfiltern ausführen. Im folgenden Codeausschnitt ist erkennbar, dass der sequentielle Aufruf der Teilfilter sofort abgebrochen wird, wenn ein Teilfilter ein \textit{false} liefert.
+Wie bereits im Überblick angerissen, führt der \textit{CompositeFilter} keine eigene semantische Filterung durch, sondern lässt dies fachgerecht von den Teilfiltern ausführen. Im folgenden Codeausschnitt ist erkennbar, dass der sequentielle Aufruf der Teilfilter sofort abgebrochen wird, wenn ein Teilfilter ein \textit{false} liefert.\newline
 \lstset{language=Java, caption=Filtermethode im Kompositum, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 boolean isInteresing = true;
@@ -34,7 +34,7 @@ isInteresing =  childFilters.get(i).filter(message, newKnowledge, entryProfile);
 i++; }
 return isInteresing;
 \end{lstlisting}
-Angenommen es handelt sich bei der ersten Iteration der Schleife um eine Instanz der Klasse \textit{TopicFilter}, welche ihre Filtermethode aufruft, dann würde es zunächst zur folgenden Auswertung kommen:
+Angenommen es handelt sich bei der ersten Iteration der Schleife um eine Instanz der Klasse \textit{TopicFilter}, welche ihre Filtermethode aufruft, dann würde es zunächst zur folgenden Auswertung kommen:\newline
 \lstset{language=Java, caption=Filtermethode des TopicType Filters (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 if (activeEntryProfile == null) return true;
@@ -48,7 +48,7 @@ switch (dimension){
     }
 break;
 \end{lstlisting}
-Es wird zunächst wie auch bei allen anderen Teilfiltern überprüft, ob überhaupt ein semantisches Profil vom Benutzer gesetzt worden ist. Falls nicht, wird die Auswertung sofort mit einem \textit{true} als Rückgabewert beendet. Es wird nun wie auch beim \textit{PeerFilter} Überprüft, um welche Dimension es sich bei der Filterauswertung handelt. In Zeile vier von Listing 7.2 wird überprüft, ob es sich nur um ein einzelnes Tag oder um ein gesamtes SemanticNet handelt. Dadurch wird der Besonderheit in Shark Rechnung getragen, dass eine Dimension entweder durch ein einzelnes Tag oder durch ein komplettes Semantisches Netz beschrieben werden kann. Der folgende Auszug zeigt die Auswertung eines Semantischen Netzes:
+Es wird zunächst wie auch bei allen anderen Teilfiltern überprüft, ob überhaupt ein semantisches Profil vom Benutzer gesetzt worden ist. Falls nicht, wird die Auswertung sofort mit einem \textit{true} als Rückgabewert beendet. Es wird nun wie auch beim \textit{PeerFilter} überprüft, um welche Dimension es sich bei der Filterauswertung handelt. In Zeile vier von Listing 7.2 wird überprüft, ob es sich nur um ein einzelnes Tag oder um ein gesamtes SemanticNet handelt. Dadurch wird der Besonderheit in Shark Rechnung getragen, dass eine Dimension entweder durch ein einzelnes Tag oder durch ein komplettes Semantisches Netz beschrieben werden kann. Der folgende Auszug zeigt die Auswertung eines Semantischen Netzes:\newline
 \lstset{language=Java, caption=Auswertung des Semantischen Netzes (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 SemanticNet resultNet = SharkCSAlgebra.contextualize(inputNet, profileSet, fp);
@@ -67,8 +67,8 @@ Für die Auswertung wird die vom SharkFramework bereitgestellte Funktionalität 
 	\item Die Tiefe, die darüber Auskunft gibt, wie viele Beziehungen zwischen den einzelnen SemanticTags berücksichtigt werden.
 \end{itemize}
 Nachdem das Fragment bestimmt und ausgewertet worden ist, liefert die Methode dann dementsprechend ein \textit{true} oder \textit{false} zurück. Damit ist die Auswertung der Nachricht für diese Dimension abgeschlossen.
-\\Die Auswertung für die Peer Dimensionen \textit{Sender}, \textit{Receivers} und \textit{Approvers} läuft fast analog zu dem Auswertungsverfahren der Topic-Dimensionen ab. Hierbei können falls vom Programmierer gewünscht auch die Adressen mit ausgewertet werden. 
-\\Die Auswertung der Dimension \textit{Time} ist nicht abhängig von einer Kontextualisierung, sondern von der potentiellen Überschneidung von Zeiträumen.
+\\Die Auswertung für die Peer Dimensionen \textit{Sender}, \textit{Receivers} und \textit{Approvers} läuft fast analog zu dem Auswertungsverfahren der Topic-Dimensionen ab. Hierbei können, falls vom Programmierer gewünscht, auch die Adressen mit ausgewertet werden. 
+\\Die Auswertung der Dimension \textit{Time} ist nicht abhängig von einer Kontextualisierung, sondern von der potentiellen Überschneidung von Zeiträumen.\newline
 \lstset{language=Java, caption=Auswertung der Time-Dimension (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 while (messageTimesTags.hasMoreElements()) {
@@ -87,7 +87,7 @@ Innerhalb der Schleife werden alle \textit{TimeSemanticTags} des Profils mit den
 \\Die Auswertung der räumlichen Dimension \textit{Spatial} erfolgt durch die Aufstellung und Auswertung von Bewegungsprofilen. Diese Bewegungsprofile werden vom Smartphone (nach der Abfrage des Einverständnisses des Benutzers) aufgezeichnet und sind Teil des semantischen Profils. Nach Eingang einer Nachricht werden nun das Bewegungsprofil vom Benutzer und das Bewegungsprofil der Nachricht miteinander verglichen. Wie bereits zuvor erwähnt, ist die spatiale Auswertung der Nachrichten das Thema der Bachelorarbeit von Maximilian Oehme. Weitergehende Details und Codebeispiele können in dieser Bachelorarbeit in Erfahrung gebracht werden.
 
 \subsubsection{Nutzung}
-Die Nutzung dieser Komponente erfolgt über die zu diesem Zweck von der \textit{SharkEngine} bereitgestellten Methoden. Sie enthält wie in Abbildung 7.1 dargestellt das Kompositum, welches als Behälter dynamisch Teilfilter aufnehmen, löschen und die Reihenfolge der Ausführung ändern kann. Falls der Entwickler von der App-Ebene heraus Filter hinzufügen wollen, kann er dies über die \textit{SharkNetApi} tun, welche die gewünschten Änderungen an die \textit{SharkEngine} weiterleitet. Das folgende Codebeispiel zeigt diese ver\-hält\-nis\-mä\-ßig leichte Handhabung:
+Die Nutzung dieser Komponente erfolgt über die zu diesem Zweck von der \textit{SharkEngine} bereitgestellten Methoden. Sie enthält wie in Abbildung 7.1 dargestellt das Kompositum, welches als Behälter dynamisch Teilfilter aufnehmen, löschen und die Reihenfolge der Ausführung ändern kann. Falls der Entwickler von der App-Ebene heraus Filter hinzufügen will, kann er dies über die \textit{SharkNetApi} tun, welche die gewünschten Änderungen an die \textit{SharkEngine} weiterleitet. Das folgende Codebeispiel zeigt diese ver\-hält\-nis\-mä\-ßig leichte Handhabung:
  \lstset{language=Java, caption=Beispiel für die Anwendung der Filter, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
  \begin{lstlisting}
 TopicFilter newTopicFilter = new TopicFilter(Dimension.TOPIC);
