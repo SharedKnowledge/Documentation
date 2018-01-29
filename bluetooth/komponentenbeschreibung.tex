@@ -36,7 +36,7 @@ Anhand der Klassenhierarchie der Bluetooth-Komponente lässt sich erkennen, dass
 \subsubsection{Nutzung}
 Der Start der Komponente erfolgt automatisch mit dem Start der Anwendung durch eine Instanzierung der Klasse \textit{AndroidSharkEngine}. Sie kann jedoch in ebenjener Klasse durch die Methoden \textit{startBluetooth()} und \textit{stopBluetooth()} auch manuell gestartet sowie gestoppt werden.
 
-\subsubsubsection{Code}
+\subsubsection{Code}
 Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/bluetooth} betrachtet werden. Wie auch die anderen Implementierungen von Über\-tra\-gungs\-pro\-to\-kol\-len, befindet sich auch die Bluetooth-Implementierung im Projekt \textit{SharkNet-Api-Android} im Package \textit{protocols}. 
 \\Es werden nun die wichtigsten Codezeilen der drei im Unterkapitel Schnittstellendefinitionen erwähnten Klassen beschrieben.
 \\Der \textit{BluetoothServer} horcht auf eingehende Verbindungen mit Hilfe der von Android bereitgestellten Klasse \textit{BluetoothSocket}, die folgendermaßen initialisiert wird:\newpage
@@ -71,12 +71,7 @@ mLocalAddress = android.provider.Settings.Secure.getString(engine.getContext().g
 Dies geschieht zwangsweise über eine Reflektion, da die bis Android-Marshmallow dafür vorhergesehene Methode nur eine Konstante liefert, die nicht der eigentlichen Bluetooth MAC-Adresse des Geräts entspricht. Die Bluetooth MAC-Adresse wird jedoch zwingend für \textit{Insecure} Verbindungen benötigt, welche kein Bluetooth-Pairing erfordern, was für die Broadcast-Komponente essentiell ist. 
 \\Die restlichen Methoden der Bluetooth-Komponente wie beispielsweise \textit{killConnection()} sind mnemonischer Natur.
 
-\subsubsubsection{Deployment / Runtime}
-\newline [...]
-
-
-\subsubsection{Test}
-\subsubsubsection{Gerätetest}
+\subsubsection{Gerätetest}
 Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:
 \begin{table}[H]
 	\begin{center}

@@ -4,7 +4,6 @@
 
 \subsubsection{Architektur}
 
-\subsubsubsection{Überlick}\label{ch:filtercomps}
 Der semantische Filter gliedert sich in verschiedene Teilfilter, diese Trennung richtet sich nach den bereits bekannten Dimensionen des Shark Frameworks. Um den Gesamtfilter mit den kleineren Teilfiltern dynamisch zusammensetzen zu können, wurde das Entwurfsmuster Kompositum gewählt. Mit Hilfe dieses Musters müssen nur jeweils die Teilfilter gesetzt werden, die für den Benutzer auch eine Relevanz haben. Die folgende Klassenhierarchie verdeutlicht dieses Verhältnis:
 \begin{figure}[H]
 	\centering
@@ -98,10 +97,7 @@ boolean isInteresting = mApi.executeSemanticFilters(message, knowledge, profile)
  \end{lstlisting}
 Nachdem die Filter erzeugt und ihre Dimension festgelegt worden sind, werden sie über die \textit{SharkNetApi} der \textit{SharkEngine} hinzugefügt und können über die Methode \textit{executeSemanticFilters()} für die Auswertung benutzt werden. Für die Auswertung muss zusätzlich die Eingangsnachricht (\textit{message}), die semantischen Annotationen der Nachricht (\textit{knowledge}) und das aktuelle semantische Profil des Benutzers (\textit{profile}) mit übergeben werden.
 
-
-
-\subsubsection{Test}
-lorem ipsum
+\subsubsection{Gerätetest}
 
 
 \subsubsection{Ausblick}

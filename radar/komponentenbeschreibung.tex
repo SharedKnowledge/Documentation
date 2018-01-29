@@ -3,7 +3,6 @@ Durch das Radar können Geräte, auf welchen ebenfalls die Anwendung SharkNet in
 
 \subsubsection{Architektur}
 
-\subsubsubsection{Überblick}\label{ch:radaroverview}
 Im folgenden UML-Klassendiagramm sind alle Bestandteile der Radar-Komponente von SharkNet abgebildet.
 \begin{figure}[H]
 	\centering
@@ -17,7 +16,7 @@ Die eingangs erwähnte Geräteliste befindet sich als Attribut innerhalb der Kla
 \subsubsection{Nutzung}
 Die Komponente kann über die \textit{startDiscovery()} Methode der \textit{AndroidSharkEngine} gestartet werden.
 
-\subsubsubsection{Code}
+\subsubsection{Code}
 Wie im Überblick dargestellt werden über Interessen Kontaktinformationen ausgetauscht. Eingehende Interessen werden vom \textit{RadarDiscoveryPort} folgendermaßen bearbeitet:\newline
  \lstset{language=Java, caption=Verwertung von  Kontakt-Interessen (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
@@ -32,8 +31,7 @@ if (SharkCSAlgebra.identical(message.getTopic(), typeSemanticTag)) {
 \end{lstlisting}
 Sollte das Interesse leer sein (erste Zeile) oder vom Typ her nicht einer Kontaktinformation entsprechen (vierte bis sechste Zeile), wird nichts der Kontaktliste hinzugefügt. Andernfalls (siebte Zeile) wird der Kontaktliste innerhalb des \textit{NearbyPeerManager} der neue Kontakt hinzugefügt und auf der Oberfläche angezeigt. Dadurch hinzugefügte Kontakte können nun Broadcast-Nachrichten empfangen.
 
-\subsubsection{Test}
-\subsubsubsection{Gerätetest}
+\subsubsection{Gerätetest}
 Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:
 \begin{table}[H]
 	\begin{center}

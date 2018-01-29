@@ -5,8 +5,6 @@
 
 \subsubsection{Architektur}
 
-\subsubsubsection{Überlick}\label{ch:wifioverview}
-
 Im folgenden UML-Klassendiagramm sind alle Bestandteile der WiFi-Direct Komponente von SharkNet abgebildet.
 \begin{figure}[H]
 	\centering
@@ -22,7 +20,7 @@ Im Zentrum dieser Hierarchie steht die Klasse \textit{WiFiDirectAdvertisingManag
 Die WiFi-Komponente wird automatisch beim Start der Anwendung gestartet. Manuell kann die Komponente über die Klasse \textit{AndroidSharkEngine} gesteuert werden, welche wie schon im Überblick erwähnt die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} enthält.
 
 
-\subsubsubsection{Code}
+\subsubsection{Code}
 Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/wifidirect} betrachtet werden. Wie auch die anderen Implementierungen von Über\-tra\-gungs\-pro\-to\-kol\-len, befindet sich auch die WiFi-Direct-Implementierung im Projekt \textit{SharkNet-Api-Android} im Package \textit{protocols}.
 \\Wie im vorherigen Unterkapitel erläutert liefern die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} die Funktionalität, um Peers zu finden und andere Peers über das eigene Interesse in Kenntnis zu setzen. 
 \\Bei Aufruf der \textit{startDiscovery()} Methode wird innerhalb der Engine ein neuer \textit{WifiDirectAdvertisingManager} angelegt und anschließend dessen \textit{startAdvertising()} Methode aufgerufen. Innerhalb der \textit{startAdvertising()} Methode wird sich nun auf der dritten Schicht des OSI-Modells begeben, wie der folgende Codeausschnitt zeigt:\newline
@@ -49,12 +47,7 @@ ASIPInterest interest = WifiDirectUtil.recordMap2Interest(txtRecordMap);
 mEngine.handleASIPInterest(interest);
 \end{lstlisting}  
 
-\subsubsubsection{Deployment / Runtime}
-lorem ipsum
-
-
-\subsubsection{Test}
-\subsubsubsection{Gerätetest}
+\subsubsection{Gerätetest}
 Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:
 \begin{table}[H]
 	\begin{center}

@@ -3,23 +3,11 @@ Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten 
 
 \subsubsection{Architektur}
 
-Die folgenden Komponenten werden von der Komponente Broadcast zwingend benötigt:
-\begin{itemize}
-\item WiFi
-\item Bluetooth 
-\item Persistenz 
-\end{itemize}
-Optional sind hingegen die Komponenten:
-\begin{itemize}
-	\item Semantischer Filter
-\end{itemize}
-
-\subsubsubsection{Überblick}\label{ch:broadcastoverview}
 Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerhalb des SharkFrameworks und vier sich innerhalb der App befinden. Diese sieben Klassen werden nun ausgehend von der folgenden Abbildung kurz beschrieben.
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{general/BroadcastStruktur1.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{general/BroadcastStruktur1.png}}%
 	\caption{Die Klassen der Broadcast Komponente}
 	\label{fig:broadcastStructure}
 \end{figure}
@@ -40,9 +28,31 @@ Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebund
 
 \subsubsection{Code}
 Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden. 
+\\Die Broadcast-Komponente wird vom Shark-Framework per Listener über neue Nachrichten in Kenntnis gesetzt. Der folgende Codeauszug beinhaltet die Verwertung dieser Nachrichten durch die \textit{BroadcastActivity}. \newline
+ \lstset{language=Java, caption=Anzeige und Weiterleitungen von Nachrichten (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
+\begin{lstlisting}
+if (accepted) {
+  broadcast = mApi.getBroadcast();
+  runOnUiThread(new Runnable() {
+    @Override
+    public void run() {
+      if(broadcast!=null){
+        mAdapter.setMessages(broadcast.getMessages());
+        mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+      }
+    }
+  });
+  if (forwarded) {
+    mApi.getSharkEngine().getBroadcastManager().sendBroadcastMessage(component, nearbyPeers);
+  }
+}
+else {
+Toast.makeText(getApplicationContext(), "Incoming Message rejected!",Toast.LENGTH_LONG).show();
+}
+\end{lstlisting}
+Über die Parameter \textit{accepted} (Zeile 1) und \textit{forwarded} (Zeile 12) wird der \textit{BroadcastActivity} durch die vorgelagerte Filterung mitgeteilt, ob die Nachricht der Wissensbasis hinzugefügt worden ist und ob diese an andere Peers weitergeleitet werden soll. Falls die Nachricht der Wissensbasis hinzugefügt worden ist, wird die Nachrichtenliste des Broadcasts aus der Wissensbasis ausgelesen (Zeile 2) und innerhalb der Oberfläche angezeigt (Zeilen 7-8). Sollte die Nachricht neben dem Eingangsfilter auch den Ausgangsfilter passiert haben, wird die Nachricht an alle Peers in der Nähe weitergeleitet (Zeile 13). 
 
-\subsubsection{Test}
-\subsubsubsection{Gerätetest}
+\subsubsection{Gerätetest}
 Innerhalb der Broadcast-Komponente werden ausschließlich Oberflächenelemente genutzt, die von allen Android-Versionen (ab 4.2) genutzt werden können. Im Rahmen dieser Arbeit ist die Broadcast-Komponente abhängig von den Komponenten WiFi-Direct, Bluetooth und Radar, da sonst keine Nachrichten erfolgreich versandt und empfangen werden können. Aktuell können daher nur die Geräte den Broadcast nutzen, die zu den drei Komponenten kompatibel sind.
 \begin{table}[H]
 	\begin{center}
@@ -57,7 +67,7 @@ Innerhalb der Broadcast-Komponente werden ausschließlich Oberflächenelemente g
 			Sony Xperia XZ Premium & 8.0 & Ja & Ja & Ja & Ja\\
 			Sony Xperia Z4 Tablet & 7.1.1 & Ja & Ja & Ja & Ja\\
 			Lenovo B & 6.0 & Ja & Ja & Ja & Ja\\
-			Lenovo A5500-F Tablet & 4.4 & Nein & Ja & Ja & Nein\\
+			Lenovo A5500-F Tablet & 4.4 & Nein & Nein & Ja & Nein\\
 			Raspberry Pi 3 & 6.0.1 & Nein & Ja & Ja & Nein\\	
 			Wandboard Quad & 5.0.2 & Nein & Ja & Ja & Nein\\			
 		\end{tabular}
