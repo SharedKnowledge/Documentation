@@ -1,11 +1,12 @@
 @startuml
-box #lightblue
-actor "Bob"
-    participant ASIPSession
-	participant SharkServer
+actor "Alice"
 
+box #lightblue
+    participant SharkServer
+    participant ASIPSession
+	actor "Bob"
 end box
-	actor "Alice"
+
 
 Alice -> SharkServer: Aufbau StreamConnection
 SharkServer -> ASIPSession: Aufbau einer Session

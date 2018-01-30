@@ -98,8 +98,9 @@ boolean isInteresting = mApi.executeSemanticFilters(message, knowledge, profile)
 Nachdem die Filter erzeugt und ihre Dimension festgelegt worden sind, werden sie über die \textit{SharkNetApi} der \textit{SharkEngine} hinzugefügt und können über die Methode \textit{executeSemanticFilters()} für die Auswertung benutzt werden. Für die Auswertung muss zusätzlich die Eingangsnachricht (\textit{message}), die semantischen Annotationen der Nachricht (\textit{knowledge}) und das aktuelle semantische Profil des Benutzers (\textit{profile}) mit übergeben werden.
 
 \subsubsection{Gerätetest}
-
+Die Kompatibilität der Komponente mit den Testgeräten ist der Tabelle \ref{tab:testsAll} auf Seite \pageref{tab:testsAll} zu entnehmen. Wie auch bei der Broadcast-Komponente ist der Filter auf allen Geräten generell lauffähig, ist aber von einem erfolgreichen Datenaustausch abhängig.
 
 \subsubsection{Ausblick}
-lorem ipsum
+Die Komponente wurde offen für zukünftige Erweiterungen strukturiert, sodass weitere Filter entwickelt und hinzugefügt werden können. Bei der Entwicklung von neuen Filtern sollte die Benutzerfreundlichkeit weiterhin beachtet werden. Schon jetzt können die sieben Dimensionen, die semantischen Annotationen und deren Relationen zunächst irritierend wirken und sollten nur mit Bedacht noch komplexer gestaltet werden. 
+\\Der Fokus sollte daher vorerst auf die Verfeinerung der bestehenden Filter und die Verbesserung der Benutzerfreundlichkeit liegen. 
 \newpage

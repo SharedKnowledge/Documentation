@@ -60,7 +60,7 @@ Die Behälterklassen werden dann dazu benutzt, um die Informationen zu beschreib
 \end{table}
 Dieses Unterkapitel ist nur eine rudimentäre Zusammenfassung über das Shark Framework, einen ausführlichen Überblick über das Framework bietet der Shark Developer \mbox{Guide} (siehe \citet[S. 7ff]{Schwotzer2014}).
 \subsubsection{ASIP}
-Innerhalb der letzten drei Jahre wurde ein grundlegendes Protokoll für Shark entwickelt, welches die zwei zentralen Befehle bezüglich der Kommunikation zwischen Peers vorgibt und den Namen \textit{Ad hoc Semantic Internet Protocol} trägt. Die ebenfalls vom Protokoll für Shark neu eingeführten Strukturen können im entsprechenden Repository auf Github eingesehen werden. In der folgenden Abbildung sind alle Bestandteile der semantischen Strukturen in ASIP abgebildet.
+Innerhalb der letzten drei Jahre wurde ein grundlegendes Protokoll für Shark von Kristina Sahlmann entwickelt, welches die zwei zentralen Befehle bezüglich der Kommunikation zwischen Peers vorgibt und den Namen \textit{Ad hoc Semantic Internet Protocol} trägt. Die ebenfalls vom Protokoll für Shark neu eingeführten Strukturen können im entsprechenden Repository auf Github eingesehen werden. In der folgenden Abbildung sind alle Bestandteile der semantischen Strukturen in ASIP abgebildet.
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
@@ -79,7 +79,16 @@ Die beiden wichtigsten Kommandos des Protokolls sind:
 	\end{itemize} 
 	\item Expose: Neben dem Hinzufügen von neuen Wissen haben Peers auch die Möglichkeit, ihr Interesse an neuem Wissen gegenüber anderen Peers zu bekunden. Dies geschieht über den Befehl \textit{Expose}, wobei auch hier das Interesse in Form der in Tabelle 1 dargestellten sieben Dimensionen formuliert wird.
 \end{itemize}
-[...]
+Im Kapitel Implementierung werden innerhalb der Komponentenbeschreibungen wiederholt die beiden Shark bzw. ASIP-Interfaces \textit{SharkServer} und\textit{ASIPSession} implementiert. Sie sind zentral für jegliche Form der Kommunikation, wie das folgende Sequenzdiagramm zeigt.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{general/sharkCommunication.png}}%
+	\caption{SharkServer und ASIPSession als Mittelpunkt der Kommunikation}
+	\label{fig:sharkCommunication}
+\end{figure}
+Der \textit{SharkServer} nimmt dabei Anfragen von Peers entgegen und richtet eine \textit{ASIPSession} ein. Innerhalb der \textit{ASIPSession} wird die eingehende Nachricht dann verwertet. Dieser Vorgang abstrahiert von der jeweiligen konkreten Technologie, die für den Datenaustausch genutzt wird. 
+\newpage
 
 \subsubsection{SharkNet}
 
@@ -90,7 +99,6 @@ SharkNet ist ein dezentrales soziales Netzwerk für Android Geräte und wurde vo
 	\item Ausschließliche Benutzung von Open-Source Bilbiotheken und Protokollen
 \end{itemize}
 SharkNet bildet die Grundlage für diese Arbeit und wurde dafür an diversen Stellen weiterentwickelt, wobei auch einige Probleme im Bereich der Kommunikation zwischen den Peers behoben werden mussten. Die ursprüngliche Zielgruppe von SharkNet sind Schüler der Katholischen Theresienschule Berlin, die als Testpersonen SharkNet anstelle von Facebook oder anderen servergebundenen sozialen Netzwerken nutzen sollten. Über die Webseite \url{http://sharedknowledge.github.io/} kann bereits ein Prototyp heruntergeladen werden, dieser enthält aber noch nicht die eigentliche Kernfunktionalität, daher keinen Chat bzw. Gruppenchat. Ein wichtiger Bestandteil dieser Arbeit ist es daher, neben dem semantischen Broadcast auch die normale Chatfunktionalität für den Endanwender benutzbar zu machen.  
-\newline[...]
 \newpage
 
 

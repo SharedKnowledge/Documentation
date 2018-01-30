@@ -1,5 +1,0 @@
-@startuml
-(*)  --> "check input"
-
--->(*)
-@enduml
