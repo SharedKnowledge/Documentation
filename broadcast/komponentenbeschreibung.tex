@@ -7,7 +7,7 @@ Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerha
 \begin{figure}[H]
 	\centering
 	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{general/BroadcastStruktur1.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{general/BroadcastStruktur1.png}}
 	\caption{Die Klassen der Broadcast Komponente}
 	\label{fig:broadcastStructure}
 \end{figure}
@@ -19,12 +19,27 @@ Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerha
 	\item Wann immer die Anzahl der sich in Reichweite befindlichen Peers ändert, wird die BroadcastActivity vom NearbyPeerListener mit einer angepassten Liste von Peers versorgt.
 	\item Die BroadcastActivity ist die Schnittstelle zwischen Benutzer und App. Sie nimmt neue Nachrichten vom Benutzer entgegen, wobei das Hinzufügen von semantischen Annotationen optional ist. Sie benutzt die Entitätsklasse Broadcast um die Nachrichten in einer Klasse zu bündeln, welche bei Aktualisierungen an das BroadcastDao weitergereicht werden. 
 \end{itemize}
-
-
+Die Broadcast-Komponente benutzt zum Versenden von Nachrichten WiFi-Direct, Bluetooth (BT), Radar und den Semantischen Filter:
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{broadcast/images/communicationComps.png}}
+	\caption{Versand einer Broadcast-Nachricht mithilfe der Komponenten}
+	\label{fig:broadcastComps}
+\end{figure}
+Lorem ipsum
 \subsubsection{Nutzung}
 Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebunden. Der Endanwender kann über die diese Activity Nachrichten versenden, betrachten und mit semantischen Annotationen versehen, wobei Letzteres auch die Komponente Semantische Filter betrifft.
 \\Die Komponente kann aber auch in eigenen Activities benutzt werden ohne die vorgegebene \textit{BroadcastActivity} benutzen zu müssen. Der Entwickler muss bei seiner eigenen Activity dafür lediglich von der Klasse \textit{BaseActivity} erben. Die Klasse \textit{BaseActivity} stellt das Attribut \textit{mApi} vom Typ \textit{SharkNetApi} bereit, mit dem durch die Methoden \textit{getBroadcast()} und \textit{updateBoradcast(...)} der Broadcast geliefert und verändert werden kann.
-\\
+\\Im Rahmen dieser Arbeit wird die Broadcast-Komponente zusammen mit Bluetooth und WiFi-Direct genutzt, sie kann aber auch andere Technologien zur Datenübertragung nutzen. Möchte ein Entwickler beispielsweise NFC statt Bluetooth benutzen, so kann er das in der \textit{SharkEngine} einstellen, die dort vermerkten Protokolle werden dann vom \textit{BroadcastManager} für den Datenaustausch genutzt.
+\begin{figure}[H]
+	\centering
+	\hspace*{1cm}
+	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{broadcast/images/sendOperation.png}}
+	\caption{Die Funktion des BroadcastManagers beim Versenden einer Nachricht}
+	\label{fig:sendOperation}
+\end{figure}
+Lorem ipsum
 
 \subsubsection{Code}
 Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden. 

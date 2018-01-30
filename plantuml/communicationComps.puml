@@ -1,0 +1,13 @@
+@startuml
+
+actor "Alice"
+actor "Bob"
+
+"Bob" <- "Alice": Sendet BT-Mac-Adresse per WiFi-Direct
+"Alice" <- "Bob": Sendet BT-Mac-Adresse per WiFi-Direct
+"Alice" <- "Alice": Abfrage des Radars
+"Bob" <- "Alice": Sendet Broadcast-Nachricht per BT
+"Bob" <- "Bob": Sequenznummerüberprüfung
+"Bob" <- "Bob": Filterüberprüfung
+
+@enduml

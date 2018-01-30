@@ -1,17 +1,19 @@
 @startuml
 box #lightblue
+       actor "Alice"
+       participant BroadcastManager
     participant SharkEngine
-	participant BroadcastManager
-	actor "Alice"
+
+
 end box
 actor "Bob"
 
 "BroadcastManager" <- "Alice": Aufruf sendBroadcastMessage()
 activate BroadcastManager
 "BroadcastManager" -> "SharkEngine": Aufruf createASIPOutMessage()
-"SharkEngine" -> "SharkEngine": Festlegung der Übertragung (BT, NFC, Mail, TCP)
+"SharkEngine" -> "SharkEngine": Festlegung der Übertragung (BT, NFC, WiFi, TCP)
 "SharkEngine" -> "BroadcastManager": Lieferung der Message mit ContentStream
-"BroadcastManager" -> "BroadcastManager": Aktualisierung der sentMessages Hashmap
+"BroadcastManager" -> "BroadcastManager": Aktualisierung der knownMessages Hashmap
 "BroadcastManager" -> "BroadcastManager": Aufruf insert() der ASIPOutMessage
 "BroadcastManager" -> "Bob": Senden der Daten via ContentStream
 deactivate BroadcastManager
