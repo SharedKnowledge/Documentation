@@ -1,6 +1,12 @@
 \subsubsection{Aufgabe der Komponente}
-Durch das Radar können Geräte, auf welchen ebenfalls die Anwendung SharkNet installiert ist, in räumlicher Nähe ausfindig gemacht und angezeigt werden. Es nutzt dabei die Verhaltensweise der WiFi-Komponente, bei der in regelmäßigen Abständen Ge\-rä\-te\-in\-for\-ma\-tio\-nen an alle Geräte in der Nähe geschickt werden. Diese Geräteinformationen werden vom Radar empfangen, gebündelt und dem Benutzer dann auf dem Gerät als Liste angezeigt. Der Benutzer kann anschließend anhand dieser Geräteliste einen Chat eröffnen. Neben der Eröffnung von Chats ist diese Geräteliste außerdem wichtig für die Broadcast-Komponente, da Broadcast Nachrichten an alle Geräte geschickt werden, die sich auf dieser Liste befinden.
-
+Durch das Radar können Geräte, auf welchen ebenfalls die Anwendung SharkNet installiert ist, in räumlicher Nähe ausfindig gemacht und angezeigt werden. Es nutzt dabei die Verhaltensweise der WiFi-Komponente, bei der in regelmäßigen Abständen Ge\-rä\-te\-in\-for\-ma\-tio\-nen an alle Geräte in der Nähe geschickt werden. Diese Geräteinformationen werden vom Radar empfangen, gebündelt und dem Benutzer dann auf dem Gerät als Liste angezeigt. Der Benutzer kann anschließend anhand dieser Geräteliste einen Chat eröffnen. Neben der Eröffnung von Chats ist diese Geräteliste außerdem wichtig für die Broadcast-Komponente, da Broadcast Nachrichten an alle Geräte geschickt werden, die sich auf dieser Liste befinden.\newline
+\begin{figure}[H]
+	\centering
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{radar/images/communicationComps.png}}%
+	\caption{Die Radar-Komponente innerhalb des Nachrichtenaustauschs}
+	\label{fig:radarComp}
+\end{figure}
+\newpage
 \subsubsection{Architektur}
 
 Im folgenden UML-Klassendiagramm sind alle Bestandteile der Radar-Komponente von SharkNet abgebildet.
@@ -30,13 +36,11 @@ if (SharkCSAlgebra.identical(message.getTopic(), typeSemanticTag)) {
 }
 \end{lstlisting}
 Sollte das Interesse leer sein (erste Zeile) oder vom Typ her nicht einer Kontaktinformation entsprechen (vierte bis sechste Zeile), wird nichts der Kontaktliste hinzugefügt. Andernfalls (siebte Zeile) wird der Kontaktliste innerhalb des \textit{NearbyPeerManager} der neue Kontakt hinzugefügt und auf der Oberfläche angezeigt. Dadurch hinzugefügte Kontakte können nun Broadcast-Nachrichten empfangen.
-
+\newpage
 \subsubsection{Gerätetest}
-Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:
+Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprüft worden:\\
 \begin{table}[H]
 	\begin{center}
-		\caption{Kompatibilitätstest der Radar-Komponente}
-		\label{tab:dimensions}
 		\begin{tabular}{l|c|c} 			
 			Gerät & Android-Version & kompatibel \\
 			\hline
@@ -50,11 +54,12 @@ Mit den folgenden Android-Geräten ist die Komponente auf Kompatibilität geprü
 			Raspberry Pi 3 & 6.0.1 & Ja\\	
 			Wandboard Quad & 5.0.2 & Ja\\			
 		\end{tabular}
+		\caption{Kompatibilitätstest der Radar-Komponente}
+		\label{tab:dimensions}
 	\end{center}
 \end{table}
-Hierbei ist zu beachten, dass es bei der Komponente vorrangig um die Darstellung und Speicherung der über WiFi-Direct erhaltenen Daten geht. Die benutzten Oberflächenelemente können von allen getesteten Android-Versionen benutzt werden. Das Radar kann nach aktuellem Stand nicht ohne der WiFi-Komponente ordentlich funktionieren, daher muss auch der Kompatibilitätstest der WiFi-Komponente beachtet werden. Das Radar ist dennoch als eigenständige Komponente ausgeführt, da sie die Kontaktdaten theoretisch auch durch andere Komponenten erhalten könnte.  
-
+Hierbei ist zu beachten, dass es bei der Komponente vorrangig um die Darstellung und Speicherung der über WiFi-Direct erhaltenen Daten geht. Die benutzten Ober\-flä\-chen\-ele\-mente können von allen getesteten Android-Versionen benutzt werden. Das Radar kann nach aktuellem Stand nicht ohne der WiFi-Komponente ordentlich funktionieren, daher muss auch der Kompatibilitätstest der WiFi-Komponente beachtet werden. Das Radar ist dennoch als eigenständige Komponente ausgeführt, da sie die Kontaktdaten theoretisch auch durch andere Komponenten erhalten könnte.  
 \subsubsection{Ausblick}
-Das Radar listet die gefundenen Geräte bisher nur in einer Liste auf. Diese könnten in Zukunft auch zusätzlich auf einer Karte angezeigt werden, dadurch wird der aktuelle Ort der anderen Geräte für den Benutzer sichtbar. Außerdem könnten neben dem Namen der Geräte noch zusätzliche Informationen aufgelistet werden. So könnte beispielsweise noch Interessen der Geräte angezeigt werden, dafür müsste jedoch eine geeignete Darstellungsform gefunden werden.
-\\Sollten noch zusätzliche Informationen angezeigt werden, muss es für die Benutzer zwingend einstellbar sein, in welchem Ausmaß sie Kontaktinformationen preisgeben.  
+Das Radar listet die gefundenen Geräte bisher nur in einer Liste auf. Diese könnten in Zukunft auch zusätzlich auf einer Karte angezeigt werden, dadurch wird der aktuelle Ort der anderen Geräte für den Benutzer sichtbar. Außerdem könnten neben dem Namen der Geräte noch zusätzliche Informationen aufgelistet werden. So könnten beispielsweise noch Interessen der Geräte angezeigt werden, dafür müsste jedoch eine geeignete Darstellungsform gefunden werden.
+\\Sollten noch zusätzliche Informationen angezeigt werden, muss es für die Benutzer zwingend einstellbar sein, in welchem Ausmaß Kontaktinformationen preisgeben werden.  
 \newpage

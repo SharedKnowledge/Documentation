@@ -1,35 +1,32 @@
 \subsubsection{Aufgabe der Komponente}
-Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten an andere Benutzer zu schicken. Dabei können auch andere Komponenten, wie etwa der semantische Eingans- und Ausgangsfilter zum Einsatz kommen, was jedoch nicht zwingend erforderlich ist. Falls auf einen Eingangsfilter oder Ausgangsfilter verzichtet werden sollte, werden wie bei einem klassischen Broadcast die Nachrichten an alle sich in der Nähe befindlichen Geräte versendet. Inwiefern der klassische Broadcast vom Benutzer semantisch eingeschränkt werden kann, lässt sich in der Komponentenbeschreibung der Komponente Semantischer Filter in Erfahrung bringen.
-
-\subsubsection{Architektur}
-
-Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerhalb des SharkFrameworks und vier sich innerhalb der App befinden. Diese sieben Klassen werden nun ausgehend von der folgenden Abbildung kurz beschrieben.
+Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten an andere Benutzer zu verschicken. Dabei können auch andere Komponenten, wie etwa der semantische Eingangs- und Ausgangsfilter zum Einsatz kommen, was jedoch nicht zwingend erforderlich ist. Falls auf einen Eingangsfilter oder Ausgangsfilter verzichtet werden sollte, werden wie bei einem klassischen Broadcast die Nachrichten an alle sich in der Nähe befindlichen Geräte versendet. Inwiefern der klassische Broadcast vom Benutzer semantisch eingeschränkt werden kann, lässt sich in der Komponentenbeschreibung der Komponente Semantischer Filter in Erfahrung bringen.\newline
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{general/BroadcastStruktur1.png}}
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{broadcast/images/communicationComps.png}}%
+	\caption{Die Broadcast-Komponente innerhalb des Nachrichtenaustauschs}
+	\label{fig:broadcastComp}
+\end{figure}
+\newpage
+\subsubsection{Architektur}
+
+Die Komponente bildet sich vorrangig aus sieben Klassen, wovon drei sich innerhalb des SharkFrameworks und vier sich innerhalb der App befinden. Diese sieben Klassen werden nun ausgehend von der folgenden Abbildung kurz beschrieben:
+\begin{figure}[H]
+	\centering
+	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{general/BroadcastStruktur1.png}}
 	\caption{Die Klassen der Broadcast Komponente}
 	\label{fig:broadcastStructure}
 \end{figure}
 \begin{itemize}
-	\item Die SQLSharkKb ist eine Implementierung der Shark Knowledgebase mit SQLite. Mit ihr werden sämtliche Daten wie beispielsweise die Nachrichten, semantische Annotationen oder auch Benutzerprofile gespeichert. Sie nimmt ausschließlich Anfragen von Klassen aus dem SharkFramework entgegen.
-	\item Der BroadcastManager ist die direkte Schnittstelle zwischen dem Framework und der App. Er nimmt Broadcast-Objekte vom BroadcastDao entgegen und lässt diese gegebenfalls von der SQLSharkKb speichern. Sollte eine neue Nachricht den Peer erreichen, wird vom BroadcastManager die Nachricht auf ihre semantische Relevanz hin überprüft und im Erfolgsfall der Wissenbasis des Peers hinzugefügt.
-	\item Der SemanticRoutingListener liefert neue vom BroadcastManager akzeptierte Nachrichten an die BroadcastActivity
+	\item Die SQLSharkKB ist eine Implementierung der Shark Knowledgebase mit SQLite. Mit ihr werden sämtliche Daten wie beispielsweise die Nachrichten, semantische Annotationen oder auch Benutzerprofile gespeichert. Sie nimmt ausschließlich Anfragen von Klassen aus dem SharkFramework entgegen.
+	\item Der BroadcastManager ist die direkte Schnittstelle zwischen dem Framework und der App. Er nimmt Broadcast-Objekte vom BroadcastDao entgegen und lässt diese gegebenfalls von der SQLSharkKB speichern. Sollte eine neue Nachricht den Peer erreichen, wird vom BroadcastManager die Nachricht auf ihre semantische Relevanz hin überprüft und im Erfolgsfall der Wissenbasis des Peers hinzugefügt.
+	\item Der SemanticRoutingListener liefert neue vom BroadcastManager akzeptierte Nachrichten an die BroadcastActivity.
 	\item Das BroadcastDao nimmt von der BroadcastActivity veränderte Nachrichten in Form eines Objekts vom Typ Broadcast entgegen, baut diese in für das SharkFramework vewertbare Objekte vom Typ ASIPSpace um und leitet diese an den BroadcastManager weiter.
 	\item Wann immer die Anzahl der sich in Reichweite befindlichen Peers ändert, wird die BroadcastActivity vom NearbyPeerListener mit einer angepassten Liste von Peers versorgt.
-	\item Die BroadcastActivity ist die Schnittstelle zwischen Benutzer und App. Sie nimmt neue Nachrichten vom Benutzer entgegen, wobei das Hinzufügen von semantischen Annotationen optional ist. Sie benutzt die Entitätsklasse Broadcast um die Nachrichten in einer Klasse zu bündeln, welche bei Aktualisierungen an das BroadcastDao weitergereicht werden. 
+	\item Die BroadcastActivity ist die Schnittstelle zwischen Benutzer und App. Sie nimmt neue Nachrichten vom Benutzer entgegen, wobei das Hinzufügen von semantischen Annotationen optional ist. Sie benutzt die Entitätsklasse Broadcast um die Nachrichten in einer Klasse zu bündeln, welche bei Aktualisierungen an das BroadcastDao weitergereicht werden.\\
 \end{itemize}
-Die Broadcast-Komponente benutzt zum Versenden von Nachrichten WiFi-Direct, Bluetooth (BT), Radar und den Semantischen Filter:
-\begin{figure}[H]
-	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{broadcast/images/communicationComps.png}}
-	\caption{Versand einer Broadcast-Nachricht mithilfe der Komponenten}
-	\label{fig:broadcastComps}
-\end{figure}
-Lorem ipsum
+
 \subsubsection{Nutzung}
-Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebunden. Der Endanwender kann über die diese Activity Nachrichten versenden, betrachten und mit semantischen Annotationen versehen, wobei Letzteres auch die Komponente Semantische Filter betrifft.
+Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebunden. Der Endanwender kann über diese Activity Nachrichten versenden, betrachten und mit semantischen Annotationen versehen, wobei Letzteres auch die Komponente Semantische Filter betrifft.
 \\Die Komponente kann aber auch in eigenen Activities benutzt werden ohne die vorgegebene \textit{BroadcastActivity} benutzen zu müssen. Der Entwickler muss bei seiner eigenen Activity dafür lediglich von der Klasse \textit{BaseActivity} erben. Die Klasse \textit{BaseActivity} stellt das Attribut \textit{mApi} vom Typ \textit{SharkNetApi} bereit, mit dem durch die Methoden \textit{getBroadcast()} und \textit{updateBoradcast(...)} der Broadcast geliefert und verändert werden kann.
 \\Im Rahmen dieser Arbeit wird die Broadcast-Komponente zusammen mit Bluetooth und WiFi-Direct genutzt, sie kann aber auch andere Technologien zur Datenübertragung nutzen. Möchte ein Entwickler beispielsweise NFC statt Bluetooth benutzen, so kann er das in der \textit{SharkEngine} einstellen, die dort vermerkten Protokolle werden dann vom \textit{BroadcastManager} für den Datenaustausch genutzt.
 \begin{figure}[H]
@@ -39,8 +36,7 @@ Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebund
 	\caption{Die Funktion des BroadcastManagers beim Versenden einer Nachricht}
 	\label{fig:sendOperation}
 \end{figure}
-Lorem ipsum
-
+Abbildung \ref{fig:sendOperation} verdeutlicht, dass der \textit{BroadcastManager} unabhängig von der konkreten Übertragungstechnologie arbeitet. Die Übertragungsart wird erst innerhalb von neu erzeugten Instanzen der Klasse \textit{ASIPOutMessage} durch die \textit{SharkEngine} festgelegt. Der \textit{BroadcastManager} aktualisiert anschließend die Hashmap, in welcher die Sequenznummern der bereits verarbeiteten Nachrichten vermerkt sind. Anschließend wird die Nachricht übertragen.\newpage  
 \subsubsection{Code}
 Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden. 
 \\Die Broadcast-Komponente wird vom Shark-Framework per Listener über neue Nachrichten in Kenntnis gesetzt. Der folgende Codeauszug beinhaltet die Verwertung dieser Nachrichten durch die \textit{BroadcastActivity}. \newline
@@ -62,17 +58,14 @@ if (accepted) {
   }
 }
 else {
-Toast.makeText(getApplicationContext(), "Incoming Message rejected!",Toast.LENGTH_LONG).show();
-}
+Toast.makeText(getApplicationContext(), "Incoming Message rejected!",Toast.LENGTH_LONG).show(); }
 \end{lstlisting}
 Über die Parameter \textit{accepted} (Zeile 1) und \textit{forwarded} (Zeile 12) wird der \textit{BroadcastActivity} durch die vorgelagerte Filterung mitgeteilt, ob die Nachricht der Wissensbasis hinzugefügt worden ist und ob diese an andere Peers weitergeleitet werden soll. Falls die Nachricht der Wissensbasis hinzugefügt worden ist, wird die Nachrichtenliste des Broadcasts aus der Wissensbasis ausgelesen (Zeile 2) und innerhalb der Oberfläche angezeigt (Zeilen 7-8). Sollte die Nachricht neben dem Eingangsfilter auch den Ausgangsfilter passiert haben, wird die Nachricht an alle Peers in der Nähe weitergeleitet (Zeile 13). 
 
 \subsubsection{Gerätetest}
-Innerhalb der Broadcast-Komponente werden ausschließlich Oberflächenelemente genutzt, die von allen Android-Versionen (ab 4.2) genutzt werden können. Im Rahmen dieser Arbeit ist die Broadcast-Komponente abhängig von den Komponenten WiFi-Direct, Bluetooth und Radar, da sonst keine Nachrichten erfolgreich versandt und empfangen werden können. Aktuell können daher nur die Geräte den Broadcast nutzen, die zu den drei Komponenten kompatibel sind.
+Innerhalb der Broadcast-Komponente werden ausschließlich Oberflächenelemente genutzt, die von allen Android-Versionen (ab 4.2) genutzt werden können. Im Rahmen dieser Arbeit ist die Broadcast-Komponente abhängig von den Komponenten WiFi-Direct, Bluetooth und Radar, da sonst keine Nachrichten erfolgreich versandt und empfangen werden können. Aktuell können daher nur die Geräte den Broadcast nutzen, die zu den drei Komponenten kompatibel sind.\\
 \begin{table}[H]
 	\begin{center}
-		\caption{Kompatibilitätstests im Überblick}
-		\label{tab:testsAll}
 		\begin{tabular}{l|c|c|c|c|c} 			
 			Gerät & Version & WiFi-Direct & Bluetooth & Radar & Broadcast \\
 			\hline
@@ -86,6 +79,8 @@ Innerhalb der Broadcast-Komponente werden ausschließlich Oberflächenelemente g
 			Raspberry Pi 3 & 6.0.1 & Nein & Ja & Ja & Nein\\	
 			Wandboard Quad & 5.0.2 & Nein & Ja & Ja & Nein\\			
 		\end{tabular}
+		\caption{Kompatibilitätstests im Überblick}
+		\label{tab:testsAll}
 	\end{center}
 \end{table}
 \subsubsection{Ausblick}

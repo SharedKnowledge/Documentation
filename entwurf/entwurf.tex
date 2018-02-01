@@ -1,19 +1,17 @@
 \subsection{Aufbau der Datenpakete}
 \subsubsection{Überblick}
-Es handelt sich bei dem zu entwickelnden Protokoll um ein Nachrichtenprotokoll. Daher wird der aus anderen Protokollen bekannte Begriff Datenpaket hier als eine Nachricht (Message) definiert. Diese Nachricht wird in zwei Hauptteile gegliedert. Den ersten Teil bildet der Nachrichtenheader, während der zweite Teil durch eine Instanz der Klasse \textit{Knowledge} gebildet wird.
+Es handelt sich bei dem zu entwickelnden Protokoll um ein Nachrichtenprotokoll. Daher wird der aus anderen Protokollen bekannte Begriff Datenpaket hier als eine Nachricht (Message) definiert. Diese Nachricht wird in zwei Hauptteile gegliedert. Den ersten Teil bildet der Nachrichtenheader, während der zweite Teil durch eine Instanz der Klasse \textit{Knowledge} gebildet wird.\\
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{entwurf/images/NachrichtAufbau1.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/NachrichtAufbau1.png}}%
 	\caption{Die zwei Hauptbestandteile einer Nachricht}
 	\label{fig:message1}
 \end{figure}
+\newpage
 \subsubsection{Header}
-Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokollen nicht zum Routing eingesetzt, dies ist allein von den semantischen Annotationen innerhalb des \textit{Knowledge} abhängig. Der Header ist dennoch unabdingbar, da er eine Nachricht als SharkNet Broadcast-Nachricht kennzeichnet und die Verarbeitungsart der Nachricht kennzeichnet. Der Header enthält folgende Bestandteile:
+Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokollen nicht zum Routing eingesetzt, dies ist allein von den semantischen Annotationen innerhalb des \textit{Knowledge} abhängig. Der Header ist dennoch unabdingbar, da er eine Nachricht als SharkNet Broadcast-Nachricht kennzeichnet und die Verarbeitungsart der Nachricht kennzeichnet. Der Header enthält folgende Bestandteile:\\
 \begin{table}[H]
 	\begin{center}
-		\caption{Bestandteile des Headers}
-		\label{tab:messageHeader}
 		\begin{tabular}{l|l} 			
 			Bestandteil & Erläuterung \\
 			\hline
@@ -28,65 +26,63 @@ Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokolle
 			Topic & Sequenznummer, wird nicht vom semantischen Filter ausgewertet\\
 			Type & Kennzeichnung der Nachrichtenart\\							
 		\end{tabular}
+		\caption{Bestandteile des Headers}
+		\label{tab:messageHeader}
 	\end{center}
 \end{table}
-Die obligatorischen Headerbestandteile sind: Version, Format, Command, Receiver Peer, Topic und Type. Das Command ist für das Versenden der Nachrichten auf \textit{Insert} gestellt, damit die Empfangsgeräte die neue Nachricht nach erfolgreicher Filterung in ihre Wissensbasis einfügen. Das zweite Command \textit{Expose} wird fast ausschließlich von der WiFi-Komponente zum Austausch von Kontaktinformationen benutzt. Auch wenn es sich um einen Broadcast handelt, muss das Zielgerät stets im Header eingetragen sein, die Nachricht kann sonst nicht zugestellt werden. Wenn sich also beispielsweise fünf Geräte in der Nähe befinden, werden fünf Nachrichten mit angepasstem Header verschickt. Der Type markiert die Nachricht als eine Broadcast-Nachricht, damit diese nicht fälschlicherweise als Chat-Nachricht verarbeitet wird.
+Die obligatorischen Headerbestandteile sind: Version, Format, Command, Receiver Peer, Topic und Type. Das Command ist für das Versenden der Nachrichten auf \textit{Insert} gestellt, damit die Empfangsgeräte die neue Nachricht nach erfolgreicher Filterung in ihre Wissensbasis einfügen. Das zweite Command \textit{Expose} wird fast ausschließlich von der WiFi-Komponente zum Austausch von Kontaktinformationen benutzt. Auch wenn es sich um einen Broadcast handelt, muss das Zielgerät stets im Header eingetragen sein, die Nachricht kann sonst nicht zugestellt werden. Wenn sich also beispielsweise fünf Geräte in der Nähe befinden, werden fünf Nachrichten mit angepasstem Header verschickt. Der Type markiert die Nachricht als eine Broadcast-Nachricht, damit diese nicht fälschlicherweise als Chat-Nachricht verarbeitet wird.\newpage
 \subsubsection{Knowledge}
 Der Hauptteil der Nachricht spaltet sich in drei Bereiche auf.
 \begin{itemize}
 	\item Das Vocabulary, welches alle Semantic Tags beinhaltet, die die Nachricht beschreiben
-	\item Einen Informationsraum (InformationSpace), der die semantische Beschreibung des Nachrichteninhalts ist. Er besteht aus den in Kapitel zwei beschriebenen sieben Dimensionen mit den dazugehörigen Semantischen Netzen.
+	\item Einen Informationsraum (Information Space), der die semantische Beschreibung des Nachrichteninhalts ist. Er besteht aus den in Kapitel zwei beschriebenen sieben Dimensionen mit den dazugehörigen Semantischen Netzen
 	\item Der eigentliche Nachrichteninhalt (Info Content)	
 \end{itemize}
-Der in Abbildung 2 dargestellte Bereich \textit{Info Meta Data} befindet daher sich wie oben beschrieben im Header und nicht im Knowledge.
+Der in Abbildung 2 dargestellte Bereich \textit{Info Meta Data} befindet sich daher sich wie oben beschrieben im Header und nicht im Knowledge.
 \subsection{Nachrichtenaustausch}
 \subsubsection{Ohne semantische Filterung}
 Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungerichtet an alle Kommunikationsteilnehmer, die sich in Reichweite befinden. Jeder Teilnehmer entscheidet selbst, ob er eine Nachricht seiner Wissensbasis hinzufügt und sie ebenfalls an alle in der Nähe befindlichen Geräte sendet. Wie im Kapitel Grundlagen beschrieben, müssen dabei Loops unterbunden werden, da die Kommunikation sonst durch eine Endlosschleife fehlschlagen würde. Das folgende Szenario stellt beispielhaft diese Situation ohne Beachtung einer semantischen  Filterung dar.
+\vspace*{-2em}
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{entwurf/images/beispielszenario.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.5\linewidth]{entwurf/images/beispielszenario1.png}}
 	\caption{Kommunikation ohne semantische Filterung}
 	\label{fig:beispielszenario}
 \end{figure}
-Das Szenario von Abbildung 3 beinhaltet die fünf Smartphones Alpha, Beta, Gamma, Delta und Epsilon, welche zusammen ein kabelungebundenes Ad-Hoc-Netz bilden. Der Ursprung der Nachricht ist Alpha, welches eine Nachricht per Broadcast an alle Geräte schickt. Es befinden sich jedoch nur die Geräte Gamma, Delta und Beta in der direkten Reichweite von Alpha. Alpha sendet zunächst an alle Geräte in Reichweite die Nachricht, was jeweils durch die durchgezogene Kante symbolisiert wird. Die Geräte Gamma, Delta und Beta senden nun ihrerseits die empfangene Nachricht an alle Geräte in Reichweite. Dies würde jedoch zu Schleifen innerhalb der Kommunikation führen, falls bereits empfangene oder abgeschickte Nachrichten nicht abgelehnt werden sollten. Dies wird mit gepunkteten Kanten symbolisiert. Eine Ausnahme ist die Nachricht, die von Gamma an Epsilon geschickt wird. Da Epsilon keine Nachricht von Alpha empfangen konnte, wird die Nachricht von Gamma akzeptiert. 
+Das Szenario in Abbildung 3 beinhaltet die fünf Smartphones Alpha, Beta, Gamma, Delta und Epsilon, welche zusammen ein kabelungebundenes Ad-Hoc-Netz bilden. Der Ursprung der Nachricht ist Alpha, welches eine Nachricht per Broadcast an alle Geräte schickt. Es befinden sich jedoch nur die Geräte Gamma, Delta und Beta in der direkten Reichweite von Alpha. Alpha sendet zunächst an alle Geräte in Reichweite die Nachricht, was jeweils durch die durchgezogene Kante symbolisiert wird. Die Geräte Gamma, Delta und Beta senden nun ihrerseits die empfangene Nachricht an alle Geräte in Reichweite. Dies würde jedoch zu Schleifen innerhalb der Kommunikation führen, falls bereits empfangene oder abgeschickte Nachrichten nicht abgelehnt werden sollten. Dies wird mit gepunkteten Kanten symbolisiert. Eine Ausnahme ist die Nachricht, die von Gamma an Epsilon geschickt wird. Da Epsilon keine Nachricht von Alpha empfangen konnte, wird die Nachricht von Gamma akzeptiert. 
 \subsubsection{Mit semantischer Filterung}
 Der Standardfall für die zu entwickelnde Anwendung wird der wiederholte Broadcast mit vorhergehender und nachfolgender semantischer Filterung sein. Jedes Gerät kann durch einen Eingangsfilter und einen Ausgangsfilter festlegen, welche Nachrichten akzeptiert und eventuell zusätzlich an andere Geräte in der Nähe weitergeleitet werden. 
 \\Sollte beispielsweise Alpha eine Nachricht versenden, die nicht den Eingangsfilter von Gamma passieren kann, würde sich der eben vorgestellte Kommunikationsablauf nun wie folgt darstellen.
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
 	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{entwurf/images/beispielszenario2.png}}%
 	\caption{Kommunikation mit semantischer Filterung I}
 	\label{fig:beispielszenario2}
 \end{figure}
 Gamma lehnt die Nachricht aufgrund seines Filters ab, dabei ist es unerheblich von welchem Gerät die Nachricht kommt. Folglich kann Epsilon die Nachricht nicht mehr von Gamma erhalten, stattdessen wird diese nun von Delta empfangen. 
-\\Falls mehrere Geräte einen restriktiven Eingangsfilter konfiguriert haben, können Nachrichten teilweise nicht an alle Geräte zugestellt werden, wie das folgende Szenario zeigt.
+\\Falls mehrere Geräte einen restriktiven Eingangsfilter konfiguriert haben, können Nachrichten teilweise nicht an alle Geräte zugestellt werden, wie das folgende Szenario zeigt:\\
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{entwurf/images/beispielszenario3.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{entwurf/images/beispielszenario3.png}}
 	\caption{Kommunikation mit semantischer Filterung II}
 	\label{fig:beispielszenario3}
 \end{figure}
 In diesem Szenario lehnen sowohl Gamma als auch Delta die Nachricht ab, nur Beta akzeptiert die Nachricht und versucht diese weiterzuleiten. Da Epsilon sich nicht innerhalb der Sendereichweite von Alpha oder Beta befindet, kann die Nachricht das Gerät nicht erreichen. Die Anzahl der Routen wurde durch die Filterung also deutlich verringert. 
-\\Dies mag zunächst problematisch erscheinen, ist aber die Intention des Protokolls. Das hier vorgeschlagene inhaltsbasierte Routing hat nicht das vorrangige Ziel, effiziente Routen zu allen Geräten zu finden, sondern soll allein von den Interessen der Geräte abhängig sein. 
-
+\\Dies mag zunächst problematisch erscheinen, ist aber die Intention des Protokolls. Das hier vorgeschlagene inhaltsbasierte Routing hat nicht das vorrangige Ziel, effiziente Routen zu allen Geräten zu finden, sondern soll allein von den Interessen der Geräte abhängig sein. \newpage
 \subsection{Ablauf der Filterung}
-Um einen adäquaten Aufbau und Ablauf der Filterung bestimmen zu können, müssen zunächst die Anforderungen an den Filter formuliert werden.
+Um einen adäquaten Aufbau und Ablauf der Filterung bestimmen zu können, müssen zunächst die Anforderungen an den Filter formuliert werden:
 \begin{itemize}
 	\item Es müssen alle Dimensionen (siehe Abbildung 1) ausgewertet werden können, die im Shark-Framework und ASIP definiert sind.
 	\item Weiterhin muss dynamisch einstellbar sein, wann welche Dimension durch den Filter ausgewertet wird. Es muss auch nicht zwingend jede Dimension ausgewertet werden, dies ist ebenfalls abhängig vom Benutzer.
 	\item Die Auswertung sollte nur mit Datenstrukturen ausgeführt werden, die aus dem Shark-Framework und ASIP bekannt sind.
 	\item Die Filterung findet nach dem Erhalt der Nachricht und vor der Anzeige auf dem Gerät statt. Der Prozess der Filterung ist daher sehr zeitkritisch und muss möglichst schnell durchgeführt werden können. Sollte ein vom Eingangsfilter abweichender Ausgangsfilter gesetzt sein, muss die Nachricht sogar zweimal gefiltert werden.
-	\item Es muss unbedingt mit Interfaces gearbeitet werden, um die Erweiterbarkeit und Austauschbarkeit des Filterprozesses zu gewährleisten.
+	\item Es muss zwingend mit Interfaces gearbeitet werden, um die Erweiterbarkeit und Austauschbarkeit des Filterprozesses zu gewährleisten.
 \end{itemize}
-Eine Implementierung des Filters muss diese Punkte beachten. In der Komponentenbeschreibung des semantischen Filters finden sich Details zu der im Rahmen dieser Arbeit erstellten Implementierung. [...]
+Eine Implementierung des Filters muss diese Punkte beachten. In der Komponentenbeschreibung des semantischen Filters finden sich Details zu der im Rahmen dieser Arbeit erstellten Implementierung.
 \\Das folgende Aktivitätsdiagramm skizziert den Ablauf des Nachrichtenempfangs.
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=1.0\linewidth]{entwurf/images/empfangNachricht.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=1.12\linewidth]{entwurf/images/empfangNachricht.png}}%
 	\caption{Filterung nach dem Empfang einer Nachricht}
 	\label{fig:empfangNachricht}
 \end{figure}
@@ -97,28 +93,27 @@ Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfa
 	\item Vor dem gleichen Problem steht das RPF. Die Bestimmung des kürzesten Pfades gestaltet sich schwierig, wenn die beteiligten Geräte nicht stationär sind. Bei Geräten in Bewegung besteht die Gefahr, dass Nachrichten ungewollt abgelehnt werden.
 	\item Im Gegensatz dazu muss beim SNKF nur eine Tabelle pro Gerät gepflegt werden, in der die Sequenznummern der Nachrichten gespeichert werden und die unabhängig von der Topologie ist. Bereits empfangene oder versandte Nachrichten können durch die Sequenznummer erkannt und die Bearbeitung folglich abgelehnt werden.
 \end{itemize}
-Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle 2 dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen. 
+Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle 2 dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen.\\
 \subsection{Architektur}
-Die Android-Anwendung SharkNet bindet das SharkFramework als externe Bibliothek ein. In beiden Teilbereichen wurden für die praktische Umsetzung des semantischen Broadcasts Klassen hinzugefügt. Der Aufbau der Anwendung folgt dabei dem Model-View-Controller Entwicklungsmuster, was mit Hilfe voneinander getrennter Activitites, Services, Datenzugriffsobjekten (DAO) und Entitäten umgesetzt worden ist. Das grundlegende Zusammenwirken der zu entwickelnden Klassen zwischen Anwendung und Framework lässt sich beispielhaft an zwei einfachen Szenarios erklären. Beim ersten Beispiel schreibt der Benutzer eine Broadcast-Nachricht.
+Die Android-Anwendung SharkNet bindet das SharkFramework als externe Bibliothek ein. In beiden Teilbereichen wurden für die praktische Umsetzung des semantischen Broadcasts Klassen hinzugefügt. Der Aufbau der Anwendung folgt dabei dem Model-View-Controller Entwicklungsmuster, was mithilfe voneinander getrennter Activitites, Services, Datenzugriffsobjekten (DAO) und Entitäten umgesetzt worden ist. Das grundlegende Zusammenwirken der zu entwickelnden Klassen zwischen Anwendung und Framework lässt sich beispielhaft an zwei einfachen Szenarios erklären. Beim ersten Beispiel schreibt der Benutzer eine Broadcast-Nachricht:
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{entwurf/images/strukturNachrichtSenden.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{entwurf/images/strukturNachrichtSenden.png}}%
 	\caption{Anwendung und Framework beim Absenden einer Nachricht}
 	\label{fig:sendenNachrichtStruktur}
 \end{figure}
+\vspace*{0.8em}
 \begin{enumerate}
 	\item Der Benutzer gibt über die Benutzeroberfläche eine Broadcast-Nachricht ein und sendet diese ab. 
-	\item Der zuständige Service nimmt die Zeichenkette entgegen, führt eine \textit{sanitization} durch und reicht diese an ein DAO weiter
+	\item Der zuständige Service nimmt die Zeichenkette entgegen, führt eine \textit{sanitization} durch und reicht diese an ein DAO weiter.
 	\item Das DAO erhält vom Service eine Message-Entität. Es ist zuständig für das Speichern, Löschen und Editieren von Entitäten. Das DAO nutzt nun die \textit{SQLSharkKB}, um das Objekt der Wissensbasis des Benutzers hinzuzufügen. 
 	\item Die SQLSharkKB speichert nun die Entität innerhalb einer SQLite-Datenbank. Sie wird im Unterkapitel Persistenz näher erläutert.
 	\item Nachdem die Nachricht gespeichert worden ist, soll sie an alle Geräte in der Umgebung versendet werden. Dies geschieht durch den \textit{Broadcast Manager}, welcher die Nachricht vom DAO entgegen nimmt und sie per WiFi-Direct und Bluetooth versendet.
-\end{enumerate}
+\end{enumerate}\newpage
 Der Routing Port und der Semantische Filter sind nur beim Empfangen von Nachrichten relevant. Beim Empfang kehrt sich der Ablauf gewissermaßen um, die Nachricht wandert vom Framework zur Anwendung. 
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
-	\makebox[\linewidth][c]{\includegraphics[width=0.7\linewidth]{entwurf/images/strukturNachrichtEmpfangen.png}}%
+	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{entwurf/images/strukturNachrichtEmpfangen.png}}%
 	\caption{Anwendung und Framework beim Absenden einer Nachricht}
 	\label{fig:empfangenNachrichtStruktur}
 \end{figure}
@@ -137,26 +132,23 @@ Alle Daten der Anwendung werden innerhalb einer Wissensbasis gespeichert. Das In
 \\Dafür muss zunächst ein Datenbankschema festgelegt werden. 
 \begin{figure}[H]
 	\centering
-	\hspace*{1cm}
 	\makebox[\linewidth][c]{\includegraphics[width=0.8\linewidth]{entwurf/images/sharkSQL.jpg}}%
-	\caption{Auszug aus dem Datenbankschema der SQLite Implementierung der SharkKB}
+	\caption{Auszug aus dem DB-Schema der SQLite Implementierung der SharkKB}
 	\label{fig:sharkSQL}
 \end{figure}
-Alle Tabellen verfügen über eine als Primärschlüssel dienende ID, welche automatisch inkrementiert wird. \\Die Tabelle \textit{semantic tag} kann jede Art eines \textit{Semantic Tag} darstellen, diese wird durch das Attribut \textit{tag kind} gekennzeichnet (normal, peer, time, spatial). Entsprechend der Art können zusätzliche Attribute gesetzt sein, \textit{wkt} für \textit{Spatial Tags} und duration sowie start für \textit{Time Tags}. Da ein \textit{Semantic Tag} mehrere \textit{Subject Identifier} haben kann, sind diese in eine extra Tabelle ausgelagert. Das gleiche gilt für die Adressen, falls es sich um ein \textit{Peer Semantic Tag} halten sollte. 
+Alle Tabellen verfügen über eine als Primärschlüssel dienende ID, welche automatisch inkrementiert wird. \\Die Tabelle \textit{semantic tag} kann jede Art eines \textit{Semantic Tag} darstellen, diese wird durch das Attribut \textit{tag kind} gekennzeichnet (normal, peer, time, spatial). Entsprechend der Art können zusätzliche Attribute gesetzt sein, wkt für \textit{Spatial Tags} und duration sowie start für \textit{Time Tags}. Da ein \textit{Semantic Tag} mehrere \textit{Subject Identifier} haben kann, sind diese in eine extra Tabelle ausgelagert. Das gleiche gilt für die Adressen, falls es sich um ein \textit{Peer Semantic Tag} halten sollte. 
 \\Die bereits erläuterten Strukturen \textit{Tag Set} und \textit{Semantic Net} werden durch die Tabelle \textit{tag set} repräsentiert. Ähnlich wie beim \textit{Semantic Tag} wird durch das Attribut \textit{set kind} festgelegt, welche der beiden Strukturen innerhalb eines Tabelleneintrags vorkommen.
-\\Wenn es sich um ein \textit{Semantic Net} handelt, können jeweils zwei Tags durch benannte Beziehungen miteinander verknüpft werden. Diese Beziehung ist über die Fremdschlüssel dann den beiden Tags und dem Semantischen Netz zugeordnet. 
+\\Wenn es sich um ein \textit{Semantic Net} handelt, können jeweils zwei Tags durch benannte Beziehungen miteinander verknüpft werden. Diese Beziehung ist dann den beiden Tags und dem Semantischen Netz über die Fremdschlüssel zugeordnet. 
 \\Einem \textit{tag set} kann eine Information zugeordnet werden. Die Tabelle \textit{information} enthält unter anderem die Rohdaten der Nachricht (Attribut \textit{conent stream}) und wird durch die zugeordneten \textit{Tag Sets} semantisch eingeordnet. 
-\newline [...]
 \newpage
 
 \subsection{Benutzeroberfläche}
-Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintragung von semantischen Annotationen so simpel wie möglich machen, mit der Anwendung adäquat interagieren zu können. Das Design sollte möglichst modern und schlicht sein, wobei es jedoch keinen Schwerpunkt dieser Arbeit darstellen soll. 
+Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintragung von semantischen Annotationen so einfach wie möglich machen, mit der Anwendung adäquat interagieren zu können. Das Design sollte möglichst modern und schlicht sein, wobei dies jedoch keinen Schwerpunkt dieser Arbeit darstellen soll. 
 \\Die dafür teils von der Chatfunktionalität weitergenutzte und teils neu entwickelte Ober\-flä\-che wird nun wieder anhand eines kleinen Beispiels beschrieben. Das Gerät \textit{Nexus5x} möchte sich mit allen Geräten in der Umgebung über das Thema HTW-Motorsport unterhalten. Zunächst werden alle begrüßt, da bisher unbekannt ist, welches Gerät sich in Reichweite befindet.\newline\newline
 \hspace*{0cm}
 \begin{minipage}{0.47\linewidth}
  \begin{figure}[H]
  	\centering
- 	%\hspace*{1cm}
  	\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/hello1.png}}
  	\caption{Begrüßung der Geräte}
  	\label{fig:hello1}
@@ -166,19 +158,17 @@ Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintrag
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/hello2.png}}
 		\caption{Semantische Dimensionen}
 		\label{fig:hello2}
 	\end{figure}
 \end{minipage}
 \newpage
-Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfangenen und abgeschickten Nachrichten angezeigt. Über das Eingabefeld können eigene Nachrichten verschickt werden. Diese Nachrichten können semantische Annotationen enthalten. Um diese hinzuzufügen, klickt der Benutzer auf den Button mit dem Stift, wodurch sich ein Fenster oberhalb des Eingabefensters mit allen bekannten Dimensionen öffnet. Das Thema der Nachricht soll der HTW-Motorsport sein, deshalb wird nun der Topic-Button betätigt. \newline\newline
+Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfangenen und abgeschickten Nachrichten angezeigt. Über das Eingabefeld können eigene Nachrichten verschickt werden. Diese Nachrichten können semantische Annotationen enthalten. Um diese hinzuzufügen, klickt der Benutzer auf den Button mit dem Stift, wodurch sich ein Fenster oberhalb des Eingabefensters mit allen bekannten Dimensionen öffnet. Das Thema der Nachricht soll der HTW-Motorsport sein, deshalb wird nun der Topic-Button betätigt. \newline
 \hspace*{0cm}
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/topicAnnotation.png}}
 		\caption{Topic-Annotationen}
 		\label{fig:topicAnnotation}
@@ -188,7 +178,6 @@ Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfange
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/relation.png}}
 		\caption{Relation hinzufügen}
 		\label{fig:motorsportNachricht}
@@ -196,12 +185,11 @@ Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfange
 \end{minipage}
 \newline\newline\newline Der Topic-Button führt zur Liste aller Semantic Tags, die der Nachricht innerhalb der Dimension Topic hinzugefügt worden sind, wie in Abbildung 12 dargestellt. Hinzugefügte Semantic Tags können wiederum berührt werden, um Relationen zwischen den Tags hinzufügen zu können. Dies zeigt Abbildung 13, bei der abgebildet ist, dass die HTW Berlin das HTW Motorsport-Team finanziert. 
 \newpage
-Neben dem Thema können nun auch andere Dimensionen angegeben werden. Über die Oberfläche der Time-Dimension kann beispielsweise der Zeitraum angegeben werden. Dafür gibt es einen Startzeitpunkt-Button und einen Endzeitpunkt-Button, bei deren Aktivierung sich ein Date/Time-Picker öffnet, mit den der jeweilige Zeitpunkt angegeben werden kann.\newline\newline
+Neben dem Thema können nun auch andere Dimensionen angegeben werden. Über die Oberfläche der Time-Dimension kann beispielsweise der Zeitraum angegeben werden. Dafür gibt es einen Startzeitpunkt-Button und einen Endzeitpunkt-Button, bei deren Aktivierung sich ein Date/Time-Picker öffnet, mit den der jeweilige Zeitpunkt angegeben werden kann.\newline
 \hspace*{0cm}
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/time1.png}}
 		\caption{Startzeit und Endzeit}
 		\label{fig:time1}
@@ -211,7 +199,6 @@ Neben dem Thema können nun auch andere Dimensionen angegeben werden. Über die 
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/time2.png}}
 		\caption{Date/Time-Picker}
 		\label{fig:time2}
@@ -224,7 +211,6 @@ Neben dem Thema können nun auch andere Dimensionen angegeben werden. Über die 
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/profile1.png}}
 		\caption{Profilübersicht}
 		\label{fig:profile1}
@@ -234,7 +220,6 @@ Neben dem Thema können nun auch andere Dimensionen angegeben werden. Über die 
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
 		\centering
-		%\hspace*{1cm}
 		\makebox[\linewidth][c]{\includegraphics[width=\linewidth]{entwurf/images/gui/profile2.png}}
 		\caption{Eingangsprofil}
 		\label{fig:profile2}
