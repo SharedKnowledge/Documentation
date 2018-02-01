@@ -9,7 +9,7 @@ Es handelt sich bei dem zu entwickelnden Protokoll um ein Nachrichtenprotokoll. 
 \end{figure}
 \newpage
 \subsubsection{Header}
-Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokollen nicht zum Routing eingesetzt, dies ist allein von den semantischen Annotationen innerhalb des \textit{Knowledge} abhängig. Der Header ist dennoch unabdingbar, da er eine Nachricht als SharkNet Broadcast-Nachricht kennzeichnet und die Verarbeitungsart der Nachricht kennzeichnet. Der Header enthält folgende Bestandteile:\\
+Der Nachrichtenheader wird im Gegensatz zu anderen klassischen Routingprotokollen nicht zum Routing eingesetzt, dies ist allein von den semantischen Annotationen innerhalb des \textit{Knowledge} abhängig. Der Header ist dennoch unabdingbar, da er eine Nachricht als SharkNet Broadcast-Nachricht und die Verarbeitungsart der Nachricht kennzeichnet. Der Header enthält folgende Bestandteile:\\
 \begin{table}[H]
 	\begin{center}
 		\begin{tabular}{l|l} 			
@@ -34,11 +34,11 @@ Die obligatorischen Headerbestandteile sind: Version, Format, Command, Receiver 
 \subsubsection{Knowledge}
 Der Hauptteil der Nachricht spaltet sich in drei Bereiche auf.
 \begin{itemize}
-	\item Das Vocabulary, welches alle Semantic Tags beinhaltet, die die Nachricht beschreiben
-	\item Einen Informationsraum (Information Space), der die semantische Beschreibung des Nachrichteninhalts ist. Er besteht aus den in Kapitel zwei beschriebenen sieben Dimensionen mit den dazugehörigen Semantischen Netzen
+	\item Das Vocabulary, welches alle Semantic Tags beinhaltet, die die Nachricht beschreiben.
+	\item Einen Informationsraum (Information Space), der die semantische Beschreibung des Nachrichteninhalts ist. Er besteht aus den in Tabelle \ref{tab:dimension} beschriebenen sieben Dimensionen mit den dazugehörigen semantischen Netzen.
 	\item Der eigentliche Nachrichteninhalt (Info Content)	
 \end{itemize}
-Der in Abbildung 2 dargestellte Bereich \textit{Info Meta Data} befindet sich daher sich wie oben beschrieben im Header und nicht im Knowledge.
+Der in Abbildung \ref{fig:knowledge} dargestellte Bereich \textit{Info Meta Data} befindet sich daher sich wie oben beschrieben im Header und nicht im Knowledge.
 \subsection{Nachrichtenaustausch}
 \subsubsection{Ohne semantische Filterung}
 Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungerichtet an alle Kommunikationsteilnehmer, die sich in Reichweite befinden. Jeder Teilnehmer entscheidet selbst, ob er eine Nachricht seiner Wissensbasis hinzufügt und sie ebenfalls an alle in der Nähe befindlichen Geräte sendet. Wie im Kapitel Grundlagen beschrieben, müssen dabei Loops unterbunden werden, da die Kommunikation sonst durch eine Endlosschleife fehlschlagen würde. Das folgende Szenario stellt beispielhaft diese Situation ohne Beachtung einer semantischen  Filterung dar.
@@ -49,7 +49,7 @@ Der Austausch von Nachrichten mittels des Protokolls erfolgt zunächst ungericht
 	\caption{Kommunikation ohne semantische Filterung}
 	\label{fig:beispielszenario}
 \end{figure}
-Das Szenario in Abbildung 3 beinhaltet die fünf Smartphones Alpha, Beta, Gamma, Delta und Epsilon, welche zusammen ein kabelungebundenes Ad-Hoc-Netz bilden. Der Ursprung der Nachricht ist Alpha, welches eine Nachricht per Broadcast an alle Geräte schickt. Es befinden sich jedoch nur die Geräte Gamma, Delta und Beta in der direkten Reichweite von Alpha. Alpha sendet zunächst an alle Geräte in Reichweite die Nachricht, was jeweils durch die durchgezogene Kante symbolisiert wird. Die Geräte Gamma, Delta und Beta senden nun ihrerseits die empfangene Nachricht an alle Geräte in Reichweite. Dies würde jedoch zu Schleifen innerhalb der Kommunikation führen, falls bereits empfangene oder abgeschickte Nachrichten nicht abgelehnt werden sollten. Dies wird mit gepunkteten Kanten symbolisiert. Eine Ausnahme ist die Nachricht, die von Gamma an Epsilon geschickt wird. Da Epsilon keine Nachricht von Alpha empfangen konnte, wird die Nachricht von Gamma akzeptiert. 
+Das Szenario in Abbildung \ref{fig:beispielszenario} beinhaltet die fünf Smartphones Alpha, Beta, Gamma, Delta und Epsilon, welche zusammen ein kabelungebundenes Ad-Hoc-Netz bilden. Der Ursprung der Nachricht ist Alpha, welches eine Nachricht per Broadcast an alle Geräte schickt. Es befinden sich jedoch nur die Geräte Gamma, Delta und Beta in der direkten Reichweite von Alpha. Alpha sendet zunächst an alle Geräte in Reichweite die Nachricht, was jeweils durch die durchgezogene Kante symbolisiert wird. Die Geräte Gamma, Delta und Beta senden nun ihrerseits die empfangene Nachricht an alle Geräte in Reichweite. Dies würde jedoch zu Schleifen innerhalb der Kommunikation führen, falls bereits empfangene oder abgeschickte Nachrichten nicht abgelehnt werden sollten. Dies wird mit gepunkteten Kanten symbolisiert. Eine Ausnahme ist die Nachricht, die von Gamma an Epsilon geschickt wird. Da Epsilon keine Nachricht von Alpha empfangen konnte, wird die Nachricht von Gamma akzeptiert. 
 \subsubsection{Mit semantischer Filterung}
 Der Standardfall für die zu entwickelnde Anwendung wird der wiederholte Broadcast mit vorhergehender und nachfolgender semantischer Filterung sein. Jedes Gerät kann durch einen Eingangsfilter und einen Ausgangsfilter festlegen, welche Nachrichten akzeptiert und eventuell zusätzlich an andere Geräte in der Nähe weitergeleitet werden. 
 \\Sollte beispielsweise Alpha eine Nachricht versenden, die nicht den Eingangsfilter von Gamma passieren kann, würde sich der eben vorgestellte Kommunikationsablauf nun wie folgt darstellen.
@@ -70,9 +70,10 @@ Gamma lehnt die Nachricht aufgrund seines Filters ab, dabei ist es unerheblich v
 In diesem Szenario lehnen sowohl Gamma als auch Delta die Nachricht ab, nur Beta akzeptiert die Nachricht und versucht diese weiterzuleiten. Da Epsilon sich nicht innerhalb der Sendereichweite von Alpha oder Beta befindet, kann die Nachricht das Gerät nicht erreichen. Die Anzahl der Routen wurde durch die Filterung also deutlich verringert. 
 \\Dies mag zunächst problematisch erscheinen, ist aber die Intention des Protokolls. Das hier vorgeschlagene inhaltsbasierte Routing hat nicht das vorrangige Ziel, effiziente Routen zu allen Geräten zu finden, sondern soll allein von den Interessen der Geräte abhängig sein. \newpage
 \subsection{Ablauf der Filterung}
+\label{subsec:ablaufFilterung}
 Um einen adäquaten Aufbau und Ablauf der Filterung bestimmen zu können, müssen zunächst die Anforderungen an den Filter formuliert werden:
 \begin{itemize}
-	\item Es müssen alle Dimensionen (siehe Abbildung 1) ausgewertet werden können, die im Shark-Framework und ASIP definiert sind.
+	\item Es müssen alle Dimensionen (siehe Abbildung \ref{fig:knowledge}) ausgewertet werden können, die im Shark-Framework und ASIP definiert sind.
 	\item Weiterhin muss dynamisch einstellbar sein, wann welche Dimension durch den Filter ausgewertet wird. Es muss auch nicht zwingend jede Dimension ausgewertet werden, dies ist ebenfalls abhängig vom Benutzer.
 	\item Die Auswertung sollte nur mit Datenstrukturen ausgeführt werden, die aus dem Shark-Framework und ASIP bekannt sind.
 	\item Die Filterung findet nach dem Erhalt der Nachricht und vor der Anzeige auf dem Gerät statt. Der Prozess der Filterung ist daher sehr zeitkritisch und muss möglichst schnell durchgeführt werden können. Sollte ein vom Eingangsfilter abweichender Ausgangsfilter gesetzt sein, muss die Nachricht sogar zweimal gefiltert werden.
@@ -93,7 +94,7 @@ Hierbei wird auch ersichtlich, dass vor der eigentlichen Filterung bereits empfa
 	\item Vor dem gleichen Problem steht das RPF. Die Bestimmung des kürzesten Pfades gestaltet sich schwierig, wenn die beteiligten Geräte nicht stationär sind. Bei Geräten in Bewegung besteht die Gefahr, dass Nachrichten ungewollt abgelehnt werden.
 	\item Im Gegensatz dazu muss beim SNKF nur eine Tabelle pro Gerät gepflegt werden, in der die Sequenznummern der Nachrichten gespeichert werden und die unabhängig von der Topologie ist. Bereits empfangene oder versandte Nachrichten können durch die Sequenznummer erkannt und die Bearbeitung folglich abgelehnt werden.
 \end{itemize}
-Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle 2 dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen.\\
+Die Sequenznummer ist für das Protokoll eindeutig in Form einer Zeichenkette definiert. Diese Zeichenkette enthält zum einen den \textit{Subject Identifier} des Urhebers der Nachricht und zum anderen den genauen Zeitpunkt der Erzeugung der Nachricht. Diese generierte Sequenznummer ist, wie in Tabelle \ref{tab:messageHeader} dargestellt, Teil des Headers der Nachricht und wird nach Erhalt der Nachricht mit der Tabelle abgeglichen.\\
 \subsection{Architektur}
 Die Android-Anwendung SharkNet bindet das SharkFramework als externe Bibliothek ein. In beiden Teilbereichen wurden für die praktische Umsetzung des semantischen Broadcasts Klassen hinzugefügt. Der Aufbau der Anwendung folgt dabei dem Model-View-Controller Entwicklungsmuster, was mithilfe voneinander getrennter Activitites, Services, Datenzugriffsobjekten (DAO) und Entitäten umgesetzt worden ist. Das grundlegende Zusammenwirken der zu entwickelnden Klassen zwischen Anwendung und Framework lässt sich beispielhaft an zwei einfachen Szenarios erklären. Beim ersten Beispiel schreibt der Benutzer eine Broadcast-Nachricht:
 \begin{figure}[H]
@@ -164,7 +165,7 @@ Die grafische Benutzeroberfläche muss es dem Benutzer vor allem bei der Eintrag
 	\end{figure}
 \end{minipage}
 \newpage
-Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfangenen und abgeschickten Nachrichten angezeigt. Über das Eingabefeld können eigene Nachrichten verschickt werden. Diese Nachrichten können semantische Annotationen enthalten. Um diese hinzuzufügen, klickt der Benutzer auf den Button mit dem Stift, wodurch sich ein Fenster oberhalb des Eingabefensters mit allen bekannten Dimensionen öffnet. Das Thema der Nachricht soll der HTW-Motorsport sein, deshalb wird nun der Topic-Button betätigt. \newline
+Abbildung \ref{fig:hello1} zeigt die Standardansicht des Broadcasts. Hier werden alle empfangenen und abgeschickten Nachrichten angezeigt. Über das Eingabefeld können eigene Nachrichten verschickt werden. Diese Nachrichten können semantische Annotationen enthalten. Um diese hinzuzufügen, klickt der Benutzer auf den Button mit dem Stift, wodurch sich ein Fenster oberhalb des Eingabefensters mit allen bekannten Dimensionen öffnet. Das Thema der Nachricht soll der HTW-Motorsport sein, deshalb wird nun der Topic-Button betätigt. \newline
 \hspace*{0cm}
 \begin{minipage}{0.47\linewidth}
 	\begin{figure}[H]
@@ -183,7 +184,7 @@ Abbildung 10 zeigt die Standardansicht des Broadcasts. Hier werden alle empfange
 		\label{fig:motorsportNachricht}
 	\end{figure}
 \end{minipage}
-\newline\newline\newline Der Topic-Button führt zur Liste aller Semantic Tags, die der Nachricht innerhalb der Dimension Topic hinzugefügt worden sind, wie in Abbildung 12 dargestellt. Hinzugefügte Semantic Tags können wiederum berührt werden, um Relationen zwischen den Tags hinzufügen zu können. Dies zeigt Abbildung 13, bei der abgebildet ist, dass die HTW Berlin das HTW Motorsport-Team finanziert. 
+\newline\newline\newline Der Topic-Button führt zur Liste aller Semantic Tags, die der Nachricht innerhalb der Dimension Topic hinzugefügt worden sind, wie in Abbildung \ref{fig:topicAnnotation} dargestellt. Hinzugefügte Semantic Tags können wiederum berührt werden, um Relationen zwischen den Tags hinzufügen zu können. Dies zeigt Abbildung \ref{fig:motorsportNachricht}, bei der abgebildet ist, dass die HTW Berlin das HTW Motorsport-Team finanziert. 
 \newpage
 Neben dem Thema können nun auch andere Dimensionen angegeben werden. Über die Oberfläche der Time-Dimension kann beispielsweise der Zeitraum angegeben werden. Dafür gibt es einen Startzeitpunkt-Button und einen Endzeitpunkt-Button, bei deren Aktivierung sich ein Date/Time-Picker öffnet, mit den der jeweilige Zeitpunkt angegeben werden kann.\newline
 \hspace*{0cm}

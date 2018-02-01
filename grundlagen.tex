@@ -27,7 +27,7 @@ Wenn ein Paket an alle interessierten Peers innerhalb eines Netzwerks verschickt
 	\item Das \textit{Reverse Path Forwarding} (RPF) lässt die Pakete nur dann an Nachbarknoten weiterleiten, wenn der das Paket absendende Knoten das Paket über den kürzesten Pfad erhalten hat. Es werden alle Pakete verworfen, die nicht auf dem kürzesten Unicast-Pfad zurück zur Quelle liegen.
 	\item Der wohl bekannteste Ansatz ist der Aufbau eines \textit{Spanning Tree}, der alle Knoten genau einmal enthält. Die Knoten leiten die Nachrichten nur an ihre Baumnachbarn weiter. Dadurch können Schleifen vollständig vermieden werden.\\
 \end{itemize}
-In dieser Arbeit wird eine angepasste Variante des sequenznummerierten \textit{flooding} benutzt, um \textit{Broadcast storms} auszuschließen. Dies wird in Unterkapitel 4.3 genauer erläutert.\\
+In dieser Arbeit wird eine angepasste Variante des sequenznummerierten \textit{flooding} benutzt, um \textit{Broadcast storms} auszuschließen. Dies wird in Unterkapitel \ref{subsec:ablaufFilterung} genauer erläutert.\\
 
 \subsection{Shark}
 \subsubsection{Shark Framework}
@@ -54,7 +54,7 @@ Die Behälterklassen werden dann dazu benutzt, um die Informationen zu beschreib
 			Direction & Literal welches den Eingang und Ausgang der Information bestimmt\\
 		\end{tabular}
 		\caption{Dimensionen einer Information}
-		\label{tab:dimensions}
+		\label{tab:dimension}
 	\end{center}
 \end{table}
 Dieses Unterkapitel ist nur eine rudimentäre Zusammenfassung über das Shark Framework, einen ausführlichen Überblick über das Framework bietet der Shark Developer \mbox{Guide} (siehe \citet[S. 7ff]{Schwotzer2014}).
@@ -76,7 +76,7 @@ Die beiden wichtigsten Kommandos des Protokolls sind:
 		\item Technische Metadaten über den Informationsinhalt wie beispielsweise die Anzahl der Bytes
 		\item Semantische Metadaten über den Informationsinhalt in Form der in Tabelle 1 beschriebenen sieben Dimensionen, technisch umgesetzt mit Behältern von \textit{Semantic Tags}.		
 	\end{itemize} 
-	\item Expose: Neben dem Hinzufügen von neuen Wissen haben Peers auch die Möglichkeit, ihr Interesse an neuem Wissen gegenüber anderen Peers zu bekunden. Dies geschieht über den Befehl \textit{Expose}, wobei auch hier das Interesse in Form der in Tabelle 1 dargestellten sieben Dimensionen formuliert wird.
+	\item Expose: Neben dem Hinzufügen von neuen Wissen haben Peers auch die Möglichkeit, ihr Interesse an neuem Wissen gegenüber anderen Peers zu bekunden. Dies geschieht über den Befehl \textit{Expose}, wobei auch hier das Interesse in Form der in Tabelle \ref{tab:dimension} dargestellten sieben Dimensionen formuliert wird.
 \end{itemize}
 Im Kapitel Implementierung werden innerhalb der Komponentenbeschreibungen wiederholt die beiden Shark bzw. ASIP-Interfaces \textit{SharkServer} und\textit{ASIPSession} implementiert. Sie sind zentral für jegliche Form der Kommunikation, wie das folgende Sequenzdiagramm zeigt.\\\\
 \begin{figure}[H]
