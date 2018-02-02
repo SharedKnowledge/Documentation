@@ -3,11 +3,11 @@
 actor "Alice"
 actor "Bob"
 
-"Bob" <[#lightgrey]- "Alice": Sendet BT-Mac-Adresse per WiFi-Direct
-"Alice" <[#lightgrey]- "Bob": Sendet BT-Mac-Adresse per WiFi-Direct
+"Bob" <[#lightgrey]- "Alice": Sendet BT-MAC-Adresse per WiFi-Direct
+"Alice" <[#lightgrey]- "Bob": Sendet BT-MAC-Adresse per WiFi-Direct
 "Alice" <[#lightgrey]- "Alice": Abfrage des Radars
 "Bob" <[#lightgrey]- "Alice": Sendet Broadcast-Nachricht per BT
-"Bob" <[#lightgrey]- "Bob": Sequenznummerüberprüfung
-"Bob" <- "Bob": Filterüberprüfung
+"Bob" <- "Bob": **Sequenznummerüberprüfung**
+"Bob" <[#lightgrey]- "Bob": Filterüberprüfung
 
 @enduml

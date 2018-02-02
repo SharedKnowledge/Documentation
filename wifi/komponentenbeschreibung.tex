@@ -1,16 +1,16 @@
 \subsubsection{Aufgabe der Komponente}
-Über die WiFi-Direct Komponente vermitteln die Peers ihre Kontaktdaten an alle ver\-füg\-ba\-ren Peers in der Nähe. Dies geschieht über den Expose Befehl des ASIP Protokolls, bei dem ein ASIP-Interesse an die Wissensbasis von anderen Peers gesandt wird. Dies beinhaltet unter anderem die Bluetooth MAC-Adresse, mit der dem Peer dann anschließend Nachrichten per Bluetooth geschickt werden können. Das Übermitteln der Bluetooth Mac-Adresse via WiFi-Direct ermöglicht es daher, dass für die darauf folgende Bluetooth-Verbindung kein Pairing benötigt wird. 
-\\Die Komponente ist der elementare Bestandteil des Peer-Radars, der alle sich in der Nähe befindlichen Peers anzeigt und die Kommunikation mit diesen erlaubt. Das Radar ist wiederum dafür erforderlich, neue Chats mit Peers anzulegen oder einen semantischen Broadcast ohne Bluetooth-Pairing zu ermöglichen.
+Über die WiFi-Direct Komponente vermitteln die Peers ihre Kontaktdaten an alle ver\-füg\-ba\-ren Peers in der Nähe. Dies geschieht über den Expose Befehl des ASIP Protokolls, bei dem ein ASIP-Interesse an die Wissensbasis von anderen Peers gesandt wird. Dies beinhaltet unter anderem die Bluetooth MAC-Adresse, mit der dem Peer dann anschließend Nachrichten per Bluetooth geschickt werden können. Das Übermitteln der Bluetooth MAC-Adresse via WiFi-Direct ermöglicht es daher, dass für die darauf folgende Bluetooth-Verbindung kein Pairing benötigt wird. 
+\\Die Komponente ist der elementare Bestandteil des Peer-Radars, das alle sich in der Nähe befindlichen Peers anzeigt und die Kommunikation mit diesen erlaubt. Das Radar ist wiederum dafür erforderlich, neue Chats mit Peers anzulegen oder einen semantischen Broadcast ohne Bluetooth-Pairing zu ermöglichen.
 \begin{figure}[H]
 	\centering
 	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{wifi/images/communicationComps.png}}%
-	\caption{Die WiFi Komponente innerhalb des Nachrichtenaustauschs}
+	\caption{Die WiFi-Komponente innerhalb des Nachrichtenaustauschs}
 	\label{fig:wifiComp}
 \end{figure}
 \newpage
 \subsubsection{Architektur}
 
-Im folgenden UML-Klassendiagramm sind alle Bestandteile der WiFi-Direct Komponente von SharkNet abgebildet.
+Im folgenden UML-Klassendiagramm sind alle Bestandteile der WiFi-Direct Komponente von SharkNet abgebildet:
 \begin{figure}[H]
 	\centering
 	\makebox[\linewidth][c]{\includegraphics[width=1.1\linewidth]{wifi/images/wifiDirectGesamt.png}}%
@@ -26,9 +26,12 @@ Die WiFi-Komponente wird automatisch beim Start der Anwendung gestartet. Manuell
 
 
 \subsubsection{Code}
-Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/wifidirect} betrachtet werden. Wie auch die anderen Implementierungen von Über\-tra\-gungs\-pro\-to\-kol\-len, befindet sich auch die WiFi-Direct-Implementierung im Projekt \textit{SharkNet-Api-Android} im Package \textit{protocols}.
-\\Wie im vorherigen Unterkapitel erläutert, liefern die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} die Funktionalität, um Peers zu finden und andere Peers über das eigene Interesse in Kenntnis zu setzen. 
-\\Bei Aufruf der \textit{startDiscovery()} Methode wird innerhalb der Engine ein neuer \textit{WifiDirectAdvertisingManager} angelegt und anschließend dessen \textit{startAdvertising()} Methode aufgerufen. Innerhalb der \textit{startAdvertising()} Methode wird sich nun auf der dritten Schicht des OSI-Modells begeben, wie der folgende Codeausschnitt zeigt:\newpage
+\begin{sloppypar}
+Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet-Api-Android/tree/master/api/src/main/java/net/sharksystem/api/shark/protocols/wifidirect} betrachtet werden. Wie auch die anderen Implementierungen von Über\-tra\-gungs\-pro\-to\-kol\-len, befindet sich auch die WiFi-Direct-Implementierung im Projekt \textit{Shark\-Net-Api-Android} im Package \textit{protocols}.
+\\Wie im vorherigen Unterkapitel erläutert, liefern die beiden Methoden \textit{startDiscovery()} und \textit{stopDiscovery()} die Funktionalität Peers zu finden und andere Peers über das eigene Interesse in Kenntnis zu setzen.\\
+Bei Aufruf der \textit{startDiscovery()} Methode wird innerhalb der Engine ein neuer \textit{Wifi\-DirectAdvertisingManager} angelegt und anschließend dessen \textit{startAdvertising()} Methode aufgerufen. Innerhalb der \textit{startAdvertising()} Methode wird sich nun auf der dritten Schicht des OSI-Modells begeben, wie der folgende Codeausschnitt zeigt:
+\end{sloppypar}
+\newpage
 \lstset{language=Java, caption=Hinzufügung des Services, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 HashMap<String, String> map = WifiDirectUtil.interest2RecordMap(interest);
@@ -45,7 +48,7 @@ Nachdem in der ersten Zeile eine Hashmap aus dem Interesse erzeugt worden ist, w
 mManager.discoverServices(mChannel, new WifiActionListener("Discover Services"));
 mHandler.postDelayed(this, mDiscoveryInterval);
 \end{lstlisting}
-Sollte ein Service gefunden und erfolgreich eine Peer-To-Peer Verbindung zwischen zwei Geräten aufgebaut werden können, wird nun die aus Listing 1 bekannte Hashmap an das Gerät gesendet, welches den Service gefunden (discovered) hat. Dabei wird automatisch die Methode \textit{onDnsSdTxtRecordAvailable} aufgerufen, welche die empfangene Hashmap in ein ASIP-Interesse umwandelt und dann der Engine weiterreicht.\newline
+Sollte ein Service gefunden und erfolgreich eine P2P Verbindung zwischen zwei Geräten aufgebaut werden können, wird nun die aus Listing 1 bekannte Hashmap an das Gerät gesendet, welches den Service gefunden (discovered) hat. Dabei wird automatisch die Methode \textit{onDnsSdTxtRecordAvailable} aufgerufen, welche die empfangene Hashmap in ein ASIP-Interesse umwandelt und dann an die Engine weiterreicht.\newline
 \lstset{language=Java, caption=Vewertung des Interesses, label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 ASIPInterest interest = WifiDirectUtil.recordMap2Interest(txtRecordMap);

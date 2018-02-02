@@ -1,5 +1,5 @@
 \subsubsection{Aufgabe der Komponente}
-Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten an andere Benutzer zu verschicken. Dabei können auch andere Komponenten, wie etwa der semantische Eingangs- und Ausgangsfilter zum Einsatz kommen, was jedoch nicht zwingend erforderlich ist. Falls auf einen Eingangsfilter oder Ausgangsfilter verzichtet werden sollte, werden wie bei einem klassischen Broadcast die Nachrichten an alle sich in der Nähe befindlichen Geräte versendet. Inwiefern der klassische Broadcast vom Benutzer semantisch eingeschränkt werden kann, lässt sich in der Komponentenbeschreibung der Komponente Semantischer Filter in Erfahrung bringen.\newline
+Die Broadcast Komponente ermöglicht es den Benutzern von SharkNet, Nachrichten an andere Benutzer zu verschicken. Dabei können auch andere Komponenten, wie etwa der semantische Eingangs- und Ausgangsfilter zum Einsatz kommen, was jedoch nicht zwingend erforderlich ist. Falls auf einen Eingangs- oder Ausgangsfilter verzichtet werden sollte, werden wie bei einem klassischen Broadcast die Nachrichten an alle sich in der Nähe befindlichen Geräte versendet. Inwiefern der klassische Broadcast vom Benutzer semantisch eingeschränkt werden kann, lässt sich in der Komponentenbeschreibung der Komponente Semantischer Filter (Kapitel \ref{subsec:filter}) in Erfahrung bringen.\newline
 \begin{figure}[H]
 	\centering
 	\makebox[\linewidth][c]{\includegraphics[width=0.6\linewidth]{broadcast/images/communicationComps.png}}%
@@ -38,8 +38,10 @@ Die Komponente ist in der App innerhalb der \textit{BroadcastActivity} eingebund
 \end{figure}
 Abbildung \ref{fig:sendOperation} verdeutlicht, dass der \textit{BroadcastManager} unabhängig von der konkreten Übertragungstechnologie arbeitet. Die Übertragungsart wird erst innerhalb von neu erzeugten Instanzen der Klasse \textit{ASIPOutMessage} durch die \textit{SharkEngine} festgelegt. Der \textit{BroadcastManager} aktualisiert anschließend die Hashmap, in welcher die Sequenznummern der bereits verarbeiteten Nachrichten vermerkt sind. Anschließend wird die Nachricht übertragen.\newpage  
 \subsubsection{Code}
-Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden. 
-\\Die Broadcast-Komponente wird vom Shark-Framework per Listener über neue Nachrichten in Kenntnis gesetzt. Der folgende Codeauszug beinhaltet die Verwertung dieser Nachrichten durch die \textit{BroadcastActivity}. \newline
+\begin{sloppypar}
+Der Code dieser Komponente kann unter \url{https://github.com/SharedKnowledge/SharkNet/tree/master/app/src/main/java/net/sharksystem/sharknet} betrachtet werden.
+Die Broadcast-Komponente wird vom Shark-Framework per Listener über neue Nachrichten in Kenntnis gesetzt. Der folgende Codeauszug beinhaltet die Verwertung dieser Nachrichten durch die \textit{BroadcastActivity}: \\
+\end{sloppypar}
  \lstset{language=Java, caption=Anzeige und Weiterleitungen von Nachrichten (Auszug), label=DescriptiveLabel, numbers=left, numbersep=1em, breaklines=true, basicstyle=\small}
 \begin{lstlisting}
 if (accepted) {
